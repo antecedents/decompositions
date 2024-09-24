@@ -147,14 +147,14 @@ python -m flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 -
 
 inspects complexity.
 
-
 <br>
 <br>
 
 ## References
 
 * [Scottish Health and Social Care Open Data](https://www.opendata.nhs.scot/dataset)
-  * [](Weekly A&E Activity and Waiting Timeshttps://www.opendata.nhs.scot/dataset/weekly-accident-and-emergency-activity-and-waiting-times)
+  * [Weekly A&E Activity and Waiting Times](https://www.opendata.nhs.scot/dataset/weekly-accident-and-emergency-activity-and-waiting-times)
+  * [Hospital Codes](https://www.opendata.nhs.scot/dataset/hospital-codes)
 
 <br>
 <br>
