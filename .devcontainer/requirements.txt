@@ -1,10 +1,10 @@
 jax
 pymc>=5.16
 dask[complete]>=2024.7
-numpyro>=0.15
-blackjax
-preliz
-arviz
+numpyro>=0.15.1
+blackjax>=1.2.1
+preliz>=0.8.1
+arviz>=0.17.1
 graphviz
 scikit-learn
 numpy>=1.25
