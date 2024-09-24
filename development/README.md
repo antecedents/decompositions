@@ -155,6 +155,7 @@ inspects complexity.
 * [Scottish Health and Social Care Open Data](https://www.opendata.nhs.scot/dataset)
   * [Weekly A&E Activity and Waiting Times](https://www.opendata.nhs.scot/dataset/weekly-accident-and-emergency-activity-and-waiting-times)
   * [Hospital Codes](https://www.opendata.nhs.scot/dataset/hospital-codes)
+  * [Population Estimates](https://www.opendata.nhs.scot/dataset/population-estimates)
 
 <br>
 <br>
