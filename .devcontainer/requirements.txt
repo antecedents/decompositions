@@ -1,7 +1,7 @@
 jax
 pymc>=5.16
 dask[complete]>=2024.7
-numpyro
+numpyro>=0.15
 blackjax
 preliz
 arviz
