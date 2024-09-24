@@ -162,6 +162,7 @@ inspects complexity.
 * [Notation: State Space Model, Kalman Filter](https://dismalpy.github.io/user/ssm/2-state_space_models.html)
 * [<abbr title="Markov Chain Monte Carlo">MCMC</abbr> Convergence Diagnostic](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/Gelman.Diagnostic.html)
 * [Convergence and efficiency diagnostics for Markov Chains](https://mc-stan.org/rstan/reference/Rhat.html)
+* [Effective Sample Size (ESS) due to Autocorrelation](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ESS.html)
 
 <br>
 <br>
