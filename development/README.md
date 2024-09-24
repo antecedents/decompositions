@@ -164,6 +164,7 @@ inspects complexity.
 * [Convergence and efficiency diagnostics for Markov Chains](https://mc-stan.org/rstan/reference/Rhat.html)
 * [Effective Sample Size (ESS) due to Autocorrelation](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ESS.html)
 * [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
+* [Understanding and interpreting confidence and credible intervals around effect estimates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6630113/)
 
 <br>
 <br>
