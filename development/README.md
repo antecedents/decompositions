@@ -152,10 +152,12 @@ inspects complexity.
 
 ## References
 
+* [Accident & Emergency](https://publichealthscotland.scot/our-areas-of-work/acute-and-emergency-services/urgent-and-unscheduled-care/accident-and-emergency/overview/#section-1)
 * [Scottish Health and Social Care Open Data](https://www.opendata.nhs.scot/dataset)
   * [Weekly A&E Activity and Waiting Times](https://www.opendata.nhs.scot/dataset/weekly-accident-and-emergency-activity-and-waiting-times)
   * [Hospital Codes](https://www.opendata.nhs.scot/dataset/hospital-codes)
   * [Population Estimates](https://www.opendata.nhs.scot/dataset/population-estimates)
+* [Assessment of Accident and Emergency (A&E) Activity Statistics in Scotland](https://osr.statisticsauthority.gov.uk/publication/assessment-of-accident-and-emergency-ae-activity-statistics-in-scotland/)
 
 <br>
 <br>
