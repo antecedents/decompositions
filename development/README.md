@@ -163,6 +163,7 @@ inspects complexity.
 * [<abbr title="Markov Chain Monte Carlo">MCMC</abbr> Convergence Diagnostic](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/Gelman.Diagnostic.html)
 * [Convergence and efficiency diagnostics for Markov Chains](https://mc-stan.org/rstan/reference/Rhat.html)
 * [Effective Sample Size (ESS) due to Autocorrelation](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ESS.html)
+* [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
 
 <br>
 <br>
