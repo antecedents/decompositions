@@ -1,6 +1,6 @@
 jax
 pymc>=5.16
-dask[complete]>=2024.5
+dask[complete]>=2024.7
 numpyro
 blackjax
 preliz
