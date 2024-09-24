@@ -166,6 +166,8 @@ inspects complexity.
 * [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
 * [Understanding and interpreting confidence and credible intervals around effect estimates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6630113/)
 
+* [Five big problems the NHS in Scotland needs to fix](https://www.bbc.com/news/uk-scotland-64303425)
+
 <br>
 <br>
 
