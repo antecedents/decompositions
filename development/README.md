@@ -159,6 +159,10 @@ inspects complexity.
   * [Population Estimates](https://www.opendata.nhs.scot/dataset/population-estimates)
 * [Assessment of Accident and Emergency (A&E) Activity Statistics in Scotland](https://osr.statisticsauthority.gov.uk/publication/assessment-of-accident-and-emergency-ae-activity-statistics-in-scotland/)
 
+* [Notation: State Space Model, Kalman Filter](https://dismalpy.github.io/user/ssm/2-state_space_models.html)
+* [<abbr title="Markov Chain Monte Carlo">MCMC</abbr> Convergence Diagnostic](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/Gelman.Diagnostic.html)
+* [Convergence and efficiency diagnostics for Markov Chains](https://mc-stan.org/rstan/reference/Rhat.html)
+
 <br>
 <br>
 
