@@ -97,4 +97,4 @@ class Setup:
         :return:
         """
 
-        return self.__s3() & self.__local() & self.__data()
+        return self.__s3() & self.__local()
