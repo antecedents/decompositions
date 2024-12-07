@@ -1,22 +1,28 @@
+"""Module interface.py"""
 import logging
 import os.path
 
 import pandas as pd
 
-
 import config
 import src.elements.s3_parameters as s3p
 import src.elements.text_attributes as txa
-
 import src.functions.streams
 
 
 class Interface:
+    """
+    Notes<br>
+    ------<br>
+
+    Reads-in the data in focus.
+    """
 
     def __init__(self, s3_parameters: s3p.S3Parameters):
         """
 
-        :param s3_parameters:
+        :param s3_parameters: The overarching S3 parameters settings of this project, e.g., region code
+                              name, buckets, etc.
         """
 
         self.__s3_parameters = s3_parameters
@@ -35,7 +41,7 @@ class Interface:
     def __get_data(self, uri: str) -> pd.DataFrame:
         """
 
-        :param uri:
+        :param uri: A data sets' uniform resource identifier.
         :return:
         """
 
@@ -46,14 +52,14 @@ class Interface:
     def __persist(self, blob: pd.DataFrame, path: str) -> str:
         """
 
-        :param blob:
-        :param path:
+        :param blob: The data to be stored.
+        :param path: Data storage path, including a file name, and extension.
         :return:
         """
 
         return self.__streams.write(blob=blob, path=path)
 
-    def exc(self):
+    def exc(self) -> pd.DataFrame:
         """
 
         :return:
@@ -74,3 +80,4 @@ class Interface:
         self.__logger.info(message)
 
         # Return
+        return data
