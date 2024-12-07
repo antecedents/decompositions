@@ -25,4 +25,4 @@ class Interface:
         temporary.sort_values(by=['health_board_code', 'hospital_code', 'week_ending_date'], ascending=True, inplace=True)
         logging.info(temporary)
 
-        src.modelling.algorithm.Algorithm(data=temporary[self.__fields]).exc(group='hospital_code')
+        src.modelling.algorithm.Algorithm(data=temporary[self.__fields]).exc(n_lags=2, n_equations=3, group='hospital_code')
