@@ -1,25 +1,38 @@
+"""Module main.py"""
 import datetime
 import logging
 import os
 import sys
+
 import boto3
 
 
 def main():
+    """
+
+    :return:
+    """
 
     logger: logging.Logger = logging.getLogger(__name__)
     logger.info('Starting: %s', datetime.datetime.now().isoformat(timespec='microseconds'))
 
-    # Set up
+    '''
+    Set up
+    '''
     setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
     if not setup:
         src.functions.cache.Cache().exc()
         sys.exit('No Executions')
 
-    # Steps
-    src.data.interface.Interface(s3_parameters=s3_parameters).exc()
+    '''
+    Steps
+    data = src.data.interface.Interface(s3_parameters=s3_parameters).exc()
+    '''
+    src.modelling.interface.Interface().exc()
 
-    # Cache
+    '''
+    Cache
+    '''
     src.functions.cache.Cache().exc()
 
 
@@ -38,6 +51,7 @@ if __name__ == '__main__':
     import src.data.interface
     import src.functions.cache
     import src.functions.service
+    import src.modelling.interface
     import src.s3.s3_parameters
     import src.setup
 
