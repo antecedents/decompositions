@@ -6,8 +6,8 @@
 
 For this Python project/template, the remote development environment requires
 
-* [Dockerfile](.devcontainer/Dockerfile)
-* [requirements.txt](.devcontainer/requirements.txt)
+* [Dockerfile](../.devcontainer/Dockerfile)
+* [requirements.txt](../.devcontainer/requirements.txt)
 
 An image is built via the command
 
@@ -60,7 +60,7 @@ Get the name of the running instance of ``uncertanty`` via:
 docker ps --all
 ```
 
-Never deploy a root container, study the production [Dockerfile](Dockerfile); cf. [/.devcontainer/Dockerfile](.devcontainer/Dockerfile)
+Never deploy a root container, study the production [Dockerfile](../Dockerfile); cf. remote [.devcontainer/Dockerfile](../.devcontainer/Dockerfile)
 
 <br>
 
@@ -84,7 +84,7 @@ IDEA** set up involves connecting to a machine's Docker [daemon](https://www.jet
 
 ## Code Analysis
 
-The GitHub Actions script [main.yml](.github/workflows/main.yml) conducts code analysis within a Cloud GitHub Workspace.  Depending on the script, code analysis may occur `on push` to any repository branch, or `on push` to a specific branch.
+The GitHub Actions script [main.yml](../.github/workflows/main.yml) conducts code analysis within a Cloud GitHub Workspace.  Depending on the script, code analysis may occur `on push` to any repository branch, or `on push` to a specific branch.
 
 The sections herein outline remote code analysis.
 
@@ -152,6 +152,7 @@ inspects complexity.
 
 ## References
 
+Sources:
 * [Accident & Emergency](https://publichealthscotland.scot/our-areas-of-work/acute-and-emergency-services/urgent-and-unscheduled-care/accident-and-emergency/overview/#section-1)
 * [Scottish Health and Social Care Open Data](https://www.opendata.nhs.scot/dataset)
   * [Weekly A&E Activity and Waiting Times](https://www.opendata.nhs.scot/dataset/weekly-accident-and-emergency-activity-and-waiting-times)
@@ -159,15 +160,16 @@ inspects complexity.
   * [Population Estimates](https://www.opendata.nhs.scot/dataset/population-estimates)
 * [Assessment of Accident and Emergency (A&E) Activity Statistics in Scotland](https://osr.statisticsauthority.gov.uk/publication/assessment-of-accident-and-emergency-ae-activity-statistics-in-scotland/)
 
-
+Modelling:
 * [Bayesian Modelling Notes](https://github.com/plausibilities/delineating#notes)
 * [Notation: State Space Model, Kalman Filter](https://dismalpy.github.io/user/ssm/2-state_space_models.html)
 * [<abbr title="Markov Chain Monte Carlo">MCMC</abbr> Convergence Diagnostic](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/Gelman.Diagnostic.html)
 * [Convergence and efficiency diagnostics for Markov Chains](https://mc-stan.org/rstan/reference/Rhat.html)
-* [Effective Sample Size (ESS) due to Autocorrelation](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ESS.html)
+* [Effective Sample Size (ESS) due to Auto-correlation](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ESS.html)
 * [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
 * [Understanding and interpreting confidence and credible intervals around effect estimates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6630113/)
 
+Observations:
 * [Five big problems the NHS in Scotland needs to fix](https://www.bbc.com/news/uk-scotland-64303425)
 
 <br>
