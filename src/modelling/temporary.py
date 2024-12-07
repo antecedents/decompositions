@@ -52,9 +52,6 @@ class Temporary:
         """
 
         data = self.__get_data()
-        data.info()
-
         data = self.__excerpt(blob=data.copy())
-        data.info()
 
         return data
