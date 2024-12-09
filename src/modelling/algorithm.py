@@ -32,44 +32,31 @@ class Algorithm:
         """
 
         columns = [column for column in self.__data.columns if column != group]
-        logging.info('Columns: %s', columns)
-
         coordinates = {'lags': np.arange(n_lags),
                        'equations': columns,
                        'cv': columns}
-        logging.info('Coordinates: %s', coordinates)
-
         groups = self.__data[group].unique()
-        logging.info('Groups: %s', groups)
 
         with pymc.Model(coords=coordinates) as model:
 
             # Priors
             rho = pymc.Beta('rho', alpha=1.5, beta=1.5)
-            logging.info(rho)
-            logging.info('ρ: %s', rho.eval())
 
             location_alpha = pymc.Normal('location_alpha', mu=0, sigma=0.1)
             scale_alpha = pymc.InverseGamma('scale_alpha', mu=2, sigma=0.5)
-            logging.info('α(location): %s', location_alpha.eval())
-            logging.info('α(scale): %s', scale_alpha.eval())
 
             location_beta = pymc.Normal('location_beta', mu=0, sigma=0.1)
             scale_beta = pymc.InverseGamma('scale_beta', mu=2, sigma=0.5)
-            logging.info('β(location): %s', location_alpha.eval())
-            logging.info('β(scale): %s', scale_alpha.eval())
 
             # Covariance Matrix: cholesky, correlations, deviations
-            cholesky, _, _ = pymc.LKJCholeskyCov('', eta=1.25, n=n_equations, sd_dist=pymc.Exponential.dist(lam=2.0))
-            logging.info(cholesky)
-
-            self.__data.info()
+            cholesky, _, _ = pymc.LKJCholeskyCov('cholesky', eta=1.25, n=n_equations, sd_dist=pymc.Exponential.dist(lam=1))
 
             # Groups: Institutions
             for group in groups:
 
+                logging.info('Next: %s', group)
+
                 frame: pd.DataFrame = self.__data.loc[self.__data['hospital_code'] == group][columns]
-                frame.head()
 
                 z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{group}', 3, 0.5)
                 z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{group}', 3, 0.5)
@@ -96,7 +83,7 @@ class Algorithm:
 
                 n = frame.shape[1]
                 noise_cholesky, _, _ = pymc.LKJCholeskyCov(
-                    f'noise_cholesky_{group}', eta=10, n=n, sd_dist=pymc.Exponential.dist(lam=2.0)
+                    f'noise_cholesky_{group}', eta=10, n=n, sd_dist=pymc.Exponential.dist(lam=1)
                 )
                 omega = pymc.Deterministic(f'omega_{group}', rho * cholesky + (1 - rho) * noise_cholesky)
                 observations = pymc.MvNormal(f'observations_{group}', mu=mean, chol=omega, observed=frame.values[n_lags:])
@@ -105,7 +92,9 @@ class Algorithm:
                 idata = pymc.sample_prior_predictive()
                 return model, idata
             else:
+                logging.info('Sampling?')
                 idata = pymc.sample_prior_predictive()
+                logging.info('Extending?')
                 idata.extend(pymc.sampling.jax.sample_jax_nuts(
                     draws=2000, random_seed=self.__configurations.seed, nuts_sampler='blackjax'))
                 pymc.sample_posterior_predictive(idata, extend_inferencedata=True)
