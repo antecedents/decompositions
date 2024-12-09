@@ -21,8 +21,13 @@ class Interface:
         :return:
         """
 
+        # Temporarily, read-in the local copy of the Amazon data set.
         temporary: pd.DataFrame = src.modelling.temporary.Temporary().exc()
-        temporary.sort_values(by=['health_board_code', 'hospital_code', 'week_ending_date'], ascending=True, inplace=True)
-        logging.info(temporary)
 
-        src.modelling.algorithm.Algorithm(data=temporary[self.__fields]).exc(n_lags=2, n_equations=3, group='hospital_code')
+        # Initially, focus on the health board that has the largest number of hospitals.
+        frequencies = temporary[['health_board_code', 'hospital_code']].drop_duplicates().value_counts(subset='health_board_code', ascending=False)
+        logging.info(frequencies)
+        logging.info(frequencies.index.name)
+        logging.info(frequencies.index[0])
+
+        # src.modelling.algorithm.Algorithm(data=temporary[self.__fields]).exc(n_lags=2, n_equations=3, group='hospital_code')
