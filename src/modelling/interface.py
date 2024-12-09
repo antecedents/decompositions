@@ -49,4 +49,4 @@ class Interface:
 
         # Hence
         src.modelling.algorithm.Algorithm(data=data).exc(
-            n_lags=2, n_equations=3, group='hospital_code')
+            n_lags=2, n_equations=3, group='hospital_code', prior_predictive_check=False)
