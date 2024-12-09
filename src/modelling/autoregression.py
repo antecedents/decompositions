@@ -21,8 +21,7 @@ class Autoregression:
 
         self.__logger = logging.getLogger(__name__)
 
-    @staticmethod
-    def exc(lag_coefficients, n_equations, n_lags, blob):
+    def exc(self, lag_coefficients, n_equations, n_lags, blob):
         """
 
         :param lag_coefficients: pymc.Normal
@@ -31,6 +30,8 @@ class Autoregression:
         :param blob: pandas.DataFrame
         :return:
         """
+
+        self.__logger.info(type(lag_coefficients))
 
         steps = []
         for j in range(n_equations):
