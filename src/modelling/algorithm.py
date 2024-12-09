@@ -2,6 +2,9 @@ import logging
 import pandas as pd
 import numpy as np
 import pymc
+import pymc.sampling.jax
+
+import config
 import src.modelling.autoregression
 
 
@@ -15,14 +18,16 @@ class Algorithm:
 
         self.__data = data
 
+        self.__configurations = config.Config()
         self.__autoregression = src.modelling.autoregression.Autoregression()
 
-    def exc(self, n_lags: int, n_equations: int, group: str):
+    def exc(self, n_lags: int, n_equations: int, group: str, prior_predictive_check: bool):
         """
 
         :param n_lags:
         :param n_equations:
         :param group:
+        :param prior_predictive_check:
         :return:
         """
 
@@ -96,3 +101,13 @@ class Algorithm:
                 omega = pymc.Deterministic(f'omega_{group}', rho * cholesky + (1 - rho) * noise_cholesky)
                 observations = pymc.MvNormal(f'observations_{group}', mu=mean, chol=omega, observed=frame.values[n_lags:])
 
+            if prior_predictive_check:
+                idata = pymc.sample_prior_predictive()
+                return model, idata
+            else:
+                idata = pymc.sample_prior_predictive()
+                idata.extend(pymc.sampling.jax.sample_jax_nuts(
+                    draws=2000, random_seed=self.__configurations.seed, nuts_sampler='blackjax'))
+                pymc.sample_posterior_predictive(idata, extend_inferencedata=True)
+
+            return model, idata
