@@ -1,4 +1,5 @@
 """Module temporary.py"""
+import logging
 import os
 
 import numpy as np
@@ -38,6 +39,8 @@ class Temporary:
 
     def __excerpt(self, blob: pd.DataFrame) -> pd.DataFrame:
         """
+        Modelling: Due to the pandemic period anomalies, focus on time
+        points after self.__configurations.boundary.
 
         :param blob:
         :return:
@@ -53,5 +56,8 @@ class Temporary:
 
         data = self.__get_data()
         data = self.__excerpt(blob=data.copy())
+
+        data.sort_values(by=['health_board_code', 'hospital_code', 'week_ending_date'], ascending=True, inplace=True)
+        logging.info(data)
 
         return data
