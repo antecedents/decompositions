@@ -44,9 +44,11 @@ class Algorithm:
 
         with ARMODEL_:
 
+            # The hierarchical priors
             _c_location = pymc.Normal('_c_location', 0, 0.1)
             _c_scale = pymc.InverseGamma('_c_scale', 3, 0.5)
 
+            # Time points
             points = pymc.Data('points', self.__timings, dims='obs_id')
 
             for group in self.__groups:
@@ -78,7 +80,7 @@ class Algorithm:
                     dims='obs_id')
 
                 # Likelihood
-                outcome = pymc.Normal(f'likelihood_{group}', mu=process, sigma=sigma, observed=observations, dims='obs_id')
+                pymc.Normal(f'likelihood_{group}', mu=process, sigma=sigma, observed=observations, dims='obs_id')
 
             # Sampling
             details_ = pymc.sample_prior_predictive()
