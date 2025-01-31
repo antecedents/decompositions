@@ -169,8 +169,14 @@ Modelling:
 * [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
 * [Understanding and interpreting confidence and credible intervals around effect estimates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6630113/)
 
+And:
+* [PACF](https://www.statsmodels.org/stable/generated/statsmodels.graphics.tsaplots.plot_pacf.html)
+* [PACF](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4463.htm)
+* [Decompose](https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html)
+
 Observations:
 * [Five big problems the NHS in Scotland needs to fix](https://www.bbc.com/news/uk-scotland-64303425)
+
 
 <br>
 <br>
