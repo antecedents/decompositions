@@ -29,3 +29,7 @@ class Config:
 
         # Configuration files
         self.s3_parameters_key = 's3_parameters.yaml'
+
+        # For architecture JSON
+        self.seasons = 52
+        self.trends = 1
