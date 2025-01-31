@@ -1,9 +1,9 @@
-"""Module estimates.py"""
+"""Module futures.py"""
 import pymc
 
 import config
 
-class Estimates:
+class Futures:
     """
     For estimating future values
     """
