@@ -51,6 +51,7 @@ class Algorithm:
             # Time points
             points = pymc.Data('points', self.__timings, dims='obs_id')
 
+            # By group
             for group in self.__groups:
 
                 core = self.__frames.copy().loc[self.__frames['treatment_location'] == group, :]
