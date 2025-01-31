@@ -30,4 +30,5 @@ class Interface:
         logging.info(data.head())
 
         # Hence
-        src.modelling.algorithm.Algorithm(frames=data, n_timings=data.index.unique().shape[0]).exc()
+        details, ARMODEL = src.modelling.algorithm.Algorithm(
+            frames=data, n_timings=data.index.unique().shape[0]).exc()
