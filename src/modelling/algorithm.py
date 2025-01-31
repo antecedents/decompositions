@@ -57,7 +57,7 @@ class Algorithm:
                 observations = pymc.Data(f'observations_{group}', __seq, dims='obs_id')
 
                 # Setting priors for each coefficient in the AR process
-                coefficients = pymc.Normal(f'coefficients_{group}', mu=_c_location, sigma=(_c_scale*_z_scale),
+                coefficients = pymc.Normal(f'coefficients_{group}', mu=_c_location, sigma=(_c_scale.__mul__(_z_scale)),
                                            size=self.__priors['coefficients']['size'])
                 sigma = pymc.HalfNormal(f'sigma_{group}', self.__priors['sigma'])
 
