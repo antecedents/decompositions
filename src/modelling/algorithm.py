@@ -1,9 +1,13 @@
+"""Module algorithm.py"""
 import pandas as pd
 import pymc
 
 
 # noinspection PyUnresolvedReferences
 class Algorithm:
+    """
+    The multi-level algorithm
+    """
 
     def __init__(self, frames: pd.DataFrame, n_timings: int) -> None:
         """
@@ -78,7 +82,6 @@ class Algorithm:
 
             # Sampling
             details_ = pymc.sample_prior_predictive()
-
             details_.extend(pymc.sample(2000, random_seed=100, target_accept=0.95))
             details_.extend(pymc.sample_posterior_predictive(details_))
 
