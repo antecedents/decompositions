@@ -1,102 +1,84 @@
-import logging
 import pandas as pd
-import numpy as np
 import pymc
-import pymc.sampling.jax
-
-import config
-import src.modelling.autoregression
 
 
 class Algorithm:
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, frames: pd.DataFrame, n_timings: int) -> None:
         """
 
-        :param data:
+        :param frames:
+        :param n_timings:
         """
 
-        self.__data = data
+        self.__frames = frames
+        self.__groups = self.__frames['treatment_location'].unique()
 
-        self.__configurations = config.Config()
-        self.__autoregression = src.modelling.autoregression.Autoregression()
+        # Or, the original time points
+        self.__timings = list(range(n_timings))
 
-    def exc(self, n_lags: int, n_equations: int, group: str, prior_predictive_check: bool):
+        # ...
+        self.__priors = {
+            'coefficients': {'size': 53},
+            'sigma': 8,
+            'init': {'mu': 0.04, 'sigma': 0.1, 'size': 52},
+        }
+
+    def exc(self):
         """
 
-        :param n_lags:
-        :param n_equations:
-        :param group:
-        :param prior_predictive_check:
         :return:
         """
 
-        columns = [column for column in self.__data.columns if column != group]
-        coordinates = {'lags': np.arange(n_lags),
-                       'equations': columns,
-                       'cv': columns}
-        groups = self.__data[group].unique()
+        # Initialise the model
+        with pymc.Model() as ARMODEL_:
+            pass
 
-        with pymc.Model(coords=coordinates) as model:
+        # Mutable by default
+        ARMODEL_.add_coord('obs_id', self.__timings)
 
-            # Priors
-            rho = pymc.Beta('rho', alpha=1.5, beta=1.5)
+        with ARMODEL_:
 
-            location_alpha = pymc.Normal('location_alpha', mu=0, sigma=0.1)
-            scale_alpha = pymc.InverseGamma('scale_alpha', mu=2, sigma=0.5)
+            _c_location = pymc.Normal('_c_location', 0, 0.1)
+            _c_scale = pymc.InverseGamma('_c_scale', 3, 0.5)
 
-            location_beta = pymc.Normal('location_beta', mu=0, sigma=0.1)
-            scale_beta = pymc.InverseGamma('scale_beta', mu=2, sigma=0.5)
+            points = pymc.Data('points', self.__timings, dims='obs_id')
 
-            # Covariance Matrix: cholesky, correlations, deviations
-            cholesky, _, _ = pymc.LKJCholeskyCov('cholesky', eta=1.25, n=n_equations, sd_dist=pymc.Exponential.dist(lam=1))
+            for group in self.__groups:
 
-            # Groups: Institutions
-            for group in groups:
+                core = self.__frames.copy().loc[self.__frames['treatment_location'] == group, :]
+                core.sort_index(ascending=True, ignore_index=False, inplace=True)
+                __seq = core['n_difference'].to_numpy()
 
-                logging.info('Next: %s', group)
+                # And
+                _z_scale = pymc.InverseGamma(f'_z_scale_{group}', 3, 0.5)
 
-                frame: pd.DataFrame = self.__data.loc[self.__data['hospital_code'] == group][columns]
+                # The data containers
+                observations = pymc.Data(f'observations_{group}', __seq, dims='obs_id')
 
-                z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{group}', 3, 0.5)
-                z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{group}', 3, 0.5)
+                # Setting priors for each coefficient in the AR process
+                coefficients = pymc.Normal(f'coefficients_{group}', mu=_c_location, sigma=(_c_scale*_z_scale),
+                                           size=self.__priors['coefficients']['size'])
+                sigma = pymc.HalfNormal(f'sigma_{group}', self.__priors['sigma'])
 
-                _product_beta = (scale_beta * z_scale_beta)
-                lag_coefficients = pymc.Normal(
-                    f'lag_coefficients_{group}',
-                    mu=location_beta,
-                    sigma=_product_beta,
-                    dims=['equations', 'lags', 'cv'],
+                # Initialisation per ...
+                init = pymc.Normal.dist(
+                    self.__priors['init']['mu'], self.__priors['init']['sigma'], size=self.__priors['init']['size']
                 )
 
-                _product_alpha = (scale_alpha * z_scale_alpha)
-                alpha = pymc.Normal(
-                    f'alpha_{group}',
-                    mu=location_alpha,
-                    sigma=_product_alpha,
-                    dims=('equations',),
-                )
+                # Autoregressive process with p lags; lags = self.__priors['coef']['size'] - 1
+                process = pymc.AR(
+                    f'ar_{group}', coefficients, sigma=sigma, init_dist=init, constant=True,
+                    steps=points.eval().shape[0] - (self.__priors['coefficients']['size'] - 1),
+                    dims='obs_id')
 
-                beta_values = self.__autoregression.exc(lag_coefficients, n_equations, n_lags, frame)
-                beta_values = pymc.Deterministic(f'beta_values_{group}', beta_values)
-                mean = alpha + beta_values
+                # Likelihood
+                outcome = pymc.Normal(f'likelihood_{group}', mu=process, sigma=sigma, observed=observations, dims='obs_id')
 
-                n = frame.shape[1]
-                noise_cholesky, _, _ = pymc.LKJCholeskyCov(
-                    f'noise_cholesky_{group}', eta=10, n=n, sd_dist=pymc.Exponential.dist(lam=1)
-                )
-                omega = pymc.Deterministic(f'omega_{group}', rho * cholesky + (1 - rho) * noise_cholesky)
-                observations = pymc.MvNormal(f'observations_{group}', mu=mean, chol=omega, observed=frame.values[n_lags:])
+            # Sampling
+            details_ = pymc.sample_prior_predictive()
 
-            if prior_predictive_check:
-                idata = pymc.sample_prior_predictive()
-                return model, idata
-            else:
-                logging.info('Sampling?')
-                idata = pymc.sample_prior_predictive()
-                logging.info('Extending?')
-                idata.extend(pymc.sampling.jax.sample_jax_nuts(
-                    draws=2000, random_seed=self.__configurations.seed, nuts_sampler='blackjax'))
-                pymc.sample_posterior_predictive(idata, extend_inferencedata=True)
+            details_.extend(pymc.sample(2000, random_seed=100, target_accept=0.95))
+            details_.extend(pymc.sample_posterior_predictive(details_))
 
-            return model, idata
+        return details_, ARMODEL_
