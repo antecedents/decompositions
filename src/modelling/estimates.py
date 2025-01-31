@@ -1,8 +1,12 @@
+"""Module estimates.py"""
 import pymc
 
 import config
 
 class Estimates:
+    """
+    For estimating future values
+    """
 
     def __init__(self, n_timings: int, ahead: int):
         """
