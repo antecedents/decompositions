@@ -14,12 +14,18 @@ def main():
     """
 
     logger: logging.Logger = logging.getLogger(__name__)
-    logger.info('Starting: %s', datetime.datetime.now().isoformat(timespec='microseconds'))
+
+    # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
+    now = datetime.datetime.now()
+    offset = (now.weekday() - 1) % 7
+    tuesday = now - datetime.timedelta(days=offset)
+    stamp = tuesday.strftime('%Y-%m-%d')
+    logger.info('Latest Tuesday: %s', stamp)
 
     '''
     Set up
     '''
-    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
+    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
     if not setup:
         src.functions.cache.Cache().exc()
         sys.exit('No Executions')
