@@ -19,8 +19,9 @@ class Config:
 
         self.warehouse = os.path.join(os.getcwd(), 'warehouse')
         self.data_ = os.path.join(os.getcwd(), 'data')
+        self.artefacts_ = os.path.join(self.warehouse, 'artefacts')
 
-        # Cut-off, boundary, for modelling; additionally the number of last time points to exclude.
+        # Cut-off, boundary, for modelling; additionally the number of final points to exclude.
         self.boundary = '2020-06-01'
         self.exclude = 6
 
