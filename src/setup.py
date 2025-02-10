@@ -17,12 +17,13 @@ class Setup:
     Sets up local & cloud environments
     """
 
-    def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters):
+    def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters, stamp: str):
         """
 
         :param service: A suite of services for interacting with Amazon Web Services.
         :param s3_parameters: The overarching S3 parameters settings of this project, e.g., region code
                               name, buckets, etc.
+        :param stamp: The date stamp of the latest Tuesday
         """
 
         self.__service: sr.Service = service
@@ -30,7 +31,7 @@ class Setup:
 
         # Configurations, etc.
         self.__configurations = config.Config()
-        self.__prefix = s3_parameters.path_internal_artefacts
+        self.__prefix = s3_parameters.path_internal_artefacts + '/' + stamp
 
         # Instances
         self.__directories = src.functions.directories.Directories()
@@ -89,7 +90,7 @@ class Setup:
 
         self.__directories.cleanup(path=self.__configurations.warehouse)
 
-        return self.__directories.create(path=self.__configurations.warehouse)
+        return self.__directories.create(path=self.__configurations.artefacts_)
 
     def exc(self) -> bool:
         """
@@ -97,4 +98,4 @@ class Setup:
         :return:
         """
 
-        return self.__s3() & self.__local()
+        return self.__s3() & self.__local() & self.__data()
