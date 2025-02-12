@@ -1,7 +1,9 @@
-import typing
+"""Module dates.py"""
 import logging
-import pandas as pd
+import typing
+
 import dask
+import pandas as pd
 
 
 class Dates:
@@ -38,8 +40,8 @@ class Dates:
     def __indices(minimum: pd.Timestamp, maximum: pd.Timestamp) -> pd.DataFrame:
         """
 
-        :param minimum:
-        :param maximum:
+        :param minimum: Start Date
+        :param maximum: End Date
         :return:
         """
 
@@ -54,8 +56,8 @@ class Dates:
     def __dates(self, indices: pd.DataFrame, code: str) -> pd.DataFrame:
         """
 
-        :param indices:
-        :param code:
+        :param indices: Dates
+        :param code: Hospital Code
         :return:
         """
 
