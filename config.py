@@ -31,6 +31,7 @@ class Config:
         self.s3_parameters_key = 's3_parameters.yaml'
 
         # For architecture JSON
+        self.fields = ['week_ending_date', 'health_board_code', 'hospital_code',  'n_attendances']
         self.seasons = 52
         self.trends = 1
         self.ahead = 9
