@@ -169,10 +169,22 @@ Modelling:
 * [<abbr title="Monte Carlo Standard Error">MCSE</abbr>: Equation & References](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/MCSE.html)
 * [Understanding and interpreting confidence and credible intervals around effect estimates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6630113/)
 
-And:
-* [PACF](https://www.statsmodels.org/stable/generated/statsmodels.graphics.tsaplots.plot_pacf.html)
-* [PACF](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4463.htm)
+Time Series:
+* [Partial Auto Correlation Function](https://www.statsmodels.org/stable/generated/statsmodels.graphics.tsaplots.plot_pacf.html)
+* [Partial Auto Correlation Function](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4463.htm)
 * [Decompose](https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html)
+* [Stationarity](https://otexts.com/fpp2/stationarity.html)
+* [Stationarity, Detrending, Tests](https://www.statsmodels.org/dev/examples/notebooks/generated/stationarity_detrending_adf_kpss.html)
+* [Model Identification for Southern Oscillations Data](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4461.htm)
+* [Robust detrending, rereferencing, outlier detection, and inpainting for multichannel data](https://pmc.ncbi.nlm.nih.gov/articles/PMC5915520/)
+* [Using ARIMA and ETS models for forecasting water level changes for sustainable environmental management](https://www.nature.com/articles/s41598-024-73405-9)
+* [Natural Logarithm Transformations](https://www.bridgetext.com/log-transforming-time-series-data-in-r)
+* [Statistical forecasting: notes on regression and time series analysis](https://people.duke.edu/~rnau/411home.htm)
+  * [Identifying the order of differencing in an ARIMA model](https://people.duke.edu/~rnau/411arim2.htm)
+  * [Identifying the numbers of AR or MA terms in an ARIMA model](https://people.duke.edu/~rnau/411arim3.htm)
+
+And:
+* [python: hub.docker.com](https://hub.docker.com/_/python/)
 
 Observations:
 * [Five big problems the NHS in Scotland needs to fix](https://www.bbc.com/news/uk-scotland-64303425)
