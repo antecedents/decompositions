@@ -42,4 +42,3 @@ class S3Parameters(typing.NamedTuple):
     path_internal_artefacts: str
     external: str
     configurations : str
-    store : str
