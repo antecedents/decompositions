@@ -1,6 +1,5 @@
 """Module interface.py"""
 import logging
-import os.path
 
 import pandas as pd
 
@@ -31,7 +30,6 @@ class Interface:
         self.__streams = src.functions.streams.Streams()
         self.__configurations = config.Config()
 
-
         # Logging
         logging.basicConfig(level=logging.INFO,
                             format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
@@ -49,17 +47,7 @@ class Interface:
 
         return self.__streams.read(text=text)
 
-    def __persist(self, blob: pd.DataFrame, path: str) -> str:
-        """
-
-        :param blob: The data to be stored.
-        :param path: Data storage path, including a file name, and extension.
-        :return:
-        """
-
-        return self.__streams.write(blob=blob, path=path)
-
-    def exc(self) -> pd.DataFrame:
+    def exc(self, stamp: str) -> pd.DataFrame:
         """
 
         :return:
@@ -67,17 +55,13 @@ class Interface:
 
         # The data sets' uniform resource identifier
         uri = ('s3://' + self.__s3_parameters.internal + '/' +
-                self.__s3_parameters.path_internal_data + 'latest/data/data.csv')
+                self.__s3_parameters.path_internal_data + f'raw/{stamp}.csv')
         self.__logger.info(uri)
 
         # Reading the data
         data = self.__get_data(uri=uri)
         data.info()
         self.__logger.info(data.head())
-
-        # Saving locally
-        message = self.__persist(blob=data, path=os.path.join(self.__configurations.data_, 'data.csv'))
-        self.__logger.info(message)
 
         # Return
         return data
