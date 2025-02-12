@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 
 import config
-import src.data.dates
+import src.data.splits
 import src.elements.s3_parameters as s3p
 import src.elements.text_attributes as txa
 import src.functions.streams
@@ -46,7 +46,11 @@ class Interface:
 
         text = txa.TextAttributes(uri=uri, header=0)
 
-        return self.__streams.read(text=text)
+        frame = self.__streams.read(text=text)
+        frame['week_ending_date'] = pd.to_datetime(
+            frame['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
+
+        return frame[self.__configurations.fields]
 
     def exc(self, stamp: str) -> pd.DataFrame:
         """
@@ -61,8 +65,10 @@ class Interface:
 
         # Reading the data
         data = self.__get_data(uri=uri)
-        data.info()
         self.__logger.info(data.head())
+
+        # Splits
+        src.data.splits.Splits(data=data).exc()
 
         # Return
         return data
