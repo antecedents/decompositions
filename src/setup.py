@@ -72,16 +72,6 @@ class Setup:
 
         return bucket.create()
 
-    def __data(self) -> bool:
-        """
-
-        :return:
-        """
-
-        self.__directories.cleanup(path=self.__configurations.data_)
-
-        return self.__directories.create(path=self.__configurations.data_)
-
     def __local(self) -> bool:
         """
 
@@ -98,4 +88,4 @@ class Setup:
         :return:
         """
 
-        return self.__s3() & self.__local() & self.__data()
+        return self.__s3() & self.__local()
