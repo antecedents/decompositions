@@ -3,6 +3,7 @@ import pandas as pd
 
 import src.functions.streams
 
+
 class Splits:
     """
     The original data, and the training & test splits
