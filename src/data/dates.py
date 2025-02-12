@@ -22,8 +22,6 @@ class Dates:
         """
 
         self.__frame = data.copy()
-        self.__frame['week_ending_date'] = pd.to_datetime(
-            self.__frame['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
 
     def __limits(self) -> typing.Tuple[pd.Timestamp, pd.Timestamp]:
         """
