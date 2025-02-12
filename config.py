@@ -18,7 +18,6 @@ class Config:
         """
 
         self.warehouse = os.path.join(os.getcwd(), 'warehouse')
-        self.data_ = os.path.join(os.getcwd(), 'data')
         self.artefacts_ = os.path.join(self.warehouse, 'artefacts')
 
         # Cut-off, boundary, for modelling; additionally the number of final points to exclude.
@@ -34,3 +33,4 @@ class Config:
         # For architecture JSON
         self.seasons = 52
         self.trends = 1
+        self.ahead = 9
