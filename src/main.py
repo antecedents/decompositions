@@ -32,9 +32,9 @@ def main():
 
     '''
     Steps
-    data = src.data.interface.Interface(s3_parameters=s3_parameters).exc()
-    '''
     src.modelling.interface.Interface().exc()
+    '''
+    src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
 
     '''
     Cache
