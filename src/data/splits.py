@@ -1,9 +1,9 @@
 """Module splits.py"""
 import logging
 import os
+import typing
 
 import dask
-import numpy as np
 import pandas as pd
 
 import config
@@ -80,7 +80,7 @@ class Splits:
 
         return blob.copy()[-self.__configurations.ahead:]
 
-    def exc(self):
+    def exc(self) -> typing.Tuple[pd.DataFrame, pd.DataFrame]:
         """
 
         :return:
@@ -106,3 +106,5 @@ class Splits:
         # Persist
         self.__persist(blob=training, name='training')
         self.__persist(blob=testing, name='testing')
+
+        return training, testing
