@@ -1,3 +1,4 @@
+"""Module features.py"""
 import logging
 import os
 
@@ -11,6 +12,9 @@ import src.functions.streams
 
 
 class Features:
+    """
+    Features
+    """
 
     def __init__(self, data: pd.DataFrame, stamp: str):
         """
@@ -24,15 +28,17 @@ class Features:
 
         # Configurations
         self.__configurations = config.Config()
+        self.__storage = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data')
         
-    def __persist(self, blob: pd.DataFrame) -> None:
+    def __persist(self, blob: pd.DataFrame, name: str) -> None:
         """
 
         :param blob:
+        :param name:
         :return:
         """
         
-        pathstr = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data', 'data.csv')
+        pathstr = os.path.join(self.__storage, f'{name}.csv')
 
         # Ascertain the existence of the target directory, then save.
         src.functions.directories.Directories().create(path=os.path.dirname(pathstr))
@@ -79,6 +85,6 @@ class Features:
         blob = pd.concat(calculations, axis=0, ignore_index=True)
 
         # Persist
-        self.__persist(blob=blob)
+        self.__persist(blob=blob, name='data')
 
         return blob
