@@ -61,7 +61,6 @@ class Interface:
         # The data sets' uniform resource identifier
         uri = ('s3://' + self.__s3_parameters.internal + '/' +
                 self.__s3_parameters.path_internal_data + f'raw/{stamp}.csv')
-        self.__logger.info(uri)
 
         # Reading the data
         data = self.__get_data(uri=uri)
