@@ -44,4 +44,4 @@ class Features:
 
         computations = []
         for code in codes:
-            pass
+            computations.append(self.__features(code=code))
