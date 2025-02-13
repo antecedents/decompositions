@@ -24,12 +24,14 @@ class Splits:
         """
 
         self.__frame = data.copy()
-        self.__stamp = stamp
 
         # Instances
         self.__configurations = config.Config()
-        self.__directories = src.functions.directories.Directories()
         self.__streams = src.functions.streams.Streams()
+
+        # Storage
+        self.__storage = os.path.join(self.__configurations.artefacts_, stamp, 'data')
+        src.functions.directories.Directories().create(path=self.__storage)
 
     def __persist(self, blob: pd.DataFrame, name: str) -> None:
         """
@@ -39,7 +41,7 @@ class Splits:
         :return:
         """
 
-        path = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data', f'{name}.csv')
+        path = os.path.join(self.__storage, f'{name}.csv')
         message = self.__streams.write(blob=blob, path=path)
         logging.info(message)
 
