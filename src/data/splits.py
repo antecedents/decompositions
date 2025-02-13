@@ -88,9 +88,9 @@ class Splits:
             exclude = self.__exclude(blob=blob)
             computations.append([include, exclude])
         calculations = dask.compute(computations, scheduler='threads')[0]
-        logging.info(calculations)
 
         including = [calculations[i][0] for i in range(len(calculations))]
         excluding = [calculations[i][1] for i in range(len(calculations))]
-        logging.info(pd.concat(including, axis=0, ignore_index=True))
-        logging.info(pd.concat(excluding, axis=0, ignore_index=True))
+
+        training = pd.concat(including, axis=0, ignore_index=True)
+        testing = pd.concat(excluding, axis=0, ignore_index=True)
