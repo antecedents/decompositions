@@ -4,6 +4,7 @@ import logging
 import pandas as pd
 
 import config
+import src.data.features
 import src.data.splits
 import src.elements.s3_parameters as s3p
 import src.elements.text_attributes as txa
@@ -62,8 +63,9 @@ class Interface:
         uri = ('s3://' + self.__s3_parameters.internal + '/' +
                 self.__s3_parameters.path_internal_data + f'raw/{stamp}.csv')
 
-        # Reading the data
+        # Reading, and enhancing, the data set.
         data = self.__get_data(uri=uri)
+        data = src.data.features.Features(data=data, stamp=stamp).exc()
         self.__logger.info(data.head())
 
         # Splits
