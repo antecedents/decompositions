@@ -29,7 +29,7 @@ class Temporary:
         :return:
         """
 
-        text = txa.TextAttributes(uri=os.path.join(self.__configurations.data_, 'data.csv'), header=0)
+        text = txa.TextAttributes(uri=os.path.join(self.__configurations.warehouse, 'data', 'data.csv'), header=0)
         data = self.__streams.read(text=text)
 
         data['week_ending_date'] = pd.to_datetime(
