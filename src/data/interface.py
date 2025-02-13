@@ -71,7 +71,7 @@ class Interface:
 
         # Splits
         training, testing = src.data.splits.Splits(data=data, stamp=stamp).exc()
-        self.__logger.info(training.head())
+        training.info()
         testing.info()
 
         # Return
