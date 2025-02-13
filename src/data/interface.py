@@ -1,5 +1,6 @@
 """Module interface.py"""
 import logging
+import typing
 
 import pandas as pd
 
@@ -53,7 +54,7 @@ class Interface:
 
         return frame[self.__configurations.fields]
 
-    def exc(self, stamp: str) -> pd.DataFrame:
+    def exc(self, stamp: str) -> typing.Tuple[pd.DataFrame, pd.DataFrame]:
         """
 
         :return:
@@ -74,4 +75,4 @@ class Interface:
         testing.info()
 
         # Return
-        return data
+        return training, testing
