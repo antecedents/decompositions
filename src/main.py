@@ -34,7 +34,7 @@ def main():
     Steps
     src.modelling.interface.Interface().exc()
     '''
-    src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
+    training, testing = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
 
     '''
     Cache
