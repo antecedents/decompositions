@@ -16,5 +16,8 @@ class Features:
 
     def exc(self):
 
-        computations = []
+        codes = self.__frame['hospital_code'].unique()
 
+        computations = []
+        for code in codes:
+            pass
