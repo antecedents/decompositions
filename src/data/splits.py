@@ -31,7 +31,7 @@ class Splits:
         self.__directories = src.functions.directories.Directories()
         self.__streams = src.functions.streams.Streams()
 
-    def __persist(self, blob: pd.DataFrame, name: str) -> str:
+    def __persist(self, blob: pd.DataFrame, name: str) -> None:
         """
 
         :param blob: The data to be stored.
@@ -40,8 +40,8 @@ class Splits:
         """
 
         path = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data', f'{name}.csv')
-
-        return self.__streams.write(blob=blob, path=path)
+        message = self.__streams.write(blob=blob, path=path)
+        logging.info(message)
 
     @dask.delayed
     def __data(self, code: str):
