@@ -8,10 +8,11 @@ import config
 
 class Features:
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, stamp: str):
         """
 
-        :param data:
+        :param data: The data.
+        :param stamp: Date Stamp
         """
 
         self.__frame = data.copy()
