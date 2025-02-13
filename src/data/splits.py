@@ -45,11 +45,6 @@ class Splits:
         """
 
         blob = self.__frame.copy().loc[self.__frame['hospital_code'] == code, :]
-        print(blob.shape)
-
-        blob['ln'] = np.log(blob['n_attendances'].to_numpy())
-        blob['d_of_ln'] = blob['ln'].diff(periods=self.__configurations.seasons)
-        blob['d_of_ln'] = blob['d_of_ln'].diff(periods=self.__configurations.trends)
 
         # Exclude NaN instances vis-a-vis `d_of_ln`
         blob: pd.DataFrame = blob.copy().loc[blob['d_of_ln'].notna(), :]
