@@ -45,3 +45,6 @@ class Features:
         computations = []
         for code in codes:
             computations.append(self.__features(code=code))
+        calculations = dask.compute(computations, scheduler='threads')[0]
+
+        pd.concat(calculations, axis=0, ignore_index=True)
