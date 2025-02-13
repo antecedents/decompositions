@@ -22,7 +22,6 @@ class Config:
 
         # Cut-off, boundary, for modelling; additionally the number of final points to exclude.
         self.boundary = '2020-06-01'
-        self.exclude = 6
 
         # Seed
         self.seed = 5
