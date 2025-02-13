@@ -13,14 +13,14 @@ import src.functions.streams
 
 class Splits:
     """
-    The original data, and the training & test splits
+    The training & testing splits.
     """
 
     def __init__(self, data: pd.DataFrame, stamp: str):
         """
 
-        :param data:
-        :param stamp:
+        :param data: The data set consisting of the attendance numbers per institution/hospital.
+        :param stamp: Date stamp.
         """
 
         self.__frame = data.copy()
@@ -44,10 +44,10 @@ class Splits:
         logging.info(message)
 
     @dask.delayed
-    def __data(self, code: str):
+    def __data(self, code: str) -> pd.DataFrame:
         """
 
-        :param code:
+        :param code: Hospital, institution, code.
         :return:
         """
 
