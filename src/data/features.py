@@ -1,9 +1,13 @@
+import os
 import pandas as pd
 import numpy as np
 
 import dask
 
 import config
+
+import src.functions.directories
+import src.functions.streams
 
 
 class Features:
@@ -15,10 +19,20 @@ class Features:
         :param stamp: Date Stamp
         """
 
-        self.__frame = data.copy()
+        self.__data = data.copy()
+        self.__stamp = stamp
 
         # Configurations
         self.__configurations = config.Config()
+        
+    def __persist(self, blob: pd.DataFrame) -> str:
+        
+        pathstr = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data', 'data.csv')
+
+        # Ascertain the existence of the target directory, then save.
+        src.functions.directories.Directories().create(path=os.path.dirname(pathstr))
+
+        return src.functions.streams.Streams().write(blob=blob, path=pathstr)
 
     @dask.delayed
     def __features(self, code: str):
@@ -28,7 +42,7 @@ class Features:
         :return:
         """
 
-        blob = self.__frame.copy().loc[self.__frame['hospital_code'] == code, :]
+        blob = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
 
         blob['ln'] = np.log(blob['n_attendances'].to_numpy())
         blob['d_of_ln'] = blob['ln'].diff(periods=self.__configurations.seasons)
@@ -41,7 +55,7 @@ class Features:
 
     def exc(self):
 
-        codes = self.__frame['hospital_code'].unique()
+        codes = self.__data['hospital_code'].unique()
 
         computations = []
         for code in codes:
