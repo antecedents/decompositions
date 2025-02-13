@@ -1,3 +1,4 @@
+import logging
 import os
 
 import dask
@@ -24,14 +25,21 @@ class Features:
         # Configurations
         self.__configurations = config.Config()
         
-    def __persist(self, blob: pd.DataFrame) -> str:
+    def __persist(self, blob: pd.DataFrame) -> None:
+        """
+
+        :param blob:
+        :return:
+        """
         
         pathstr = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data', 'data.csv')
 
         # Ascertain the existence of the target directory, then save.
         src.functions.directories.Directories().create(path=os.path.dirname(pathstr))
+        message = src.functions.streams.Streams().write(blob=blob, path=pathstr)
 
-        return src.functions.streams.Streams().write(blob=blob, path=pathstr)
+        # Message
+        logging.info(message)
 
     @dask.delayed
     def __features(self, code: str):
@@ -58,14 +66,19 @@ class Features:
         :return:
         """
 
-        # The
+        # The institution, hospital, codes.
         codes = self.__data['hospital_code'].unique()
 
+        # Add features per institution.
         computations = []
         for code in codes:
             computations.append(self.__features(code=code))
         calculations = dask.compute(computations, scheduler='threads')[0]
 
-        frame = pd.concat(calculations, axis=0, ignore_index=True)
+        # Structure
+        blob = pd.concat(calculations, axis=0, ignore_index=True)
 
-        return frame
+        # Persist
+        self.__persist(blob=blob)
+
+        return blob
