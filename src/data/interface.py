@@ -58,6 +58,8 @@ class Interface:
         """
 
         :return:
+            training: The training data set.<br>
+            testing: The testing data set.
         """
 
         # The data sets' uniform resource identifier
