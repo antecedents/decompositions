@@ -52,7 +52,11 @@ class Features:
 
         return blob
 
-    def exc(self):
+    def exc(self) -> pd.DataFrame:
+        """
+
+        :return:
+        """
 
         # The
         codes = self.__data['hospital_code'].unique()
@@ -62,4 +66,6 @@ class Features:
             computations.append(self.__features(code=code))
         calculations = dask.compute(computations, scheduler='threads')[0]
 
-        pd.concat(calculations, axis=0, ignore_index=True)
+        frame = pd.concat(calculations, axis=0, ignore_index=True)
+
+        return frame
