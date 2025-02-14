@@ -19,6 +19,21 @@ class Interface:
 
         self.__training: pd.DataFrame = training
 
+    def __get_data(self, board):
+
+        frame: pd.DataFrame = self.__training.loc[self.__training['health_board_code'] == board, :]
+
+        return frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
+
+    def __fundamentals(self, frame: pd.DataFrame):
+        """
+
+        :return:
+        """
+
+        # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
+        # model.named_vars
+
     def exc(self):
         """
 
@@ -31,5 +46,4 @@ class Interface:
 
             logging.info(board)
 
-            # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
-            # model.named_vars
+
