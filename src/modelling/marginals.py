@@ -1,6 +1,7 @@
 
 import pymc
 import pytensor
+import pandas as pd
 
 class Marginals:
     """
@@ -11,7 +12,7 @@ class Marginals:
         pass
 
     @staticmethod
-    def exc(lag_coefs, n_eqs, n_lags, df):
+    def exc(lag_coefs: pytensor.tensor.TensorVariable, n_eqs: int, n_lags: int, df: pd.DataFrame):
 
         ars = []
         for j in range(n_eqs):
