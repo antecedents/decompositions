@@ -11,8 +11,8 @@ class Dates:
     Notes<br>
     ------<br>
 
-    Unfortunately, the delivery day of the week varies over time.  Hence, this project will
-    assume that the points of an institutions series are contiguous.  Do not use this class.
+    Unfortunately, the delivery day of the week is uncertain.  Hence, this project will initially
+    assume that the points of an institution's series are contiguous.  Do not use this class yet.
     """
 
     def __init__(self, data: pd.DataFrame):
@@ -86,7 +86,7 @@ class Dates:
             frame = self.__dates(indices=indices, code=code)
             computations.append(frame)
         calculations = dask.compute(computations, scheduler='threads')[0]
-        outcome = pd.concat(calculations, axis=0, ignore_index=True)
-        logging.info(outcome)
+        data = pd.concat(calculations, axis=0, ignore_index=True)
+        logging.info(data)
 
-        return outcome
+        return data
