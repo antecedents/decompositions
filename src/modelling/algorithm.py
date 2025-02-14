@@ -1,8 +1,11 @@
 """Module algorithm.py"""
+import typing
 import numpy as np
 import pandas as pd
 import pymc
 import pymc.sampling.jax
+
+import arviz.data
 
 import config
 import src.modelling.marginals
@@ -21,10 +24,11 @@ class Algorithm:
         self.__configurations = config.Config()
         self.__marginals = src.modelling.marginals.Marginals()
 
-    def exc(self, n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False):
+    def exc(self, n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False) -> (
+            typing.Tuple)[pymc.model.core.Model, arviz.data.InferenceData]:
         """
 
-        :param n_lags: # of non-constant coefficients
+        :param n_lags: # of non-constant coefficients<br>
         :param n_eqs: # of independent variables.  Beware, this algorithm is inappropriate for cases
                       whereby there are two or more variates because it does not consider multi-variate covariance.
         :param df: The training data.
