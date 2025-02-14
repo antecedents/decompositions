@@ -16,6 +16,11 @@ class Algorithm:
     def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = True):
         """
 
+        :param n_lags: 
+        :param n_eqs:
+        :param df:
+        :param group_field:
+        :param prior_checks:
         :return:
         """
 
