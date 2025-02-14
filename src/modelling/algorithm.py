@@ -63,9 +63,9 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                betaX = calc_ar_step(lag_coefs, n_eqs, n_lags, df_grp)
-                betaX = pymc.Deterministic(f'betaX_{grp}', betaX)
-                mean = alpha + betaX
+                beta_x = calc_ar_step(lag_coefs, n_eqs, n_lags, df_grp)
+                beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
+                mean = alpha + beta_x
 
                 # Likelihood
                 sigma = pymc.HalfNormal(f'sigma_{grp}', sigma=priors['noise']['sigma'], dims=['equations'])
