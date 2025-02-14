@@ -13,7 +13,7 @@ class Algorithm:
         pass
 
     @staticmethod
-    def exc(n_lags, n_eqs, df, group_field, prior_checks=True):
+    def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = True):
         """
 
         :return:
