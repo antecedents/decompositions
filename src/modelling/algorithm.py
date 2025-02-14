@@ -16,10 +16,11 @@ class Algorithm:
     def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = True):
         """
 
-        :param n_lags: 
-        :param n_eqs:
-        :param df:
-        :param group_field:
+        :param n_lags: # of non-constant coefficients
+        :param n_eqs: # of independent variables.  Beware, this algorithm is inappropriate for cases
+                      whereby there are two or more variates because it does not consider variates covariance.
+        :param df: The training data.
+        :param group_field: The field that identifies an instance's group
         :param prior_checks:
         :return:
         """
