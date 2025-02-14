@@ -13,7 +13,7 @@ class Algorithm:
         pass
 
     @staticmethod
-    def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = True):
+    def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False):
         """
 
         :param n_lags: # of non-constant coefficients
@@ -21,7 +21,7 @@ class Algorithm:
                       whereby there are two or more variates because it does not consider variates covariance.
         :param df: The training data.
         :param group_field: The field that identifies an instance's group
-        :param prior_checks:
+        :param prior_checks: Focusing on priors only?
         :return:
         """
 
