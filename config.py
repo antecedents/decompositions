@@ -38,5 +38,12 @@ class Config:
         self.trends = 1
         self.ahead = 9
 
+        # The number of
+        #   lags: via partial auto-correlation function of a series that has undergone (a) ln, (b) season
+        #         differencing, (c) trend differencing.
+        #   independent variables
+        self.n_lags = 52
+        self.n_eqs = 1
+
         # Cut-off, boundary, for modelling; additionally the number of final points to exclude.
         self.boundary = '2020-06-01'
