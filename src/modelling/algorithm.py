@@ -28,12 +28,12 @@ class Algorithm:
             typing.Tuple)[pymc.model.core.Model, arviz.data.InferenceData]:
         """
 
-        :param n_lags: # of non-constant coefficients<br>
-        :param n_eqs: # of independent variables.  Beware, this algorithm is inappropriate for cases
-                      whereby there are two or more variates because it does not consider multi-variate covariance.
-        :param df: The training data.
-        :param group_field: The field that identifies an instance's group
-        :param prior_checks: Focusing on priors only?
+        :param n_lags: <br># of non-constant coefficients<br>
+        :param n_eqs: <br># of independent variables.  Beware, this algorithm is inappropriate for cases whereby
+                      there are two or more variates because it does not consider multi-variate covariance.<br>
+        :param df: <br>The training data.<br>
+        :param group_field: <br>The field that identifies an instance's group<br>
+        :param prior_checks: <br>Focusing on priors only?<br>
         :return:
         """
 
