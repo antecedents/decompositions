@@ -35,8 +35,7 @@ class Algorithm:
 
         cols = [col for col in df.columns if col != group_field]
         coords = {'lags': np.arange(n_lags) + 1,
-                  'equations': cols
-                  }
+                  'equations': cols}
 
         groups = df[group_field].unique()
 
