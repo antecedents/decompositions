@@ -1,7 +1,6 @@
 """Module marginals.py"""
 import pandas as pd
 import pymc
-import pytensor
 
 
 class Marginals:
@@ -13,10 +12,10 @@ class Marginals:
         pass
 
     @staticmethod
-    def exc(lag_coefficients: pytensor.tensor.TensorVariable, n_eqs: int, n_lags: int, df: pd.DataFrame):
+    def exc(lag_coefficients, n_eqs: int, n_lags: int, df: pd.DataFrame):
         """
 
-        :param lag_coefficients:
+        :param lag_coefficients: A pytensor.tensor.TensorVariable of a pymc distribution
         :param n_eqs: The number of independent variables.
         :param n_lags: Equivalent to the number of non-constant coefficients.
         :param df: The training data.
