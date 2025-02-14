@@ -12,13 +12,13 @@ class Marginals:
         pass
 
     @staticmethod
-    def exc(lag_coefs: pytensor.tensor.TensorVariable, n_eqs: int, n_lags: int, df: pd.DataFrame):
+    def exc(lag_coefficients: pytensor.tensor.TensorVariable, n_eqs: int, n_lags: int, df: pd.DataFrame):
 
         ars = []
         for j in range(n_eqs):
             ar = pymc.math.sum(
                 [
-                    pymc.math.sum(lag_coefs[j, i] * df.values[n_lags - (i + 1) : -(i + 1)], axis=-1)
+                    pymc.math.sum(lag_coefficients[j, i] * df.values[n_lags - (i + 1) : -(i + 1)], axis=-1)
                     for i in range(n_lags)
                 ],
                 axis=0,
