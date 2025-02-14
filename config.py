@@ -14,7 +14,10 @@ class Config:
 
     def __init__(self) -> None:
         """
-        Constructor
+        Notes<br>
+        -------<br>
+
+        <a href="https://otexts.com/fpp2/stationarity.html">Stationarity</a>
         """
 
         self.warehouse = os.path.join(os.getcwd(), 'warehouse')
