@@ -13,6 +13,14 @@ class Marginals:
 
     @staticmethod
     def exc(lag_coefficients: pytensor.tensor.TensorVariable, n_eqs: int, n_lags: int, df: pd.DataFrame):
+        """
+
+        :param lag_coefficients:
+        :param n_eqs: The number of independent variables.
+        :param n_lags: Equivalent to the number of non-constant coefficients.
+        :param df: The training data.
+        :return:
+        """
 
         ars = []
         for j in range(n_eqs):
@@ -23,7 +31,6 @@ class Marginals:
                 ],
                 axis=0,
             )
-            print(ar)
             ars.append(ar)
         beta = pymc.math.stack(ars, axis=-1)
 
