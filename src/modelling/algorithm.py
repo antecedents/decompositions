@@ -1,10 +1,13 @@
 """Module algorithm.py"""
+import numpy as np
 import pandas as pd
 import pymc
+import pymc.sampling.jax
 
 import config
+import src.modelling.marginals
 
-# noinspection PyUnresolvedReferences
+
 class Algorithm:
     """
     The multi-level algorithm
@@ -16,6 +19,7 @@ class Algorithm:
         """
 
         self.__configurations = config.Config()
+        self.__marginals = src.modelling.marginals.Marginals()
 
     def exc(self, n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False):
         """
@@ -54,8 +58,8 @@ class Algorithm:
                 df_grp = df[df[group_field] == grp][cols]
                 z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{grp}', 3, 0.5)
                 z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{grp}', 3, 0.5)
-                lag_coefs = pymc.Normal(
-                    f'lag_coefs_{grp}',
+                lag_coefficients = pymc.Normal(
+                    f'lag_coefficients_{grp}',
                     mu=beta_hat_location,
                     sigma=beta_hat_scale * z_scale_beta,
                     dims=['equations', 'lags'],
@@ -67,7 +71,7 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                beta_x = calc_ar_step(lag_coefs, n_eqs, n_lags, df_grp)
+                beta_x = self.__marginals.exc(lag_coefficients=lag_coefficients, n_eqs=n_eqs, n_lags=n_lags, df=df_grp)
                 beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
                 mean = alpha + beta_x
 
