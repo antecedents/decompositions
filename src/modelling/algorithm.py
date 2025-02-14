@@ -2,6 +2,7 @@
 import pandas as pd
 import pymc
 
+import config
 
 # noinspection PyUnresolvedReferences
 class Algorithm:
@@ -10,10 +11,13 @@ class Algorithm:
     """
 
     def __init__(self) -> None:
-        pass
+        """
+        Constructor
+        """
 
-    @staticmethod
-    def exc(n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False):
+        self.__configurations = config.Config()
+
+    def exc(self, n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False):
         """
 
         :param n_lags: # of non-constant coefficients
@@ -76,7 +80,7 @@ class Algorithm:
                 return model, idata
             else:
                 idata = pymc.sample_prior_predictive()
-                idata.extend(pymc.sampling.jax.sample_blackjax_nuts(2000, random_seed=100))
+                idata.extend(pymc.sampling.jax.sample_blackjax_nuts(2000, random_seed=self.__configurations.seed))
                 idata.extend(pymc.sample_posterior_predictive(idata))
 
         return model, idata
