@@ -3,7 +3,6 @@ import logging
 import pandas as pd
 
 import src.modelling.algorithm
-import src.modelling.temporary
 
 
 class Interface:
@@ -11,13 +10,14 @@ class Interface:
     Interface
     """
 
-    def __init__(self):
+    def __init__(self, training: pd.DataFrame):
         """
 
+        :param training:
         """
 
-        # Temporarily, read-in the local copy of the Amazon data set.
-        self.__temporary: pd.DataFrame = src.modelling.temporary.Temporary().exc()
+
+        self.__training: pd.DataFrame = training
 
     def exc(self):
         """
@@ -25,10 +25,11 @@ class Interface:
         :return:
         """
 
-        # Initially, focus on ...
-        data = self.__temporary
-        logging.info(data.head())
+        boards = self.__training['health_board_code'].unique()
 
-        # Hence
-        # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
-        # model.named_vars
+        for board in boards:
+
+            logging.info(board)
+
+            # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
+            # model.named_vars
