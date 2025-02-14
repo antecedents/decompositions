@@ -31,3 +31,4 @@ class Interface:
 
         # Hence
         # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
+        # model.named_vars
