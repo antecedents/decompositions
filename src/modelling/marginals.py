@@ -1,7 +1,8 @@
-
+"""Module marginals.py"""
+import pandas as pd
 import pymc
 import pytensor
-import pandas as pd
+
 
 class Marginals:
     """
