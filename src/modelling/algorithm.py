@@ -18,7 +18,7 @@ class Algorithm:
 
         :param n_lags: # of non-constant coefficients
         :param n_eqs: # of independent variables.  Beware, this algorithm is inappropriate for cases
-                      whereby there are two or more variates because it does not consider variates covariance.
+                      whereby there are two or more variates because it does not consider multi-variate covariance.
         :param df: The training data.
         :param group_field: The field that identifies an instance's group
         :param prior_checks: Focusing on priors only?
@@ -38,13 +38,13 @@ class Algorithm:
 
         with pymc.Model(coords=coords) as model:
 
-            ## Hierarchical Priors
+            # Hierarchical Priors
             alpha_hat_location = pymc.Normal("alpha_hat_location", 0, 0.1)
             alpha_hat_scale = pymc.InverseGamma("alpha_hat_scale", 3, 0.5)
             beta_hat_location = pymc.Normal("beta_hat_location", 0, 0.1)
             beta_hat_scale = pymc.InverseGamma("beta_hat_scale", 3, 0.5)
 
-
+            # By institution
             for grp in groups:
 
                 df_grp = df[df[group_field] == grp][cols]
@@ -67,8 +67,7 @@ class Algorithm:
                 betaX = pymc.Deterministic(f"betaX_{grp}", betaX)
                 mean = alpha + betaX
 
-                ## This is an alternative likelihood that can recover sensible estimates of the coefficients
-                ## But lacks the multivariate correlation between the timeseries.
+                # Likelihood
                 sigma = pymc.HalfNormal(f'sigma_{grp}', sigma=priors["noise"]["sigma"], dims=["equations"])
                 pymc.Normal(f'likelihood_{grp}', mu=mean, sigma=sigma, observed=df_grp.values[n_lags:])
 
