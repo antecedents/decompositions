@@ -2,6 +2,7 @@
 import logging
 import pandas as pd
 
+import config
 import src.modelling.algorithm
 
 
@@ -16,8 +17,11 @@ class Interface:
         :param training:
         """
 
-
         self.__training: pd.DataFrame = training
+
+        # Configurations, etc
+        self.__configurations = config.Config()
+        self.__algorithms = src.modelling.algorithm.Algorithm()
 
     def __get_data(self, board: str) -> pd.DataFrame:
         """
@@ -37,7 +41,7 @@ class Interface:
         :return:
         """
 
-        # model, idata = src.modelling.algorithm.Algorithm().exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
+        # model, idata = slf.__algorithms.exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
         # model.named_vars
 
     def exc(self):
