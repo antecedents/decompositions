@@ -19,11 +19,17 @@ class Interface:
 
         self.__training: pd.DataFrame = training
 
-    def __get_data(self, board):
+    def __get_data(self, board: str) -> pd.DataFrame:
+        """
+
+        :param board:
+        :return:
+        """
 
         frame: pd.DataFrame = self.__training.loc[self.__training['health_board_code'] == board, :]
+        frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
 
-        return frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
+        return frame
 
     def __fundamentals(self, frame: pd.DataFrame):
         """
