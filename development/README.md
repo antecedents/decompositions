@@ -185,6 +185,8 @@ Time Series:
 
 And:
 * [python: hub.docker.com](https://hub.docker.com/_/python/)
+* [model_to_graphviz](https://www.pymc.io/projects/docs/en/stable/api/model/generated/pymc.model_graph.model_to_graphviz.html)
+* [graphviz](https://graphviz.readthedocs.io/en/stable/index.html)
 
 Observations:
 * [Five big problems the NHS in Scotland needs to fix](https://www.bbc.com/news/uk-scotland-64303425)
