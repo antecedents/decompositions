@@ -24,24 +24,24 @@ class Algorithm:
         self.__configurations = config.Config()
         self.__marginals = src.modelling.marginals.Marginals()
 
-    def exc(self, n_lags: int, n_eqs: int, df: pd.DataFrame, group_field: str, prior_checks: bool = False) -> (
+    def exc(self, n_lags: int, n_eqs: int, data: pd.DataFrame, group_field: str, prior_checks: bool = False) -> (
             typing.Tuple)[pymc.model.core.Model, arviz.data.InferenceData]:
         """
 
         :param n_lags: <br># of non-constant coefficients<br>
         :param n_eqs: <br># of independent variables.  Beware, this algorithm is inappropriate for cases whereby
                       there are two or more variates because it does not consider multi-variate covariance.<br>
-        :param df: <br>The training data.<br>
+        :param data: <br>The training data.<br>
         :param group_field: <br>The field that identifies an instance's group<br>
         :param prior_checks: <br>Focusing on priors only?<br>
         :return:
         """
 
-        cols = [col for col in df.columns if col != group_field]
+        cols = [col for col in data.columns if col != group_field]
         coords = {'lags': np.arange(n_lags) + 1,
                   'equations': cols}
 
-        groups = df[group_field].unique()
+        groups = data[group_field].unique()
 
         with pymc.Model(coords=coords) as model:
 
@@ -54,7 +54,7 @@ class Algorithm:
             # By institution
             for grp in groups:
 
-                df_grp = df[df[group_field] == grp][cols]
+                df_grp = data[data[group_field] == grp][cols]
                 z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{grp}', alpha=3, beta=0.5)
                 z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{grp}', alpha=3, beta=0.5)
                 lag_coefficients = pymc.Normal(
