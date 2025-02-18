@@ -47,7 +47,7 @@ class Config:
         #   independent variables: In this context, `n_attendances` only
         # And more.
         self.n_lags = 52
-        self.n_eqs = 1
+        self.n_equations = 1
         self.group_field = 'hospital_code'
 
         # Cut-off, boundary.
