@@ -12,18 +12,18 @@ class Marginals:
         pass
 
     @staticmethod
-    def exc(lc, n_eqs: int, n_lags: int, segment: pd.DataFrame):
+    def exc(lc, n_equations: int, n_lags: int, segment: pd.DataFrame):
         """
 
         :param lc: Lag coefficients.  A pytensor.tensor.TensorVariable of a pymc distribution
-        :param n_eqs: The number of independent variables.
+        :param n_equations: Equals the number of independent variables.
         :param n_lags: Equivalent to the number of non-constant coefficients.
         :param segment: The training data.
         :return:
         """
 
         ars = []
-        for j in range(n_eqs):
+        for j in range(n_equations):
             ar = pymc.math.sum(
                 [
                     pymc.math.sum(lc[j, i] * segment.values[n_lags - (i + 1) : -(i + 1)], axis=-1)
