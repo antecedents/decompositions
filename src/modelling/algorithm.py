@@ -24,12 +24,12 @@ class Algorithm:
         self.__configurations = config.Config()
         self.__marginals = src.modelling.marginals.Marginals()
 
-    def exc(self, n_lags: int, n_eqs: int, data: pd.DataFrame, group_field: str, prior_checks: bool = False) -> (
+    def exc(self, n_lags: int, n_equations: int, data: pd.DataFrame, group_field: str, prior_checks: bool = False) -> (
             typing.Tuple)[pymc.model.core.Model, arviz.data.InferenceData]:
         """
 
         :param n_lags: <br># of non-constant coefficients<br>
-        :param n_eqs: <br># of independent variables.  Beware, this algorithm is inappropriate for cases whereby
+        :param n_equations: <br># of independent variables.  Beware, this algorithm is inappropriate for cases whereby
                       there are two or more variates because it does not consider multi-variate covariance.<br>
         :param data: <br>The training data.<br>
         :param group_field: <br>The field that identifies an instance's group<br>
@@ -70,7 +70,7 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                beta_x = self.__marginals.exc(lc=lc, n_equations=n_eqs, n_lags=n_lags, segment=segment)
+                beta_x = self.__marginals.exc(lc=lc, n_equations=n_equations, n_lags=n_lags, segment=segment)
                 beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
                 mean = alpha + beta_x
 
