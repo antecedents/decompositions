@@ -22,7 +22,7 @@ class Marginals:
         :return:
         """
 
-        ars = []
+        auto_regressive_steps = []
         for j in range(n_equations):
             ar = pymc.math.sum(
                 [
@@ -31,7 +31,7 @@ class Marginals:
                 ],
                 axis=0,
             )
-            ars.append(ar)
-        beta = pymc.math.stack(ars, axis=-1)
+            auto_regressive_steps.append(ar)
+        beta = pymc.math.stack(auto_regressive_steps, axis=-1)
 
         return beta
