@@ -50,5 +50,5 @@ class Config:
         self.n_eqs = 1
         self.group_field = 'hospital_code'
 
-        # Cut-off, boundary, for modelling; additionally the number of final points to exclude.
+        # Cut-off, boundary.
         self.boundary = '2020-06-01'
