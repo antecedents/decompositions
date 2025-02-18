@@ -54,7 +54,7 @@ class Algorithm:
             # By institution
             for grp in groups:
 
-                excerpt = data[data[group_field] == grp][cols]
+                segment = data[data[group_field] == grp][cols]
                 z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{grp}', alpha=3, beta=0.5)
                 z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{grp}', alpha=3, beta=0.5)
                 lc = pymc.Normal(
@@ -70,14 +70,14 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                beta_x = self.__marginals.exc(lc=lc, n_equations=n_eqs, n_lags=n_lags, segment=excerpt)
+                beta_x = self.__marginals.exc(lc=lc, n_equations=n_eqs, n_lags=n_lags, segment=segment)
                 beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
                 mean = alpha + beta_x
 
                 # Likelihood
                 sigma = pymc.HalfNormal(f'sigma_{grp}',
                                         sigma=self.__configurations.priors['noise']['sigma'], dims=['equations'])
-                pymc.Normal(f'likelihood_{grp}', mu=mean, sigma=sigma, observed=excerpt.values[n_lags:])
+                pymc.Normal(f'likelihood_{grp}', mu=mean, sigma=sigma, observed=segment.values[n_lags:])
 
             if prior_checks:
                 idata = pymc.sample_prior_predictive(random_seed=self.__configurations.seed)
