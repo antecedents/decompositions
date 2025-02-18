@@ -52,3 +52,14 @@ class Config:
 
         # Cut-off, boundary.
         self.boundary = '2020-06-01'
+
+        # Priors
+        self.priors = {
+            'alpha_hat_location': {'mu': 0, 'sigma': 0.1},
+            'alpha_hat_scale': {'alpha': 3, 'beta': 0.5},
+            'beta_hat_location': {'mu': 0, 'sigma': 0.1},
+            'beta_hat_scale': {'alpha': 3, 'beta': 0.5},
+            'z_scale_alpha': {'alpha': 3, 'beta': 0.5},
+            'z_scale_beta': {'alpha': 3, 'beta': 0.5},
+            'noise': {'sigma': 1}
+        }
