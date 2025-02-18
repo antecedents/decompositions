@@ -14,6 +14,8 @@ class TextAttributes(typing.NamedTuple):
             The uniform resource identifier; path + file + extension string.
         header :
             The header row of the `csv` file
+        sep :
+            The separator
         usecols :
             The fields in focus
         dtype :
@@ -26,6 +28,7 @@ class TextAttributes(typing.NamedTuple):
 
     uri: str
     header: int
+    sep: str = ','
     usecols: list = None
     dtype: dict = None
     date_fields: list = None
