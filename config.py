@@ -48,7 +48,7 @@ class Config:
         # And more.
         self.n_lags = 52
         self.n_equations = 1
-        self.group_field = 'hospital_code'
+        self.leaves = 'hospital_code'
 
         # Cut-off, boundary.
         self.boundary = '2020-06-01'
