@@ -57,8 +57,8 @@ class Algorithm:
                 excerpt = data[data[group_field] == grp][cols]
                 z_scale_beta = pymc.InverseGamma(f'z_scale_beta_{grp}', alpha=3, beta=0.5)
                 z_scale_alpha = pymc.InverseGamma(f'z_scale_alpha_{grp}', alpha=3, beta=0.5)
-                lag_coefficients = pymc.Normal(
-                    f'lag_coefficients_{grp}',
+                lc = pymc.Normal(
+                    f'lc_{grp}',
                     mu=beta_hat_location,
                     sigma=beta_hat_scale * z_scale_beta,
                     dims=['equations', 'lags'],
@@ -70,7 +70,7 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                beta_x = self.__marginals.exc(lc=lag_coefficients, n_equations=n_eqs, n_lags=n_lags, segment=excerpt)
+                beta_x = self.__marginals.exc(lc=lc, n_equations=n_eqs, n_lags=n_lags, segment=excerpt)
                 beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
                 mean = alpha + beta_x
 
