@@ -83,7 +83,7 @@ class Algorithm:
                 pymc.Normal(f'likelihood_{grp}', mu=mean, sigma=sigma, observed=df_grp.values[n_lags:])
 
             if prior_checks:
-                idata = pymc.sample_prior_predictive()
+                idata = pymc.sample_prior_predictive(random_seed=self.__configurations.seed)
                 return model, idata
             else:
                 idata = pymc.sample_prior_predictive()
