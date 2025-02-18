@@ -54,3 +54,6 @@ class Interface:
 
         for board in boards:
             data = self.__get_data(board=board)
+            model, idata = self.__algorithms.exc(
+                n_lags=self.__configurations.n_lags, n_eqs=self.__configurations.n_eqs,
+                df=data, group_field=self.__configurations.group_field)
