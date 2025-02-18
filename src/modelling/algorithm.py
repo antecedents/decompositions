@@ -86,8 +86,9 @@ class Algorithm:
                 idata = pymc.sample_prior_predictive(random_seed=self.__configurations.seed)
                 return model, idata
             else:
-                idata = pymc.sample_prior_predictive()
-                idata.extend(pymc.sampling.jax.sample_blackjax_nuts(2000, random_seed=self.__configurations.seed))
+                idata = pymc.sample_prior_predictive(random_seed=self.__configurations.seed)
+                idata.extend(pymc.sampling.jax.sample_blackjax_nuts(
+                    draws=2000, random_seed=self.__configurations.seed, chains=4, target_accept=0.95))
                 idata.extend(pymc.sample_posterior_predictive(idata))
 
         return model, idata
