@@ -70,7 +70,7 @@ class Algorithm:
                     dims=('equations',)
                 )
 
-                beta_x = self.__marginals.exc(lc=lag_coefficients, n_eqs=n_eqs, n_lags=n_lags, segment=excerpt)
+                beta_x = self.__marginals.exc(lc=lag_coefficients, n_equations=n_eqs, n_lags=n_lags, segment=excerpt)
                 beta_x = pymc.Deterministic(f'beta_x_{grp}', beta_x)
                 mean = alpha + beta_x
 
