@@ -53,4 +53,4 @@ class Interface:
         boards = self.__training['health_board_code'].unique()
 
         for board in boards:
-            logging.info(board)
+            data = self.__get_data(board=board)
