@@ -1,9 +1,12 @@
 """Module interface.py"""
+import logging
+
 import arviz
 import numpy as np
 import pandas as pd
 
 import config
+import src.extraneous.boundaries
 import src.extraneous.futures
 
 
@@ -53,7 +56,7 @@ class Interface:
 
         return d_lc
 
-    def exc(self, data: pd.DataFrame) -> list:
+    def exc(self, data: pd.DataFrame):
         """
 
         :param data: The training data of a board; a board consists of one or more hospitals/institutions.<br>
@@ -64,7 +67,6 @@ class Interface:
         codes = data['hospital_code'].unique()
 
         indices = self.__indices()
-        computations = []
         for code in codes:
 
             # Starting points, whence the forecast points continue
@@ -79,6 +81,6 @@ class Interface:
             d_ppc: np.ndarray = src.extraneous.futures.Futures(points=points).exc(
                 d_intercept=d_intercept, d_lc=d_lc, d_noise=d_noise)
 
-            computations.append([d_ppc, code])
-
-        return computations
+            lower, upper = src.extraneous.boundaries.Boundaries().exc(d_ppc=d_ppc)
+            logging.info(lower)
+            logging.info(upper)
