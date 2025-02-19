@@ -20,6 +20,8 @@ class Futures:
 
         # Configurations
         self.__configurations = config.Config()
+
+        # Random Number Generator
         self.__rng = np.random.default_rng(self.__configurations.seed)
 
     def __forecast(self, intercept: np.ndarray, lc: np.ndarray, noise: np.ndarray, forecast: int):
