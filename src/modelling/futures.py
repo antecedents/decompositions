@@ -1,8 +1,9 @@
 """Module futures.py"""
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 import config
+
 
 class Futures:
     """
@@ -24,9 +25,9 @@ class Futures:
     def __forecast(self, intercept: np.ndarray, lc: np.ndarray, noise: np.ndarray, forecast: int):
         """
 
-        :param intercept: constant coefficient
-        :param lc: lag coefficients
-        :param noise:
+        :param intercept: Intercept, constant coefficient, draws
+        :param lc: Lag coefficients draws
+        :param noise: Noise draws
         :param forecast: # of forecast points
         :return:
         """
@@ -53,9 +54,9 @@ class Futures:
     def exc(self, d_intercept: np.ndarray, d_lc: np.ndarray, d_noise: np.ndarray):
         """
 
-        :param d_intercept:
-        :param d_lc:
-        :param d_noise:
+        :param d_intercept: Intercept draws
+        :param d_lc: Lag coefficient draws
+        :param d_noise: Noise draws
         :return:
         """
 
@@ -65,6 +66,8 @@ class Futures:
             signature='(v),(l,v,v),(v)->(o,v)',
             excluded=('self', 'forecast'),
         )
+
+        # Forecasting weeks ahead
         d_ppc = forecast(intercept=d_intercept, lc=d_lc, noise=d_noise, forecast=self.__configurations.ahead)
         d_ppc = np.swapaxes(d_ppc, 0, 1)
 
