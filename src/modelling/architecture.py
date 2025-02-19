@@ -1,13 +1,19 @@
+"""Module architecture.py"""
 import os
+
 import pymc
 
 import config
 
+
 class Architecture:
+    """
+    Architecture
+    """
 
     def __init__(self, stamp: str):
         """
-        
+
         :param stamp:
         """
 
