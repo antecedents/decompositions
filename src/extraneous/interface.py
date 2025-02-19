@@ -26,6 +26,10 @@ class Interface:
         self.__rng = np.random.default_rng(self.__configurations.seed)
 
     def __indices(self) -> np.ndarray:
+        """
+        
+        :return:
+        """
 
         chains = self.__idata['sample_stats'].sizes['chain']
         draws = self.__idata['sample_stats'].sizes['draw']
