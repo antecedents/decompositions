@@ -53,7 +53,7 @@ class Futures:
 
         return draws
 
-    def exc(self, d_intercept: np.ndarray, d_lc: np.ndarray, d_noise: np.ndarray):
+    def exc(self, d_intercept: np.ndarray, d_lc: np.ndarray, d_noise: np.ndarray) -> np.ndarray:
         """
 
         :param d_intercept: Intercept draws
