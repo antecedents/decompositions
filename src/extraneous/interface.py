@@ -47,6 +47,7 @@ class Interface:
         codes = data['hospital_code'].unique()
 
         indices = self.__indices()
+        computations = []
         for code in codes:
 
             # Starting points, whence the forecast points continue
@@ -58,7 +59,9 @@ class Interface:
             d_noise = self.__posteriors[f'sigma_{code}'].values.T[indices]
 
             # Forecasts
-            d_ppc = src.extraneous.futures.Futures(points=points).exc(
+            d_ppc: np.ndarray = src.extraneous.futures.Futures(points=points).exc(
                 d_intercept=d_intercept, d_lc=d_lc, d_noise=d_noise)
+
+            computations.append([d_ppc, code])
 
 
