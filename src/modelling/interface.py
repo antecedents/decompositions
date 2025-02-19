@@ -4,6 +4,7 @@ import pandas as pd
 
 import config
 import src.modelling.algorithm
+import src.extraneous.interface
 
 
 class Interface:
@@ -57,3 +58,5 @@ class Interface:
             model, idata = self.__algorithms.exc(
                 n_lags=self.__configurations.n_lags, n_equations=self.__configurations.n_equations,
                 data=data, leaves=self.__configurations.leaves)
+            src.extraneous.interface.Interface(idata=idata).exc(data=data)
+
