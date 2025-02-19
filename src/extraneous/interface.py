@@ -33,6 +33,12 @@ class Interface:
         return self.__rng.integers(chains*draws, size=self.__n_samples)
 
     def __lag_coefficients(self, code: str, indices: np.ndarray) -> np.ndarray:
+        """
+
+        :param code: A hospital/institution code
+        :param indices: Sample indices
+        :return:
+        """
 
         d_lc = self.__posteriors[f'lag_coefficients_{code}'].values.T[indices].T
         d_lc = np.moveaxis(d_lc, 2, 0)
