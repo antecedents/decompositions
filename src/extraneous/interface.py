@@ -42,6 +42,11 @@ class Interface:
         return d_lc
 
     def exc(self, data: pd.DataFrame):
+        """
+
+        :param data: The training data of a board; a board consists of one or more hospitals/institutions.<br>
+        :return:
+        """
 
         # The hospital/institution codes
         codes = data['hospital_code'].unique()
