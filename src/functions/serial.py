@@ -3,6 +3,8 @@ Module serial.py
 """
 import yaml
 
+import src.functions.api
+
 
 class Serial:
     """
@@ -10,17 +12,32 @@ class Serial:
 
     Description
     -----------
-    At present this class reads-in local YAML data files; YAML is a data serialisation language.
+    Present, this class reads-in local YAML data files; YAML is a data serialisation language.
     """
 
     def __init__(self):
-        pass
-
-    @staticmethod
-    def get_dictionary(uri: str) -> dict:
+        """
+        Constructor
         """
 
-        :param uri: The file string of a local YAML file; path + file name + extension
+    @staticmethod
+    def api(url: str) -> dict:
+        """
+
+        :param url: The file string of a local YAML file; path + file name + extension.
+        :return:
+        """
+
+        instance = src.functions.api.API()
+        content = instance(url=url)
+
+        return yaml.safe_load(content)
+
+    @staticmethod
+    def read(uri: str) -> dict:
+        """
+
+        :param uri: The file string of a local YAML file; path + file name + extension.
         :return:
         """
 
@@ -28,4 +45,4 @@ class Serial:
             try:
                 return yaml.load(stream=stream, Loader=yaml.CLoader)
             except yaml.YAMLError as err:
-                raise err
+                raise err from err
