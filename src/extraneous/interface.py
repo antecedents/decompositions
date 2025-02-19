@@ -12,15 +12,13 @@ class Interface:
     The interface to the forecasting steps
     """
 
-    def __init__(self, idata: arviz.data.InferenceData, n_samples: int):
+    def __init__(self, idata: arviz.data.InferenceData):
         """
 
         :param idata:
-        :param n_samples:
         """
 
         self.__idata = idata
-        self.__n_samples = n_samples
 
         # Posteriors
         self.__posteriors = self.__idata['posterior'].stack(sample=('chain', 'draw'))
@@ -38,7 +36,7 @@ class Interface:
         chains = self.__idata['sample_stats'].sizes['chain']
         draws = self.__idata['sample_stats'].sizes['draw']
 
-        return self.__rng.integers(chains*draws, size=self.__n_samples)
+        return self.__rng.integers(chains*draws, size=self.__configurations.n_samples)
 
     def __lag_coefficients(self, code: str, indices: np.ndarray) -> np.ndarray:
         """
