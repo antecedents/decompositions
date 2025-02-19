@@ -55,7 +55,7 @@ class Interface:
 
         return d_lc
 
-    def exc(self, data: pd.DataFrame):
+    def exc(self, data: pd.DataFrame) -> list:
         """
 
         :param data: The training data of a board; a board consists of one or more hospitals/institutions.<br>
@@ -83,4 +83,4 @@ class Interface:
 
             computations.append([d_ppc, code])
 
-
+        return computations
