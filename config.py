@@ -64,5 +64,8 @@ class Config:
             'noise': {'sigma': 1}
         }
 
-        # The # of samples for predicting
+        # The # of samples for predicting.
         self.n_samples = 500
+
+        # Error interval
+        self.interval = [45, 55]
