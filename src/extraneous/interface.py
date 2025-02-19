@@ -48,8 +48,12 @@ class Interface:
         indices = self.__indices()
         for code in codes:
 
+            # Starting points, whence the forecast points continue
             points = data.copy().loc[data['hospital_code'] == code, ['d_of_ln']]
 
+            # Draws
             d_intercept = self.__posteriors[f'alpha_{code}'].values.T[indices]
+            d_lc = self.__lag_coefficients(code=code, indices=indices)
+            d_noise = self.__posteriors[f'sigma_{code}'].values.T[indices]
 
 
