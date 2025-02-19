@@ -1,12 +1,23 @@
+"""Module informatics.py"""
 import logging
-import pymc
+
 import arviz
 import arviz.data
+import pymc
 
 
 class Informatics:
+    """
+    Class Informatics
+    """
 
     def __init__(self):
+        """
+        Constructor
+        """
+
+        # These are regex strings for the members of <model.named_vars>
+        self.__variables = ['alpha_*', 'beta_*', 'lc_*', 'beta_x_*', 'sigma_*', 'likelihood_*']
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -15,10 +26,24 @@ class Informatics:
         self.__logger = logging.getLogger(__name__)
 
     def __summary(self, idata: arviz.data.InferenceData):
+        """
 
-        self.__logger.info(arviz.summary(data=idata, var_names=['alpha*']))
+        :param idata:
+        :return:
+        """
+
+        for variable in self.__variables:
+
+            self.__logger.info(
+                arviz.summary(data=idata, var_names=[variable], filter_vars='regex'))
 
     def exc(self, model: pymc.model.core.Model, idata: arviz.data.InferenceData):
+        """
 
-        self.__logger.info(model.named_vars)
+        :param model:
+        :param idata:
+        :return:
+        """
+
+        self.__logger.info(model)
         self.__logger.info(idata)
