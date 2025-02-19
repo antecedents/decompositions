@@ -37,7 +37,7 @@ class Configurations:
         """
 
         buffer = src.s3.unload.Unload(s3_client=self.__s3_client).exc(
-            bucket_name=self.__secret.exc(secret_id='NumericIntelligence', node='c_emergency'),
+            bucket_name=self.__secret.exc(secret_id='AccidentEmergency', node='configurations'),
             key_name=key_name)
 
         return buffer
