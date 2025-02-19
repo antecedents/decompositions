@@ -31,7 +31,7 @@ class Algorithm:
         :param n_lags: <br># of non-constant coefficients<br>
         :param n_equations: <br># of independent variables.  Beware, this algorithm is inappropriate for cases whereby
                       there are two or more variates because it does not consider multi-variate covariance.<br>
-        :param data: <br>The training data.<br>
+        :param data: <br>The training data of a board; a board consists of one or more hospitals/institutions.<br>
         :param leaves: <br>The field that identifies an instance's group<br>
         :param prior_checks: <br>Focusing on priors only?<br>
         :return:
