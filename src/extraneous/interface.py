@@ -1,3 +1,4 @@
+"""Module interface.py"""
 import arviz
 
 import pandas as pd
@@ -7,6 +8,9 @@ import config
 import src.extraneous.futures
 
 class Interface:
+    """
+    The interface to the forecasting steps
+    """
 
     def __init__(self, idata: arviz.data.InferenceData, n_samples: int):
         """
@@ -27,7 +31,7 @@ class Interface:
 
     def __indices(self) -> np.ndarray:
         """
-        
+
         :return:
         """
 
