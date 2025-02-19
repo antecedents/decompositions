@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 import config
+import src.extraneous.futures
 
 class Interface:
 
@@ -55,5 +56,9 @@ class Interface:
             d_intercept = self.__posteriors[f'alpha_{code}'].values.T[indices]
             d_lc = self.__lag_coefficients(code=code, indices=indices)
             d_noise = self.__posteriors[f'sigma_{code}'].values.T[indices]
+
+            # Forecasts
+            d_ppc = src.extraneous.futures.Futures(points=points).exc(
+                d_intercept=d_intercept, d_lc=d_lc, d_noise=d_noise)
 
 
