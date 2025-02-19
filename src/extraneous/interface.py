@@ -1,11 +1,11 @@
 """Module interface.py"""
 import arviz
-
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 import config
 import src.extraneous.futures
+
 
 class Interface:
     """
