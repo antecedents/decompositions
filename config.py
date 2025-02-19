@@ -63,3 +63,6 @@ class Config:
             'z_scale_beta': {'alpha': 3, 'beta': 0.5},
             'noise': {'sigma': 1}
         }
+
+        # The # of samples for predicting
+        self.n_samples = 500
