@@ -9,11 +9,9 @@ class Boundaries:
     Boundaries
     """
 
-    def __init__(self, computations: list):
+    def __init__(self):
         """
-
-        :param computations: Whereby computations[i][0] encodes the posteriors, and computations[i][1] is
-                             the hospital/institution code
+        Constructor
         """
 
         self.__configurations = config.Config()
@@ -21,7 +19,7 @@ class Boundaries:
     def exc(self, d_ppc: np.ndarray):
         """
 
-        :param d_ppc:
+        :param d_ppc: Posterior draws
         :return:
         """
 
