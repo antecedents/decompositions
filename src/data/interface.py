@@ -47,9 +47,8 @@ class Interface:
     def exc(self, stamp: str) -> pd.DataFrame:
         """
 
+        :param stamp:
         :return:
-            training: The training data set.<br>
-            testing: The testing data set.
         """
 
         # The data sets' uniform resource identifier
@@ -59,5 +58,4 @@ class Interface:
         # Reading, and enhancing, the data set.
         data = self.__get_data(uri=uri)
 
-        # Return
         return data
