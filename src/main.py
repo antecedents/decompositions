@@ -1,5 +1,4 @@
 """Module main.py"""
-import datetime
 import logging
 import os
 import sys
@@ -14,12 +13,7 @@ def main():
     """
 
     logger: logging.Logger = logging.getLogger(__name__)
-
-    # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
-    now = datetime.datetime.now()
-    offset = (now.weekday() - 1) % 7
-    tuesday = now - datetime.timedelta(days=offset)
-    stamp = tuesday.strftime('%Y-%m-%d')
+    stamp = config.Config().stamp
     logger.info('Latest Tuesday: %s', stamp)
 
     '''
@@ -54,6 +48,7 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
+    import config
     import src.data.interface
     import src.functions.cache
     import src.functions.service
