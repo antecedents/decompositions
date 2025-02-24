@@ -8,7 +8,7 @@ import pymc.sampling.jax
 import arviz.data
 
 import config
-import src.modelling.marginals
+import src.modelling.single.marginals
 
 
 class Algorithm:
@@ -22,7 +22,7 @@ class Algorithm:
         """
 
         self.__configurations = config.Config()
-        self.__marginals = src.modelling.marginals.Marginals()
+        self.__marginals = src.modelling.single.marginals.Marginals()
 
     def exc(self, n_lags: int, n_equations: int, data: pd.DataFrame, leaves: str, prior_checks: bool = False) -> (
             typing.Tuple)[pymc.model.core.Model, arviz.data.InferenceData]:
