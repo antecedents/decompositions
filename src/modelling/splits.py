@@ -1,14 +1,10 @@
 """Module splits.py"""
-import logging
-import os
 import typing
 
 import dask
 import pandas as pd
 
 import config
-import src.functions.directories
-import src.functions.streams
 
 
 class Splits:
@@ -16,34 +12,16 @@ class Splits:
     The training & testing splits.
     """
 
-    def __init__(self, data: pd.DataFrame, stamp: str):
+    def __init__(self, data: pd.DataFrame):
         """
 
         :param data: The data set consisting of the attendance numbers per institution/hospital.
-        :param stamp: Date stamp.
         """
 
         self.__frame = data.copy()
 
         # Instances
         self.__configurations = config.Config()
-        self.__streams = src.functions.streams.Streams()
-
-        # Storage
-        self.__storage = os.path.join(self.__configurations.artefacts_, stamp, 'data')
-        src.functions.directories.Directories().create(path=self.__storage)
-
-    def __persist(self, blob: pd.DataFrame, name: str) -> None:
-        """
-
-        :param blob: The data to be stored.
-        :param name: A file name, excluding its extension.
-        :return:
-        """
-
-        path = os.path.join(self.__storage, f'{name}.csv')
-        message = self.__streams.write(blob=blob, path=path)
-        logging.info(message)
 
     @dask.delayed
     def __data(self, code: str) -> pd.DataFrame:
@@ -104,9 +82,5 @@ class Splits:
         excluding = [calculations[i][1] for i in range(len(calculations))]
         training = pd.concat(including, axis=0, ignore_index=True)
         testing = pd.concat(excluding, axis=0, ignore_index=True)
-
-        # Persist
-        self.__persist(blob=training, name='training')
-        self.__persist(blob=testing, name='testing')
 
         return training, testing
