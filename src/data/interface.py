@@ -1,12 +1,9 @@
 """Module interface.py"""
 import logging
-import typing
 
 import pandas as pd
 
 import config
-import src.data.features
-import src.data.splits
 import src.elements.s3_parameters as s3p
 import src.elements.text_attributes as txa
 import src.functions.streams
@@ -54,7 +51,7 @@ class Interface:
 
         return frame[self.__configurations.fields]
 
-    def exc(self, stamp: str) -> typing.Tuple[pd.DataFrame, pd.DataFrame]:
+    def exc(self, stamp: str) -> pd.DataFrame:
         """
 
         :return:
@@ -68,13 +65,6 @@ class Interface:
 
         # Reading, and enhancing, the data set.
         data = self.__get_data(uri=uri)
-        data = src.data.features.Features(data=data, stamp=stamp).exc()
-        self.__logger.info(data.head())
-
-        # Splits
-        training, testing = src.data.splits.Splits(data=data, stamp=stamp).exc()
-        training.info()
-        testing.info()
 
         # Return
-        return training, testing
+        return data
