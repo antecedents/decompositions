@@ -1,9 +1,19 @@
+import boto3
 import pandas as pd
+
+import src.s3.configurations
+
 
 class Interface:
 
-    def __init__(self, training: pd.DataFrame):
+    def __init__(self, connector: boto3.session.Session, training: pd.DataFrame):
+        """
 
+        :param connector:
+        :param training:
+        """
+
+        self.__connector = connector
         self.__training = training
 
     def __get_data(self, code: str) -> pd.DataFrame:
@@ -18,5 +28,17 @@ class Interface:
 
         return frame
 
+    def __arguments(self) -> dict:
+        """
+
+        :return:
+        """
+
+        return src.s3.configurations.Configurations(connector=self.__connector).objects(
+            key_name=('architecture' + '/' + 'single' + '/' + 'difference' + '/' + 'arguments.json')
+        )
+
+
     def exc(self):
-        pass
+
+        arguments = self.__arguments()
