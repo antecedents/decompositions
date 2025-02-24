@@ -13,7 +13,7 @@ class Interface:
     Interface
     """
 
-    def __init__(self, connector: boto3.session.Session(), stamp: str):
+    def __init__(self, connector: boto3.session.Session, stamp: str):
         """
 
         :param stamp:
