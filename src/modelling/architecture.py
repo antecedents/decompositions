@@ -11,26 +11,24 @@ class Architecture:
     Architecture
     """
 
-    def __init__(self, stamp: str):
+    def __init__(self):
         """
-
-        :param stamp:
+        Constructor
         """
-
-        self.__stamp = stamp
 
         # Configurations
         self.__configurations = config.Config()
 
-    def exc(self, model: pymc.model.core.Model, board: str):
+    def exc(self, model: pymc.model.core.Model, stamp: str, name: str):
         """
 
         :param model: The estimated model
-        :param board: A health board
+        :param stamp:
+        :param name:
         :return:
         """
 
         pathstr = os.path.join(
-            self.__configurations.artefacts_, self.__stamp, 'architecture', f'{board}.pdf')
+            self.__configurations.artefacts_, stamp, 'architecture', f'{name}.pdf')
 
         pymc.model_to_graphviz(model, save=pathstr, figsize=(5,5))
