@@ -1,6 +1,7 @@
 """
 Module config.py
 """
+import datetime
 import os
 
 
@@ -31,3 +32,9 @@ class Config:
 
         # Cut-off, boundary.
         self.boundary = '2020-06-01'
+
+        # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
+        now = datetime.datetime.now()
+        offset = (now.weekday() - 1) % 7
+        tuesday = now - datetime.timedelta(days=offset)
+        self.stamp = tuesday.strftime('%Y-%m-%d')
