@@ -1,10 +1,11 @@
 """Module interface.py"""
 import logging
+import boto3
+
 import pandas as pd
 
 import config
-import src.modelling.algorithm
-import src.extraneous.interface
+import src.modelling.splits
 
 
 class Interface:
@@ -12,51 +13,25 @@ class Interface:
     Interface
     """
 
-    def __init__(self, training: pd.DataFrame):
+    def __init__(self, connector: boto3.session.Session(), stamp: str):
         """
 
-        :param training:
+        :param stamp:
         """
 
-        self.__training: pd.DataFrame = training
+        self.__connector = connector
+        self.__stamp = stamp
 
         # Configurations, etc
         self.__configurations = config.Config()
-        self.__algorithms = src.modelling.algorithm.Algorithm()
 
-    def __get_data(self, board: str) -> pd.DataFrame:
-        """
-
-        :param board:
-        :return:
-        """
-
-        frame: pd.DataFrame = self.__training.loc[self.__training['health_board_code'] == board, :]
-        frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
-
-        return frame
-
-    def __fundamentals(self, frame: pd.DataFrame):
+    def exc(self, data: pd.DataFrame):
         """
 
         :return:
         """
 
-        # model, idata = slf.__algorithms.exc(n_lags=, n_eqs=, df=, group_field=, prior_checks=False)
-        # model.named_vars
+        # Splits
+        training, testing = src.modelling.splits.Splits(data=data).exc()
 
-    def exc(self):
-        """
-
-        :return:
-        """
-
-        boards = self.__training['health_board_code'].unique()
-
-        for board in boards:
-            data = self.__get_data(board=board)
-            model, idata = self.__algorithms.exc(
-                n_lags=self.__configurations.n_lags, n_equations=self.__configurations.n_equations,
-                data=data, leaves=self.__configurations.leaves)
-            src.extraneous.interface.Interface(idata=idata).exc(data=data)
 
