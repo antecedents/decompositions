@@ -20,15 +20,12 @@ def main():
     Set up
     '''
     setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
-    if not setup:
-        src.functions.cache.Cache().exc()
-        sys.exit('No Executions')
+    if setup:
 
-    '''
-    Steps
-    src.modelling.interface.Interface().exc()
-    '''
-    training, testing = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
+        '''
+        src.modelling.interface.Interface().exc()
+        '''
+        data = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
 
     '''
     Cache
