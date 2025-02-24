@@ -21,11 +21,8 @@ def main():
     '''
     setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
     if setup:
-
-        '''
-        src.modelling.interface.Interface().exc()
-        '''
         data = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
+        data.info()
 
     '''
     Cache
