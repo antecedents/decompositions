@@ -3,9 +3,6 @@
 import boto3
 import pandas as pd
 
-import src.data.splits
-import src.s3.configurations
-
 
 class Interface:
     """
