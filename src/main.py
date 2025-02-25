@@ -13,15 +13,16 @@ def main():
     """
 
     logger: logging.Logger = logging.getLogger(__name__)
-    stamp = config.Config().stamp
-    logger.info('Latest Tuesday: %s', stamp)
 
     # Setting up
-    src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
+    src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
 
     # Steps
-    data = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
+    data, training, testing = src.data.interface.Interface(
+        s3_parameters=s3_parameters, arguments=arguments).exc()
     data.info()
+    training.info()
+    testing.info()
 
     '''
     Cache
@@ -41,7 +42,6 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
-    import config
     import src.data.interface
     import src.functions.cache
     import src.functions.service
