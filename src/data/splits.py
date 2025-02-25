@@ -12,29 +12,31 @@ class Splits:
     The training & testing splits.
     """
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, arguments: dict):
         """
 
         :param data: The data set consisting of the attendance numbers per institution/hospital.
+        :param arguments: Modelling arguments.
         """
 
-        self.__frame = data.copy()
+        self.__data = data.copy()
+        self.__arguments = arguments
 
         # Instances
         self.__configurations = config.Config()
 
     @dask.delayed
-    def __data(self, code: str) -> pd.DataFrame:
+    def __get_data(self, code: str) -> pd.DataFrame:
         """
 
         :param code: Hospital, institution, code.
         :return:
         """
 
-        blob = self.__frame.copy().loc[self.__frame['hospital_code'] == code, :]
+        blob = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
 
-        # Exclude NaN instances vis-a-vis `d_of_ln`
-        blob: pd.DataFrame = blob.copy().loc[blob['d_of_ln'].notna(), :]
+        # Exclude NaN instances vis-a-vis `dt`
+        blob: pd.DataFrame = blob.copy().loc[blob['dt'].notna(), :]
         blob.sort_values(by='week_ending_date', ascending=True, inplace=True)
 
         return blob
@@ -47,7 +49,7 @@ class Splits:
         :return:
         """
 
-        return blob.copy()[:-self.__configurations.ahead]
+        return blob.copy()[:-self.__arguments['ahead']]
 
     @dask.delayed
     def __exclude(self, blob: pd.DataFrame) -> pd.DataFrame:
@@ -58,7 +60,7 @@ class Splits:
         :return:
         """
 
-        return blob.copy()[-self.__configurations.ahead:]
+        return blob.copy()[-self.__arguments['ahead']:]
 
     def exc(self) -> typing.Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -66,12 +68,12 @@ class Splits:
         :return:
         """
 
-        codes = self.__frame['hospital_code'].unique()
+        codes = self.__data['hospital_code'].unique()
 
         # Splitting by institution
         computations = []
         for code in codes:
-            blob = self.__data(code=code)
+            blob = self.__get_data(code=code)
             include = self.__include(blob=blob)
             exclude = self.__exclude(blob=blob)
             computations.append([include, exclude])
@@ -80,6 +82,7 @@ class Splits:
         # Structure
         including = [calculations[i][0] for i in range(len(calculations))]
         excluding = [calculations[i][1] for i in range(len(calculations))]
+
         training = pd.concat(including, axis=0, ignore_index=True)
         testing = pd.concat(excluding, axis=0, ignore_index=True)
 
