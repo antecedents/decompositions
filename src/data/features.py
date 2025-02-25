@@ -1,14 +1,10 @@
 """Module features.py"""
-import logging
-import os
 
 import dask
 import numpy as np
 import pandas as pd
 
 import config
-import src.functions.directories
-import src.functions.streams
 
 
 class Features:
@@ -16,39 +12,21 @@ class Features:
     Features
     """
 
-    def __init__(self, data: pd.DataFrame, stamp: str):
+    def __init__(self, data: pd.DataFrame, arguments: dict):
         """
 
-        :param data: The data.
-        :param stamp: Date Stamp
+        :param data: The data set consisting of the attendance numbers per institution/hospital.
+        :param arguments: Modelling arguments.
         """
 
         self.__data = data.copy()
-        self.__stamp = stamp
+        self.__arguments = arguments
 
         # Configurations
         self.__configurations = config.Config()
-        self.__storage = os.path.join(self.__configurations.artefacts_, self.__stamp, 'data')
-        
-    def __persist(self, blob: pd.DataFrame, name: str) -> None:
-        """
-
-        :param blob:
-        :param name:
-        :return:
-        """
-        
-        pathstr = os.path.join(self.__storage, f'{name}.csv')
-
-        # Ascertain the existence of the target directory, then save.
-        src.functions.directories.Directories().create(path=os.path.dirname(pathstr))
-        message = src.functions.streams.Streams().write(blob=blob, path=pathstr)
-
-        # Message
-        logging.info(message)
 
     @dask.delayed
-    def __features(self, code: str):
+    def __features(self, code: str) -> pd.DataFrame:
         """
 
         :param code:
@@ -56,10 +34,9 @@ class Features:
         """
 
         blob = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
-
         blob['ln'] = np.log(blob['n_attendances'].to_numpy())
-        blob['d_of_ln'] = blob['ln'].diff(periods=self.__configurations.seasons)
-        blob['d_of_ln'] = blob['d_of_ln'].diff(periods=self.__configurations.trends)
+        blob['sa'] = blob['ln'].diff(periods=self.__arguments['seasons'])
+        blob['dt'] = blob['sa'].diff(periods=self.__arguments['trends'])
 
         # Sort
         blob.sort_values(by='week_ending_date', ascending=True, inplace=True)
@@ -83,8 +60,5 @@ class Features:
 
         # Structure
         blob = pd.concat(calculations, axis=0, ignore_index=True)
-
-        # Persist
-        self.__persist(blob=blob, name='data')
 
         return blob
