@@ -1,8 +1,10 @@
 """Module setup.py"""
+import sys
 
 import config
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
+import src.functions.cache
 import src.functions.directories
 import src.s3.bucket
 import src.s3.keys
@@ -88,4 +90,8 @@ class Setup:
         :return:
         """
 
-        return self.__s3() & self.__local()
+        if self.__s3() & self.__local():
+            return True
+
+        src.functions.cache.Cache().exc()
+        sys.exit('No Executions')
