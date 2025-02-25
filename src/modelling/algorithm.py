@@ -7,7 +7,7 @@ import pymc
 import pymc.sampling.jax
 
 import config
-import src.modelling.difference.marginals
+import src.modelling.marginals
 
 
 class Algorithm:
@@ -21,7 +21,7 @@ class Algorithm:
         """
 
         self.__configurations = config.Config()
-        self.__marginals = src.modelling.difference.marginals.Marginals()
+        self.__marginals = src.modelling.marginals.Marginals()
 
     def exc(self, n_lags: int, n_equations: int, data: pd.DataFrame, leaves: str, prior_checks: bool = False):
         """
