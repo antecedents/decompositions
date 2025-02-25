@@ -9,17 +9,17 @@ class Interface:
     Interface
     """
 
-    def __init__(self, training: pd.DataFrame, connector: boto3.session.Session, stamp: str):
+    def __init__(self, training: pd.DataFrame, testing: pd.DataFrame, connector: boto3.session.Session):
         """
 
         :param training:
+        :param testing:
         :param connector:
-        :param stamp:
         """
 
         self.__training = training
+        self.__testing = testing
         self.__connector = connector
-        self.__stamp = stamp
 
     def __get_data(self, code: str) -> pd.DataFrame:
         """
