@@ -12,32 +12,29 @@ class Interface:
     Interface
     """
 
-    def __init__(self, connector: boto3.session.Session, stamp: str):
+    def __init__(self, training: pd.DataFrame, connector: boto3.session.Session, stamp: str):
         """
-
+        
+        :param training:
+        :param connector:
         :param stamp:
         """
 
+        self.__training = training
         self.__connector = connector
         self.__stamp = stamp
 
-    def __arguments(self) -> dict:
+    def __get_data(self, code: str) -> pd.DataFrame:
         """
 
+        :param code:
         :return:
         """
 
-        return src.s3.configurations.Configurations(connector=self.__connector).objects(
-            key_name=('architecture' + 'single' + '/' + 'difference' + 'arguments.json')
-        )
+        frame: pd.DataFrame = self.__training.loc[self.__training['hospital_code'] == code, :]
+        frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
 
-    def exc(self, data: pd.DataFrame):
-        """
+        return frame
 
-        :return:
-        """
-
-        arguments = self.__arguments()
-
-        # Splits
-        training, testing = src.data.splits.Splits(data=data).exc()
+    def exc(self):
+        pass
