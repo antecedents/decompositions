@@ -34,9 +34,6 @@ class Splits:
         """
 
         blob = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
-
-        # Exclude NaN instances vis-a-vis `dt`
-        blob: pd.DataFrame = blob.copy().loc[blob['dt'].notna(), :]
         blob.sort_values(by='week_ending_date', ascending=True, inplace=True)
 
         return blob
