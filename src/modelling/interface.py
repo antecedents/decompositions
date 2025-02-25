@@ -1,10 +1,9 @@
 """Module interface.py"""
-import logging
 
 import boto3
 import pandas as pd
 
-import src.modelling.splits
+import src.data.splits
 import src.s3.configurations
 
 
@@ -41,4 +40,4 @@ class Interface:
         arguments = self.__arguments()
 
         # Splits
-        training, testing = src.modelling.splits.Splits(data=data).exc()
+        training, testing = src.data.splits.Splits(data=data).exc()
