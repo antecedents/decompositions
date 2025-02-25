@@ -9,10 +9,12 @@ class Boundaries:
     Boundaries
     """
 
-    def __init__(self):
+    def __init__(self, arguments: dict):
         """
         Constructor
         """
+
+        self.__arguments = arguments
 
         self.__configurations = config.Config()
 
@@ -24,8 +26,8 @@ class Boundaries:
         """
 
         lower = np.percentile(
-            d_ppc[-self.__configurations.ahead:,:,0], min(self.__configurations.interval), axis=1)
+            d_ppc[-self.__arguments['ahead']:,:,0], min(self.__arguments['interval']), axis=1)
         upper = np.percentile(
-            d_ppc[-self.__configurations.ahead:,:,0], max(self.__configurations.interval), axis=1)
+            d_ppc[-self.__arguments['ahead']:,:,0], max(self.__arguments['interval']), axis=1)
 
         return lower, upper
