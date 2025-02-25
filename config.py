@@ -21,8 +21,8 @@ class Config:
         <a href="https://otexts.com/fpp2/stationarity.html">Stationarity</a>
         """
 
-        self.warehouse = os.path.join(os.getcwd(), 'warehouse')
-        self.artefacts_ = os.path.join(self.warehouse, 'artefacts')
+        self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
+        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts')
 
         # Configuration files
         self.s3_parameters_key = 's3_parameters.yaml'
@@ -37,4 +37,4 @@ class Config:
         now = datetime.datetime.now()
         offset = (now.weekday() - 1) % 7
         tuesday = now - datetime.timedelta(days=offset)
-        self.stamp = tuesday.strftime('%Y-%m-%d')
+        self.stamp: str = tuesday.strftime('%Y-%m-%d')
