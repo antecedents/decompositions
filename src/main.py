@@ -16,13 +16,12 @@ def main():
     stamp = config.Config().stamp
     logger.info('Latest Tuesday: %s', stamp)
 
-    '''
-    Set up
-    '''
-    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
-    if setup:
-        data = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
-        data.info()
+    # Setting up
+    src.setup.Setup(service=service, s3_parameters=s3_parameters, stamp=stamp).exc()
+
+    # Steps
+    data = src.data.interface.Interface(s3_parameters=s3_parameters).exc(stamp=stamp)
+    data.info()
 
     '''
     Cache
@@ -47,6 +46,7 @@ if __name__ == '__main__':
     import src.functions.cache
     import src.functions.service
     import src.modelling.interface
+    import src.s3.configurations
     import src.s3.s3_parameters
     import src.setup
 
@@ -54,5 +54,9 @@ if __name__ == '__main__':
     connector = boto3.session.Session()
     s3_parameters = src.s3.s3_parameters.S3Parameters(connector=connector).exc()
     service = src.functions.service.Service(connector=connector, region_name=s3_parameters.region_name).exc()
+
+    # Modelling arguments
+    arguments = src.s3.configurations.Configurations(connector=connector).objects(
+        key_name=('architecture' + '/' + 'single' + '/' + 'difference' + '/' + 'arguments.json'))
 
     main()
