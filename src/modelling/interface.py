@@ -14,7 +14,7 @@ class Interface:
 
     def __init__(self, training: pd.DataFrame, connector: boto3.session.Session, stamp: str):
         """
-        
+
         :param training:
         :param connector:
         :param stamp:
