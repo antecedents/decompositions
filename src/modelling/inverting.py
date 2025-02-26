@@ -7,8 +7,8 @@ class Inverting:
         self.__master = master
         self.__arguments = arguments
 
-    def __times(self):
+    def __indices(self):
 
-        times = self.__master.index.append(
+        return self.__master.index.append(
             pd.date_range(start=self.__master.index.max(), periods=self.__arguments['ahead'] + 1,
                           freq='W', inclusive='right'))
