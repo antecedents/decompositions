@@ -19,3 +19,6 @@ class Inverting:
         # Append estimates
         starting: np.ndarray = self.__master['dt'].to_numpy()
         points = np.concatenate((starting, values))
+
+    def __re_season(self):
+        pass
