@@ -3,23 +3,25 @@
 import boto3
 import pandas as pd
 
+import src.modelling.algorithm
+
 
 class Interface:
     """
     Interface
     """
 
-    def __init__(self, training: pd.DataFrame, testing: pd.DataFrame, connector: boto3.session.Session):
+    def __init__(self, training: pd.DataFrame, testing: pd.DataFrame, arguments: dict):
         """
 
         :param training:
         :param testing:
-        :param connector:
+        :param arguments:
         """
 
         self.__training = training
         self.__testing = testing
-        self.__connector = connector
+        self.__arguments = arguments
 
     def __get_data(self, code: str) -> pd.DataFrame:
         """
@@ -34,4 +36,10 @@ class Interface:
         return frame
 
     def exc(self):
-        pass
+
+        algorithm = src.modelling.algorithm.Algorithm(arguments=self.__arguments)
+
+        for code in self.__training['hospital_code']:
+
+            data = self.__get_data(code=code)
+            model, details = algorithm.exc(data=data)
