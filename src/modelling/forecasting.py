@@ -12,7 +12,7 @@ class Forecasting:
         ending = n_instances + self.__arguments['ahead']
 
         with model:
-            
+
             model.add_coords({'id_estimating': range(starting, ending, 1)})
             model.add_coords({'id_forecasting': range(n_instances, ending, 1)})
 
@@ -22,3 +22,6 @@ class Forecasting:
                 rho=model['coefficients'],
                 sigma=model['sigma'],
                 constant=True, dims='id_estimating')
+
+            start: int = self.__arguments['n_lags']
+            pymc.StudentT('future', mu=arc[start:], sigma=model['sigma'], nu=model['degree'], dims='id_forecasting')
