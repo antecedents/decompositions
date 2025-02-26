@@ -1,4 +1,5 @@
 import pymc
+import arviz
 
 class Forecasting:
 
@@ -6,7 +7,7 @@ class Forecasting:
 
         self.__arguments = arguments
 
-    def exc(self, model: pymc.model.core.Model, n_instances: int):
+    def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData, n_instances: int):
 
         starting = n_instances - self.__arguments['n_lags']
         ending = n_instances + self.__arguments['ahead']
@@ -25,3 +26,9 @@ class Forecasting:
 
             start: int = self.__arguments['n_lags']
             pymc.StudentT('future', mu=arc[start:], sigma=model['sigma'], nu=model['degree'], dims='id_forecasting')
+
+            # Predict outcomes and probabilities via the updated values
+            predictions = pymc.sample_posterior_predictive(
+                details, var_names=['likelihood', 'future'], predictions=True, random_seed=self.__arguments['seed'])
+
+        return predictions
