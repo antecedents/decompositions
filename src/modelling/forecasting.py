@@ -1,13 +1,29 @@
-import pymc
+"""Module forecasting.py"""
 import arviz
+import pymc
+
 
 class Forecasting:
+    """
+    Forecasting
+    """
 
     def __init__(self, arguments: dict):
+        """
+
+        :param arguments:
+        """
 
         self.__arguments = arguments
 
     def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData, n_instances: int):
+        """
+
+        :param model:
+        :param details:
+        :param n_instances:
+        :return:
+        """
 
         starting = n_instances - self.__arguments['n_lags']
         ending = n_instances + self.__arguments['ahead']
