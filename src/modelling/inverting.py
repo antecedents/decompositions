@@ -14,7 +14,7 @@ class Inverting:
             pd.date_range(start=self.__master.index.max(), periods=self.__arguments['ahead'] + 1,
                           freq='W', inclusive='right'))
 
-    def __invert(self, values: np.ndarray):
+    def __re_trend(self, values: np.ndarray):
 
         # Append estimates
         starting: np.ndarray = self.__master['dt'].to_numpy()
