@@ -12,5 +12,13 @@ class Forecasting:
         ending = n_instances + self.__arguments['ahead']
 
         with model:
+            
             model.add_coords({'id_estimating': range(starting, ending, 1)})
             model.add_coords({'id_forecasting': range(n_instances, ending, 1)})
+
+            arc = pymc.AR(
+                'arc',
+                init_dist=pymc.DiracDelta.dist(model['ar'][..., -1]),
+                rho=model['coefficients'],
+                sigma=model['sigma'],
+                constant=True, dims='id_estimating')
