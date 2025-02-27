@@ -38,3 +38,7 @@ class Config:
         offset = (now.weekday() - 1) % 7
         tuesday = now - datetime.timedelta(days=offset)
         self.stamp: str = tuesday.strftime('%Y-%m-%d')
+
+        # The prefix.ending.string & key.name of the modelling data; ref.
+        #   s3:// {bucket} / {prefix.starting.string} / {prefix.ending.string} / {key.name}
+        self.modelling_ = f'modelling/{self.stamp}.csv'
