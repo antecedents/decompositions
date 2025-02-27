@@ -19,7 +19,8 @@ class Algorithm:
         Constructor
         """
 
-        self.__priors: dict = arguments.get('priors')
+        self.__arguments = arguments
+        self.__priors: dict = self.__arguments.get('priors')
 
         # Configurations
         self.__configurations = config.Config()
@@ -69,8 +70,8 @@ class Algorithm:
             pymc.StudentT('likelihood', mu=process, sigma=sigma, nu=degree, observed=observations, dims='id_instances')
 
             # Sampling
-            details = pymc.sample_prior_predictive()
-            details.extend(pymc.sample(3000, random_seed=100, target_accept=0.95))
-            details.extend(pymc.sample_posterior_predictive(details))
+            details = pymc.sample_prior_predictive(random_seed=self.__arguments.get('seed'))
+            details.extend(pymc.sample(3000, random_seed=self.__arguments.get('seed'), target_accept=0.95))
+            details.extend(pymc.sample_posterior_predictive(details, random_seed=self.__arguments.get('seed')))
 
         return model, details
