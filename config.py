@@ -50,7 +50,9 @@ class Config:
         Local Paths
         '''
         self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
-        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts')
+        self.artefacts_data: str = os.path.join(self.warehouse, 'artefacts', self.stamp, 'data')
+        self.artefacts_models: str = os.path.join(self.warehouse, 'artefacts', self.stamp, 'models')
+        self.artefacts_: list = [self.artefacts_data, self.artefacts_models]
 
 
         '''
