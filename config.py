@@ -15,30 +15,47 @@ class Config:
 
     def __init__(self) -> None:
         """
-        Notes<br>
-        -------<br>
+        <b>Notes</b><br>
+        ------<br>
 
-        <a href="https://otexts.com/fpp2/stationarity.html">Stationarity</a>
+        Variables denoting a path - including or excluding a filename - have an underscore suffix; this suffix is
+        excluded for names such as warehouse, storage, depository, *key, etc.<br><br>
+
         """
 
-        self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
-        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts')
-
-        # Configuration files
-        self.s3_parameters_key = 's3_parameters.yaml'
-
-        # Fields
-        self.fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
-
-        # Cut-off, boundary.
-        self.boundary = '2020-06-01'
-
-        # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
+        '''
+        Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence 
+        now.weekday() - 1
+        '''
         now = datetime.datetime.now()
         offset = (now.weekday() - 1) % 7
         tuesday = now - datetime.timedelta(days=offset)
         self.stamp: str = tuesday.strftime('%Y-%m-%d')
 
-        # The prefix.ending.string & key.name of the modelling data; ref.
-        #   s3:// {bucket} / {prefix.starting.string} / {prefix.ending.string} / {key.name}
-        self.modelling_ = f'modelling/{self.stamp}.csv'
+
+        '''
+        The prefix.ending.string & key.name of the modelling data; ref.
+            s3:// {bucket} / {prefix.starting.string} / {prefix.ending.string} / {key.name}
+        '''
+        self.data_ = f'modelling/{self.stamp}.csv'
+
+
+        '''
+        The key of the Amazon S3 (Simple Storage Service) parameters.
+        '''
+        self.s3_parameters_key = 's3_parameters.yaml'
+
+
+        '''
+        Local Paths
+        '''
+        self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
+        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts')
+
+
+        '''
+        Extra
+        The <boundary> is a possible data start-point cut-off, boundary.
+        '''
+        self.fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
+        self.boundary = '2020-06-01'
