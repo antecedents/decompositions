@@ -16,7 +16,7 @@ class Forecasting:
 
         self.__arguments = arguments
 
-    def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData):
+    def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData) -> arviz.data.InferenceData:
         """
 
         :param model:
