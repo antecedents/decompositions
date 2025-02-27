@@ -1,14 +1,15 @@
 """Module interface.py"""
 import os
 import typing
+
 import pandas as pd
 
 import config
+import src.data.features
+import src.data.splits
 import src.elements.s3_parameters as s3p
 import src.elements.text_attributes as txa
 import src.functions.streams
-import src.data.features
-import src.data.splits
 
 
 class Interface:
@@ -43,8 +44,8 @@ class Interface:
         :return:
         """
 
-        uri = ('s3://' + self.__s3_parameters.internal + '/' +
-                      self.__s3_parameters.path_internal_data + f'modelling/{self.__configurations.stamp}.csv')
+        uri = ('s3://' + self.__s3_parameters.internal + '/' + self.__s3_parameters.path_internal_data +
+               self.__configurations.modelling_)
 
         text = txa.TextAttributes(uri=uri, header=0)
 
