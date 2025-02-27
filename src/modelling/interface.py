@@ -39,7 +39,7 @@ class Interface:
 
         algorithm = src.modelling.algorithm.Algorithm(arguments=self.__arguments)
 
-        for code in self.__training['hospital_code']:
+        for code in self.__training['hospital_code'].unique():
 
             data = self.__get_data(code=code)
             model, details = algorithm.exc(data=data)
