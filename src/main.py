@@ -51,7 +51,7 @@ if __name__ == '__main__':
     import src.s3.s3_parameters
     import src.setup
 
-    # S3 S3Parameters, Service Instance
+    # Amazon: Connector, S3 Parameters, Service
     connector = boto3.session.Session()
     s3_parameters = src.s3.s3_parameters.S3Parameters(connector=connector).exc()
     service = src.functions.service.Service(connector=connector, region_name=s3_parameters.region_name).exc()
