@@ -16,7 +16,8 @@ class Setup:
     Description
     -----------
 
-    Sets up local & cloud environments
+    Sets up local & cloud environments.  <b>If</b> the setting up of the local & cloud environments fail, the
+    package exits here.
     """
 
     def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters):
