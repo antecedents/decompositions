@@ -50,7 +50,8 @@ class Algorithm:
 
             # Initialisation per non-constant coefficient
             init = pymc.Normal.dist(
-                self.__priors['init']['mu'], self.__priors['init']['sigma'], size=self.__priors['init']['size']
+                self.__priors.get('init').get('mu'), self.__priors.get('init').get('sigma'),
+                size=self.__priors.get('init').get('size')
             )
 
             # Autoregressive process with p lags; lags = self.__priors['coefficients']['size'] - 1
