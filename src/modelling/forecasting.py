@@ -25,14 +25,18 @@ class Forecasting:
         """
 
         n_instances = details.get('observed_data').get('id_instances').shape[0]
+
+        # Start by centring vis-à-vis the last lag cycle
         starting = n_instances - self.__arguments['n_lags']
         ending = n_instances + self.__arguments['ahead']
 
+        # Predicting
         with model:
 
             model.add_coords({'id_estimating': range(starting, ending, 1)})
             model.add_coords({'id_forecasting': range(n_instances, ending, 1)})
 
+            # Auto-regression
             arc = pymc.AR(
                 'arc',
                 init_dist=pymc.DiracDelta.dist(model['ar'][..., -1]),
@@ -40,8 +44,10 @@ class Forecasting:
                 sigma=model['sigma'],
                 constant=True, dims='id_estimating')
 
-            start: int = self.__arguments['n_lags']
-            pymc.StudentT('future', mu=arc[start:], sigma=model['sigma'], nu=model['degree'], dims='id_forecasting')
+            # The futures likelihood
+            pymc.StudentT(
+                'future', mu=arc[self.__arguments.get('n_lags'):],
+                sigma=model['sigma'], nu=model['degree'], dims='id_forecasting')
 
             # Predict outcomes and probabilities via the updated values
             predictions = pymc.sample_posterior_predictive(
