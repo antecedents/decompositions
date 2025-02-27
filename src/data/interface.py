@@ -1,5 +1,6 @@
 """Module interface.py"""
 import os
+import logging
 import typing
 
 import pandas as pd
@@ -34,8 +35,7 @@ class Interface:
         # Configurations
         self.__configurations = config.Config()
 
-        # Persist
-        self.__storage: str = os.path.join(self.__configurations.artefacts_, self.__configurations.stamp, 'data')
+        # An instance for writing/reading CSV (comma-separated values) files
         self.__streams = src.functions.streams.Streams()
 
     def __get_data(self) -> pd.DataFrame:
@@ -45,8 +45,7 @@ class Interface:
         """
 
         uri = ('s3://' + self.__s3_parameters.internal + '/' + self.__s3_parameters.path_internal_data +
-               self.__configurations.modelling_)
-
+               self.__configurations.data_)
         text = txa.TextAttributes(uri=uri, header=0)
 
         return self.__streams.read(text=text)
@@ -72,7 +71,7 @@ class Interface:
         """
 
         return src.functions.streams.Streams().write(
-            blob=blob, path=os.path.join(self.__storage, f'{name}.csv'))
+            blob=blob, path=os.path.join(self.__configurations.artefacts_data, f'{name}.csv'))
 
     def exc(self) -> typing.Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
@@ -87,5 +86,11 @@ class Interface:
         # Features, Splits
         data = src.data.features.Features(data=data.copy(), arguments=self.__arguments).exc()
         training, testing = src.data.splits.Splits(data=data.copy(), arguments=self.__arguments).exc()
+
+        # Persist
+        computations: list[str] = [
+            self.__persist(blob=data, name='data'), self.__persist(blob=training, name='training'),
+            self.__persist(blob=testing, name='testing')]
+        logging.info(computations)
 
         return data, training, testing
