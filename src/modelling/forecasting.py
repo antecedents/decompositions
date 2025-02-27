@@ -16,15 +16,15 @@ class Forecasting:
 
         self.__arguments = arguments
 
-    def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData, n_instances: int):
+    def exc(self, model: pymc.model.core.Model, details: arviz.data.InferenceData):
         """
 
         :param model:
         :param details:
-        :param n_instances:
         :return:
         """
 
+        n_instances = details.get('observed_data').get('id_instances').shape[0]
         starting = n_instances - self.__arguments['n_lags']
         ending = n_instances + self.__arguments['ahead']
 
