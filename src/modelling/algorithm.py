@@ -57,7 +57,7 @@ class Algorithm:
             # Autoregressive process with p lags; lags = self.__priors['coefficients']['size'] - 1
             process = pymc.AR(
                 'ar', coefficients, sigma=sigma, init_dist=init, constant=True,
-                steps=points.eval().shape[0] - (self.__priors['coefficients']['size'] - 1),
+                steps=points.eval().shape[0] - (self.__priors.get('coefficients').get('size') - 1),
                 dims='id_instances')
 
             # Likelihood prior
