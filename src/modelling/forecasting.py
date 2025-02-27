@@ -27,8 +27,8 @@ class Forecasting:
         n_instances = details.get('observed_data').get('id_instances').shape[0]
 
         # Start by centring vis-à-vis the last lag cycle
-        starting = n_instances - self.__arguments['n_lags']
-        ending = n_instances + self.__arguments['ahead']
+        starting = n_instances - self.__arguments.get('n_lags')
+        ending = n_instances + self.__arguments.get('ahead')
 
         # Predicting
         with model:
@@ -51,6 +51,6 @@ class Forecasting:
 
             # Predict outcomes and probabilities via the updated values
             predictions = pymc.sample_posterior_predictive(
-                details, var_names=['likelihood', 'future'], predictions=True, random_seed=self.__arguments['seed'])
+                details, var_names=['likelihood', 'future'], predictions=True, random_seed=self.__arguments.get('seed'))
 
         return predictions
