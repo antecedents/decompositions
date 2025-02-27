@@ -46,7 +46,7 @@ class Splits:
         :return:
         """
 
-        return blob.copy()[:-self.__arguments['ahead']]
+        return blob.copy()[:-self.__arguments.get('ahead')]
 
     @dask.delayed
     def __exclude(self, blob: pd.DataFrame) -> pd.DataFrame:
@@ -57,7 +57,7 @@ class Splits:
         :return:
         """
 
-        return blob.copy()[-self.__arguments['ahead']:]
+        return blob.copy()[-self.__arguments.get('ahead'):]
 
     def exc(self) -> typing.Tuple[pd.DataFrame, pd.DataFrame]:
         """
