@@ -35,8 +35,8 @@ class Features:
 
         blob = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
         blob['ln'] = np.log(blob['n_attendances'].to_numpy())
-        blob['sa'] = blob['ln'].diff(periods=self.__arguments['seasons'])
-        blob['dt'] = blob['sa'].diff(periods=self.__arguments['trends'])
+        blob['sa'] = blob['ln'].diff(periods=self.__arguments.get('seasons'))
+        blob['dt'] = blob['sa'].diff(periods=self.__arguments.get('trends'))
 
         # Sort
         blob.sort_values(by='week_ending_date', ascending=True, inplace=True)
