@@ -19,8 +19,9 @@ class Algorithm:
         Constructor
         """
 
-        self.__priors = arguments['priors']
+        self.__priors: dict = arguments.get('priors')
 
+        # Configurations
         self.__configurations = config.Config()
 
     def exc(self, data: pd.DataFrame) -> typing.Tuple[pymc.model.core.Model, arviz.data.InferenceData]:
@@ -42,12 +43,12 @@ class Algorithm:
 
             # Setting priors for each coefficient in the AR process
             coefficients = pymc.Normal(
-                'coefficients', mu=self.__priors['coefficients']['mu'],
-                sigma=self.__priors['coefficients']['sigma'], size=self.__priors['coefficients']['size'])
-            sigma = pymc.HalfNormal('sigma', self.__priors['sigma'])
-            degree = pymc.Uniform('degree', lower=self.__priors['degree']['lower'], upper=self.__priors['degree']['upper'])
+                'coefficients', mu=self.__priors.get('coefficients').get('mu'),
+                sigma=self.__priors.get('coefficients').get('sigma'),
+                size=self.__priors.get('coefficients').get('size'))
+            sigma = pymc.HalfNormal('sigma', self.__priors.get('sigma'))
 
-            # Initialisation per ...
+            # Initialisation per non-constant coefficient
             init = pymc.Normal.dist(
                 self.__priors['init']['mu'], self.__priors['init']['sigma'], size=self.__priors['init']['size']
             )
@@ -58,12 +59,16 @@ class Algorithm:
                 steps=points.eval().shape[0] - (self.__priors['coefficients']['size'] - 1),
                 dims='id_instances')
 
+            # Likelihood prior
+            degree = pymc.Uniform(
+                'degree', lower=self.__priors.get('degree').get('lower'),
+                upper=self.__priors.get('degree').get('upper'))
+
             # Likelihood
             pymc.StudentT('likelihood', mu=process, sigma=sigma, nu=degree, observed=observations, dims='id_instances')
 
             # Sampling
             details = pymc.sample_prior_predictive()
-
             details.extend(pymc.sample(3000, random_seed=100, target_accept=0.95))
             details.extend(pymc.sample_posterior_predictive(details))
 
