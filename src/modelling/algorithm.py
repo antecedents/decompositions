@@ -32,13 +32,13 @@ class Algorithm:
 
         timings = list(range(data.shape[0]))
 
-        coords = {'obs_id': timings}
+        coords = {'id_instances': timings}
 
         with pymc.Model(coords=coords) as model:
 
             # The data containers
-            points = pymc.Data('points', timings, dims='obs_id')
-            observations = pymc.Data('observations', data['dt'].to_numpy(), dims='obs_id')
+            points = pymc.Data('points', timings, dims='id_instances')
+            observations = pymc.Data('observations', data['dt'].to_numpy(), dims='id_instances')
 
             # Setting priors for each coefficient in the AR process
             coefficients = pymc.Normal(
@@ -56,10 +56,10 @@ class Algorithm:
             process = pymc.AR(
                 'ar', coefficients, sigma=sigma, init_dist=init, constant=True,
                 steps=points.eval().shape[0] - (self.__priors['coefficients']['size'] - 1),
-                dims='obs_id')
+                dims='id_instances')
 
             # Likelihood
-            pymc.StudentT('likelihood', mu=process, sigma=sigma, nu=degree, observed=observations, dims='obs_id')
+            pymc.StudentT('likelihood', mu=process, sigma=sigma, nu=degree, observed=observations, dims='id_instances')
 
             # Sampling
             details = pymc.sample_prior_predictive()
