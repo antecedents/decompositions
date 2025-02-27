@@ -33,14 +33,8 @@ class Interface:
         # Configurations
         self.__configurations = config.Config()
 
-        # The data sets' uniform resource identifier
-        self.__uri = ('s3://' + self.__s3_parameters.internal + '/' +
-               self.__s3_parameters.path_internal_data + f'raw/{self.__configurations.stamp}.csv')
-
-        # Storage
+        # Persist
         self.__storage: str = os.path.join(self.__configurations.artefacts_, self.__configurations.stamp, 'data')
-
-        # Instances
         self.__streams = src.functions.streams.Streams()
 
     def __get_data(self) -> pd.DataFrame:
@@ -49,12 +43,24 @@ class Interface:
         :return:
         """
 
-        text = txa.TextAttributes(uri=self.__uri, header=0)
-        frame = self.__streams.read(text=text)
-        frame['week_ending_date'] = pd.to_datetime(
-            frame['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
+        uri = ('s3://' + self.__s3_parameters.internal + '/' +
+                      self.__s3_parameters.path_internal_data + f'modelling/{self.__configurations.stamp}.csv')
 
-        return frame[self.__configurations.fields]
+        text = txa.TextAttributes(uri=uri, header=0)
+
+        return self.__streams.read(text=text)
+
+    def __structure(self, blob: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param blob:
+        :return:
+        """
+
+        blob['week_ending_date'] = pd.to_datetime(
+            blob['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
+
+        return blob[self.__configurations.fields]
 
     def __persist(self, blob: pd.DataFrame, name: str) -> str:
         """
@@ -75,6 +81,7 @@ class Interface:
 
         # The data
         data = self.__get_data()
+        data = self.__structure(blob=data.copy())
 
         # Features, Splits
         data = src.data.features.Features(data=data.copy(), arguments=self.__arguments).exc()
