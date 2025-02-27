@@ -13,6 +13,7 @@ def main():
     """
 
     logger: logging.Logger = logging.getLogger(__name__)
+    logger.info(arguments)
 
     # Setting up
     src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
