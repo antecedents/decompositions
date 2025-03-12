@@ -1,11 +1,8 @@
 """Module algorithm.py"""
-import logging
 import os
 import typing
 
 import arviz
-# noinspection PyUnresolvedReferences
-import jax
 import numpy as np
 import pandas as pd
 import pymc
@@ -29,25 +26,6 @@ class Algorithm:
         self.__training = training
         self.__sequence = self.__training['trend'].to_numpy()
         self.__indices = np.expand_dims(np.arange(self.__training.shape[0]), axis=1)
-
-    @staticmethod
-    def __chains(trend: dict) -> int:
-        """
-        Ensures the chains value is in line with processing units
-        numbers, and computation logic.
-
-        :param trend: The trend component node of the modelling & supplementary arguments
-        :return:
-        """
-
-        if (trend.get('chain_method') == 'parallel') & (str(jax.local_devices()[0]).startswith('cuda')):
-            chains = jax.device_count(backend='gpu')
-        else:
-            chains = trend.get('chains')
-
-        logging.info('CHAINS: %s', chains)
-
-        return chains
 
     # noinspection PyTypeChecker
     # pylint: disable-next=R0914
@@ -100,7 +78,7 @@ class Algorithm:
             details_ = pymc.sample(
                 draws=trend.get('draws'),
                 tune=trend.get('tune'),
-                chains=self.__chains(trend=trend),
+                chains=trend.get('chains'),
                 target_accept=trend.get('target_accept'),
                 random_seed=arguments.get('seed'),
                 nuts_sampler=trend.get('nuts_sampler'),
