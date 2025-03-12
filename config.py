@@ -1,6 +1,7 @@
 """
 Module config.py
 """
+import logging
 import datetime
 import os
 
@@ -31,13 +32,16 @@ class Config:
         offset = (now.weekday() - 1) % 7
         tuesday = now - datetime.timedelta(days=offset)
         self.stamp: str = tuesday.strftime('%Y-%m-%d')
+        logging.info(self.stamp)
 
 
         '''
         The prefix.ending.string & key.name of the modelling data; ref.
             s3:// {bucket} / {prefix.starting.string} / {prefix.ending.string} / {key.name}
+        Additionally, the path to the artefacts metadata.
         '''
-        self.data_ = f'modelling/{self.stamp}.csv'
+        self.source = f'modelling/{self.stamp}.csv'
+        self.artefacts_metadata_ = 'artefacts/metadata'
 
 
         '''
@@ -50,9 +54,7 @@ class Config:
         Local Paths
         '''
         self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
-        self.artefacts_data: str = os.path.join(self.warehouse, 'artefacts', self.stamp, 'data')
-        self.artefacts_models: str = os.path.join(self.warehouse, 'artefacts', self.stamp, 'models')
-        self.artefacts_: list = [self.artefacts_data, self.artefacts_models]
+        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts', self.stamp)
 
 
         '''
