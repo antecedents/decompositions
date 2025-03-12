@@ -33,7 +33,7 @@ class Setup:
 
         # Configurations, etc.
         self.__configurations = config.Config()
-        self.__prefix = s3_parameters.path_internal_artefacts + '/' + self.__configurations.stamp
+        self.__prefix = s3_parameters.path_internal_artefacts + self.__configurations.stamp
 
         # Instances
         self.__directories = src.functions.directories.Directories()
@@ -82,10 +82,7 @@ class Setup:
 
         self.__directories.cleanup(path=self.__configurations.warehouse)
 
-        states = [self.__directories.create(path=path)
-                  for path in self.__configurations.artefacts_]
-
-        return all(states)
+        return self.__directories.create(path=self.__configurations.warehouse)
 
     def exc(self) -> bool:
         """
