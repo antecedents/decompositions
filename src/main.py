@@ -25,7 +25,7 @@ def main():
     data = src.data.interface.Interface(s3_parameters=s3_parameters).exc()
 
     # Modelling
-    src.modelling.interface.Interface(
+    masters = src.modelling.interface.Interface(
       data=data, arguments=arguments).exc()
 
     # Transfer
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     jax.config.update('jax_enable_x64', True)
 
     numpyro.set_platform('cpu')
-    numpyro.set_host_device_count(jax.device_count(backend='cpu'))
+    numpyro.set_host_device_count(os.cpu_count())
 
     # Environment Variables
     environment.Environment(arguments=arguments)
