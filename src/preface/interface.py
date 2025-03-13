@@ -15,7 +15,7 @@ import src.functions.service
 import src.modelling.interface
 import src.s3.configurations
 import src.s3.s3_parameters
-import src.setup
+import src.preface.setup
 import src.transfer.interface
 
 
@@ -79,7 +79,7 @@ class Interface:
         :return:
         """
 
-        src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
+        src.preface.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
 
     def exc(self) -> typing.Tuple[boto3.session.Session, s3p.S3Parameters, sr.Service, dict]:
         """
