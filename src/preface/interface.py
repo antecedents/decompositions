@@ -9,7 +9,7 @@ import typing
 
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
-import src.environment
+import src.preface.environment
 import src.data.interface
 import src.functions.cache
 import src.functions.service
@@ -39,7 +39,7 @@ class Interface:
         numpyro.set_platform('cpu')
         numpyro.set_host_device_count(os.cpu_count())
 
-        src.environment.Environment(arguments=arguments)
+        src.preface.environment.Environment(arguments=arguments)
 
     @staticmethod
     def __setting_up(service: sr.Service, s3_parameters: s3p.S3Parameters):
