@@ -3,11 +3,6 @@ import logging
 import os
 import sys
 
-import boto3
-import jax
-import numpyro
-import pytensor
-
 
 def main():
     """
@@ -36,11 +31,6 @@ if __name__ == '__main__':
     root = os.getcwd()
     sys.path.append(root)
     sys.path.append(os.path.join(root, 'src'))
-
-    # Logging
-    logging.basicConfig(level=logging.INFO,
-                        format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
-                        datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
     import src.data.interface
