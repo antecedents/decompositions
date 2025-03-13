@@ -14,3 +14,4 @@ if __name__ == '__main__':
 
     process = multiprocessing.Process(target=computations)
     process.start()
+    process.join()
