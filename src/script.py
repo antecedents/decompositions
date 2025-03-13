@@ -12,6 +12,7 @@ if __name__ == '__main__':
                         format='\n\n%(message)s\n%(asctime)s.%(msecs)03d\n\n',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
+    # .join() ensures script waits for <process> to terminate
     process = multiprocessing.Process(target=computations)
     process.start()
     process.join()
