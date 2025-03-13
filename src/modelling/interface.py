@@ -46,7 +46,7 @@ class Interface:
         if not all(directories):
             sys.exit('Missing Directories')
 
-    def exc(self):
+    def exc(self) -> list[mr.Master]:
         """
         Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
         
@@ -63,5 +63,4 @@ class Interface:
         masters: list[mr.Master] = src.modelling.initial.Initial(
             data=self.__data, codes=codes, arguments=self.__arguments).exc()
 
-        # Trend Component Modelling
-        src.modelling.core.Core(arguments=self.__arguments).exc(masters=masters)
+        return masters
