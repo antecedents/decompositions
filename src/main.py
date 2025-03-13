@@ -36,7 +36,6 @@ if __name__ == '__main__':
     import src.data.interface
     import src.functions.cache
     import src.modelling.interface
-    import src.setup
     import src.transfer.interface
     import src.preface.interface
 
