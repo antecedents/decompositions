@@ -13,7 +13,6 @@ import src.elements.service as sr
 import src.functions.cache
 import src.functions.service
 import src.modelling.interface
-import src.preface.environment
 import src.s3.configurations
 import src.s3.s3_parameters
 import src.setup
@@ -49,10 +48,9 @@ class Interface:
         return src.s3.configurations.Configurations(connector=connector).objects(key_name=key_name)
 
     @staticmethod
-    def __compute(arguments: dict):
+    def __compute():
         """
 
-        :param arguments:
         :return:
         """
 
@@ -62,7 +60,17 @@ class Interface:
         numpyro.set_platform('cpu')
         numpyro.set_host_device_count(os.cpu_count())
 
-        src.preface.environment.Environment(arguments=arguments)
+    def __states(self):
+        """
+
+        :return:
+        """
+
+        self.__logger.info('The number of CPU cores: %s', os.cpu_count())
+        self.__logger.info('Applicable Devices: %s', jax.local_device_count())
+        self.__logger.info('The default device (depends on the jax.config.update setting): %s', jax.local_devices()[0])
+        self.__logger.info('BLAS: %s', pytensor.config.blas__ldflags)
+
 
     @staticmethod
     def __setting_up(service: sr.Service, s3_parameters: s3p.S3Parameters):
@@ -85,12 +93,12 @@ class Interface:
         s3_parameters: s3p.S3Parameters = src.s3.s3_parameters.S3Parameters(connector=connector).exc()
         service: sr.Service = src.functions.service.Service(
             connector=connector, region_name=s3_parameters.region_name).exc()
+        arguments: dict = self.__get_arguments(connector=connector)
 
         pytensor.config.blas__ldflags = '-llapack -lblas -lcblas'
 
-        arguments: dict = self.__get_arguments(connector=connector)
-        self.__compute(arguments=arguments)
+        self.__compute()
+        self.__states()
         self.__setting_up(service=service, s3_parameters=s3_parameters)
-        self.__logger.info('BLAS: %s', pytensor.config.blas__ldflags)
 
         return connector, s3_parameters, service, arguments
