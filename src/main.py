@@ -7,7 +7,6 @@ import boto3
 import jax
 import numpyro
 import pytensor
-from etuples import arguments
 
 
 def main():
