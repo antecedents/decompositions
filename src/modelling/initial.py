@@ -8,7 +8,7 @@ import src.elements.master as mr
 import src.functions.directories
 import src.modelling.decompose
 import src.modelling.sc.interface
-import src.modelling.splits
+import src.modelling.split
 
 
 class Initial:
@@ -55,14 +55,14 @@ class Initial:
 
         # Additional delayed tasks
         decompose = dask.delayed(src.modelling.decompose.Decompose(arguments=self.__arguments).exc)
-        splits = dask.delayed(src.modelling.splits.Splits(arguments=self.__arguments).exc)
+        split = dask.delayed(src.modelling.split.Split(arguments=self.__arguments).exc)
         sc = dask.delayed(src.modelling.sc.interface.Interface(arguments=self.__arguments).exc)
 
         computations = []
         for code in self.__codes:
 
             data: pd.DataFrame = self.__get_data(code=code)
-            master: mr.Master = splits(data=data, code=code)
+            master: mr.Master = split(data=data, code=code)
             _master: mr.Master = decompose(master=master, code=code)
             master_: mr.Master | None = sc(master=_master, code=code)
             computations.append(master_)
