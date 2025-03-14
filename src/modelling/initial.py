@@ -45,10 +45,6 @@ class Initial:
 
     def exc(self) -> list[mr.Master]:
         """
-        1. get institution data
-        2. decompose institution data
-        3. split institution data
-        4. seasonal component modelling: naive model
 
         :return:
         """
