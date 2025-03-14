@@ -42,7 +42,8 @@ class Control:
             system = architecture.fit(fit_kwargs={'method': method, 'cov_type': covariance})
 
             query = (str(el[-1].message).__contains__('failed to converge') |
-                     str(el[-1].message).__contains__('did not converge'))
+                     str(el[-1].message).__contains__('did not converge') |
+                     str(el[-1].message).__contains__('error not necessarily achieved'))
 
             if query:
                 logging.info('Skip: %s, %s (method -> %s)',
