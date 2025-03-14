@@ -1,37 +1,68 @@
 """Module interface.py"""
 
-import boto3
+import os
+import sys
+
 import pandas as pd
+
+import config
+import src.elements.codes as ce
+import src.elements.master as mr
+import src.functions.directories
+import src.modelling.codes
+import src.modelling.core
+import src.modelling.initial
 
 
 class Interface:
     """
-    Interface
+    The interface to the seasonal & trend component modelling steps.
     """
 
-    def __init__(self, training: pd.DataFrame, testing: pd.DataFrame, connector: boto3.session.Session):
+    def __init__(self, data: pd.DataFrame, arguments: dict):
         """
 
-        :param training:
-        :param testing:
-        :param connector:
+        :param data: The weekly accidents & emergency data of institutions/hospitals
+        :param arguments: A set of model development, and supplementary, arguments.
         """
 
-        self.__training = training
-        self.__testing = testing
-        self.__connector = connector
+        self.__data = data
+        self.__arguments = arguments
 
-    def __get_data(self, code: str) -> pd.DataFrame:
+        # Instances
+        self.__configurations = config.Config()
+        self.__directories = src.functions.directories.Directories()
+
+    def __set_directories(self, codes: list[ce.Codes]):
         """
 
-        :param code:
+        :param codes: The unique set of health board & institution pairings.
         :return:
         """
 
-        frame: pd.DataFrame = self.__training.loc[self.__training['hospital_code'] == code, :]
-        frame.sort_values(by=['week_ending_date'], ascending=True, inplace=True)
+        directories = [self.__directories.create(os.path.join(self.__configurations.artefacts_, section, c.hospital_code))
+                       for section in ['data', 'models'] for c in codes]
 
-        return frame
+        if not all(directories):
+            sys.exit('Missing Directories')
 
     def exc(self):
-        pass
+        """
+        Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
+        
+        :return: 
+        """
+
+        # Codes: The unique set of health board & institution pairings.
+        codes: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+
+        # Directories: Each institution will have a directory within (a) a data directory, and (b) a models directory
+        self.__set_directories(codes=codes)
+
+        # Seasonal Component Modelling
+        masters: list[mr.Master] = src.modelling.initial.Initial(
+            data=self.__data, codes=codes, arguments=self.__arguments).exc()
+
+        # Trend Component Modelling
+        src.modelling.core.Core(
+            arguments=self.__arguments).exc(masters=masters)

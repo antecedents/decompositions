@@ -16,7 +16,8 @@ class Setup:
     Description
     -----------
 
-    Sets up local & cloud environments
+    Sets up local & cloud environments.  <b>If</b> the setting up of the local & cloud environments fail, the
+    package exits here.
     """
 
     def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters):
@@ -32,7 +33,7 @@ class Setup:
 
         # Configurations, etc.
         self.__configurations = config.Config()
-        self.__prefix = s3_parameters.path_internal_artefacts + '/' + self.__configurations.stamp
+        self.__prefix = s3_parameters.path_internal_artefacts + self.__configurations.stamp
 
         # Instances
         self.__directories = src.functions.directories.Directories()
@@ -81,7 +82,7 @@ class Setup:
 
         self.__directories.cleanup(path=self.__configurations.warehouse)
 
-        return self.__directories.create(path=self.__configurations.artefacts_)
+        return self.__directories.create(path=self.__configurations.warehouse)
 
     def exc(self) -> bool:
         """
