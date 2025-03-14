@@ -55,7 +55,6 @@ class Interface:
 
         # Codes: The unique set of health board & institution pairings.
         codes: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
-        codes = codes[:2]
 
         # Directories: Each institution will have a directory within (a) a data directory, and (b) a models directory
         self.__set_directories(codes=codes)
