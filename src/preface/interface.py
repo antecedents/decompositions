@@ -22,6 +22,10 @@ import src.transfer.interface
 class Interface:
     """
     Interface
+
+    https://docs.python.org/3/library/multiprocessing.html
+    https://superfastpython.com/multiprocessing-in-python
+    https://superfastpython.com/multiprocessing-pool-python/
     """
 
     def __init__(self):
