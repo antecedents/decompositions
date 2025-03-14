@@ -1,5 +1,4 @@
 """Module main.py"""
-import logging
 import os
 import sys
 
@@ -14,13 +13,12 @@ def main():
     data = src.data.interface.Interface(s3_parameters=s3_parameters).exc()
 
     # Modelling
-    masters = src.modelling.interface.Interface(
+    src.modelling.interface.Interface(
       data=data, arguments=arguments).exc()
-    logging.info(masters)
 
     # Transfer
     src.transfer.interface.Interface(
-       connector=connector, service=service, s3_parameters=s3_parameters).exc()
+        connector=connector, service=service, s3_parameters=s3_parameters).exc()
 
     # Cache
     src.functions.cache.Cache().exc()
