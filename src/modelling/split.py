@@ -44,13 +44,16 @@ class Split:
 
         return blob.copy()[-self.__arguments.get('ahead'):]
 
-    def __persist(self, blob: pd.DataFrame, pathstr: str) -> None:
+    def __persist(self, data: pd.DataFrame, pathstr: str) -> None:
         """
 
-        :param blob:
+        :param data:
         :param pathstr:
         :return:
         """
+
+        blob = data.copy()
+        blob.reset_index(drop=False, inplace=True)
 
         self.__streams.write(blob=blob, path=os.path.join(self.__root, pathstr))
 
@@ -70,6 +73,6 @@ class Split:
 
         # Persist
         for instances, name in zip([frame, training, testing], ['data.csv', 'training.csv', 'testing.csv']):
-            self.__persist(blob=instances, pathstr=os.path.join(code.hospital_code, name))
+            self.__persist(data=instances, pathstr=os.path.join(code.hospital_code, name))
 
         return mr.Master(training=training, testing=testing)
