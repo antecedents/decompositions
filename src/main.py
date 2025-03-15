@@ -1,6 +1,8 @@
 """Module main.py"""
 import os
 import sys
+import pytensor
+import numpyro
 
 
 def main():
@@ -29,6 +31,9 @@ if __name__ == '__main__':
     root = os.getcwd()
     sys.path.append(root)
     sys.path.append(os.path.join(root, 'src'))
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = ''
+    os.environ['OMP_NUM_THREADS'] = '1'
 
     # Classes
     import src.data.interface
