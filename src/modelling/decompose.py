@@ -65,8 +65,11 @@ class Decompose:
 
         # Decomposition Components
         frame = self.__add_components(frame=frame.copy())
+
+        # Save
+        blob = frame.copy().reset_index(drop=False)
         src.functions.streams.Streams().write(
-            blob=frame, path=os.path.join(self.__root, code.hospital_code, 'features.csv' ))
+            blob=blob, path=os.path.join(self.__root, code.hospital_code, 'features.csv' ))
 
         # Update/Replace
         master = master._replace(training=frame)
