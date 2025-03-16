@@ -1,5 +1,5 @@
 """Module core.py"""
-import logging
+
 import dask
 import dask.distributed
 
