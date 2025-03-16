@@ -6,6 +6,8 @@ import arviz
 import numpy as np
 import pandas as pd
 import pymc
+import pytensor
+import numpyro
 import pymc.sampling.jax
 
 
@@ -15,6 +17,8 @@ class Algorithm:
     """
 
     os.environ['XLA_FLAGS'] = '--xla_disable_hlo_passes=constant_folding'
+
+    pytensor.config.blas__ldflags = '-llapack -lblas -lcblas'
 
     def __init__(self, training: pd.DataFrame) -> None:
         """
@@ -45,6 +49,8 @@ class Algorithm:
         """
 
         trend: dict = arguments.get('tc')
+
+        numpyro.set_host_device_count(trend.get('chains'))
 
         # Indices for forecasting beyond training data
         abscissae = np.arange(self.__training.shape[0] + (2 * arguments.get('ahead')))[:, None]
@@ -79,7 +85,6 @@ class Algorithm:
                 draws=trend.get('draws'),
                 tune=trend.get('tune'),
                 chains=trend.get('chains'),
-                cores=trend.get('chains'),
                 target_accept=trend.get('target_accept'),
                 random_seed=arguments.get('seed'),
                 nuts_sampler=trend.get('nuts_sampler'),
