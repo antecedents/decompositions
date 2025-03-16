@@ -35,7 +35,7 @@ COPY config.py /app/config.py
 
 
 # Port
-EXPOSE 8000 8888
+EXPOSE 8000
 
 
 # Create mountpoint

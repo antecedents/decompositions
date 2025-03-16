@@ -79,6 +79,7 @@ class Algorithm:
                 draws=trend.get('draws'),
                 tune=trend.get('tune'),
                 chains=trend.get('chains'),
+                cores=trend.get('chains'),
                 target_accept=trend.get('target_accept'),
                 random_seed=arguments.get('seed'),
                 nuts_sampler=trend.get('nuts_sampler'),

@@ -1,5 +1,5 @@
 """Module interface.py"""
-
+import logging
 import os
 import sys
 
@@ -54,8 +54,13 @@ class Interface:
         """
 
         # Codes: The unique set of health board & institution pairings.
-        codes: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
-        codes = codes[:4]
+        doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+        if self.__arguments.get('excerpt') is None:
+            codes = doublets
+        else:
+            state = len(doublets) >= self.__arguments.get('excerpt')
+            codes = doublets[:self.__arguments.get('excerpt')] if state else doublets
+        logging.info('# of institutions in focus: %s', len(codes))
 
         # Directories: Each institution will have a directory within (a) a data directory, and (b) a models directory
         self.__set_directories(codes=codes)

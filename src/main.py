@@ -1,8 +1,6 @@
 """Module main.py"""
 import os
 import sys
-import pytensor
-import numpyro
 
 
 def main():
@@ -20,7 +18,7 @@ def main():
 
     # Transfer
     src.transfer.interface.Interface(
-        connector=connector, service=service, s3_parameters=s3_parameters).exc()
+       connector=connector, service=service, s3_parameters=s3_parameters).exc()
 
     # Cache
     src.functions.cache.Cache().exc()
@@ -33,7 +31,6 @@ if __name__ == '__main__':
     sys.path.append(os.path.join(root, 'src'))
 
     os.environ['CUDA_VISIBLE_DEVICES'] = ''
-    os.environ['OMP_NUM_THREADS'] = '1'
 
     # Classes
     import src.data.interface
