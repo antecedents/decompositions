@@ -54,12 +54,12 @@ class Interface:
         """
 
         # Codes: The unique set of health board & institution pairings.
-        codes: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+        doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
         if self.__arguments.get('excerpt') is None:
-            codes = codes
+            codes = doublets
         else:
-            state = len(codes) >= self.__arguments.get('excerpt')
-            codes = codes[:self.__arguments.get('excerpt')] if state else codes
+            state = len(doublets) >= self.__arguments.get('excerpt')
+            codes = doublets[:self.__arguments.get('excerpt')] if state else doublets
         logging.info('# of institutions in focus: %s', len(codes))
 
         # Directories: Each institution will have a directory within (a) a data directory, and (b) a models directory
