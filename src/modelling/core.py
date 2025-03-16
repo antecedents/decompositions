@@ -28,20 +28,12 @@ class Core:
         :return:
         """
 
-        # tc = dask.delayed(src.modelling.tc.interface.Interface(arguments=self.__arguments).exc)
+        tc = dask.delayed(src.modelling.tc.interface.Interface(arguments=self.__arguments).exc)
 
-        # computations = []
-        # for master in masters:
-        #     message = tc(training=master.training)
-        #     computations.append(message)
-        # messages = dask.compute(computations)[0]
-
-        tc = src.modelling.tc.interface.Interface(arguments=self.__arguments)
-
-        client = dask.distributed.Client()
-        computing = client.map(tc.exc, masters)
-        messages = client.gather(computing)
-
-        logging.info(messages)
+        computations = []
+        for master in masters:
+            message = tc(training=master.training)
+            computations.append(message)
+        messages = dask.compute(computations)[0]
 
         return messages
