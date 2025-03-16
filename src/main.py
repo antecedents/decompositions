@@ -1,8 +1,6 @@
 """Module main.py"""
 import os
 import sys
-import pytensor
-import numpyro
 
 
 def main():
