@@ -4,11 +4,11 @@ import typing
 
 import arviz
 import numpy as np
+import numpyro
 import pandas as pd
 import pymc
-import pytensor
-import numpyro
 import pymc.sampling.jax
+import pytensor
 
 
 class Algorithm:
