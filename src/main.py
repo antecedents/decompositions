@@ -33,7 +33,6 @@ if __name__ == '__main__':
     sys.path.append(os.path.join(root, 'src'))
 
     os.environ['CUDA_VISIBLE_DEVICES'] = ''
-    os.environ['OMP_NUM_THREADS'] = '1'
 
     # Classes
     import src.data.interface
