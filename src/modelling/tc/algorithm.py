@@ -22,10 +22,11 @@ class Algorithm:
 
     pytensor.config.blas__ldflags = '-llapack -lblas -lcblas'
 
-    def __init__(self, training: pd.DataFrame) -> None:
+    def __init__(self, training: pd.DataFrame, arguments: dict) -> None:
         """
 
         :param training: An institution's training data
+        :param arguments: A set of modelling & supplementary arguments
         """
 
         # Data
@@ -33,9 +34,13 @@ class Algorithm:
         self.__sequence = self.__training['trend'].to_numpy()
         self.__indices = np.expand_dims(np.arange(self.__training.shape[0]), axis=1)
 
+        self.__arguments = arguments
+        self.__dates = src.modelling.tc.dates.Dates().exc(
+            training=self.__training, ahead=self.__arguments.get('ahead'))
+
     # noinspection PyTypeChecker
     # pylint: disable-next=R0915,R0914
-    def exc(self, arguments: dict) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, pd.DataFrame]:
+    def exc(self, ) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, pd.DataFrame]:
         """
         Notes<br>
         ------<br>
@@ -46,17 +51,15 @@ class Algorithm:
 
         For more about this method's covariance function options visit https://docs.pymc.io/api/gp/cov.html
 
-        :param arguments: A set of modelling & supplementary arguments
         :return:
         """
 
-        trend: dict = arguments.get('tc')
+        trend: dict = self.__arguments.get('tc')
 
         numpyro.set_host_device_count(trend.get('chains'))
 
         # Indices for forecasting beyond training data
-        abscissae = np.arange(self.__training.shape[0] + (2 * arguments.get('ahead')))[:, None]
-        dates = src.modelling.tc.dates.Dates().exc(training=self.__training, ahead=arguments.get('ahead'))
+        abscissae = np.arange(self.__training.shape[0] + (2 * self.__arguments.get('ahead')))[:, None]
 
         with pymc.Model() as model_:
 
@@ -89,17 +92,17 @@ class Algorithm:
                 tune=trend.get('tune'),
                 chains=trend.get('chains'),
                 target_accept=trend.get('target_accept'),
-                random_seed=arguments.get('seed'),
+                random_seed=self.__arguments.get('seed'),
                 nuts_sampler=trend.get('nuts_sampler'),
                 nuts_sampler_kwargs={
                     'chain_method': trend.get('chain_method'),
-                    'postprocessing_backend': arguments.get('device')}
+                    'postprocessing_backend': self.__arguments.get('device')}
             )
 
             mu, variance = gp_.predict(
                 abscissae, point=arviz.extract(details_.get('posterior'), num_samples=1).squeeze(),
                 diag=True, pred_noise=False)
             forecasts_ = pd.DataFrame(
-                data={'abscissa': abscissae.squeeze(), 'date': dates, 'mu': mu, 'std': np.sqrt(variance)})
+                data={'abscissa': abscissae.squeeze(), 'date': self.__dates, 'mu': mu, 'std': np.sqrt(variance)})
 
         return model_, details_, forecasts_
