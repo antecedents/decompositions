@@ -50,11 +50,12 @@ class Interface:
         """
 
         institution: str = training['hospital_code'].values[0]
-        logging.info(institution)
+        logging.info('Starting trend component modelling phase: %s', institution)
 
         # Model, etc.
         model, details, predictions, forecasts  = src.modelling.tc.algorithm.Algorithm(
             training=training, arguments=self.__arguments).exc()
+        logging.info('End of trend component modelling phase: %s', institution)
 
         # Persist: Path
         path = os.path.join(self.__configurations.artefacts_, 'models', institution)
