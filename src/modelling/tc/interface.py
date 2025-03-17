@@ -66,7 +66,7 @@ class Interface:
 
         # ... inference
         message = self.__persist_inference_data(
-            data=details, name=os.path.join(path, f'tcf_details.nc'))
+            data=details, name=os.path.join(path, 'tcf_details.nc'))
         logging.info('%s: succeeded (%s)', message, institution)
 
         # ... lean predictions
