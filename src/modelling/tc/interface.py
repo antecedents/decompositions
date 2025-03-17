@@ -53,7 +53,7 @@ class Interface:
         logging.info('Starting trend component modelling phase: %s', institution)
 
         # Model, etc.
-        model, details, predictions, forecasts  = src.modelling.tc.algorithm.Algorithm(
+        model, details, forecasts  = src.modelling.tc.algorithm.Algorithm(
             training=training, arguments=self.__arguments).exc()
         logging.info('End of trend component modelling phase: %s', institution)
 
@@ -65,10 +65,9 @@ class Interface:
             model=model, path=path).exc(label='algorithm')
 
         # ... inference
-        for objects, name in zip([details, predictions], ['details', 'predictions']):
-            message = self.__persist_inference_data(
-                data=objects, name=os.path.join(path, f'tcf_{name}.nc'))
-            logging.info('%s: succeeded (%s)', message, institution)
+        message = self.__persist_inference_data(
+            data=details, name=os.path.join(path, f'tcf_details.nc'))
+        logging.info('%s: succeeded (%s)', message, institution)
 
         # ... lean predictions
         message = src.functions.streams.Streams().write(
