@@ -40,7 +40,7 @@ class Algorithm:
 
     # noinspection PyTypeChecker
     # pylint: disable-next=R0915,R0914
-    def exc(self, ) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, pd.DataFrame]:
+    def exc(self) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, arviz.InferenceData, pd.DataFrame]:
         """
         Notes<br>
         ------<br>
@@ -99,10 +99,14 @@ class Algorithm:
                     'postprocessing_backend': self.__arguments.get('device')}
             )
 
+            gp_.conditional('estimating', abscissae, pred_noise=False)
+            predictions_ = pymc.sample_posterior_predictive(
+                details_, var_names=['estimating'])
+
             mu, variance = gp_.predict(
                 abscissae, point=arviz.extract(details_.get('posterior'), num_samples=1).squeeze(),
                 diag=True, pred_noise=False)
             forecasts_ = pd.DataFrame(
                 data={'abscissa': abscissae.squeeze(), 'date': self.__dates, 'mu': mu, 'std': np.sqrt(variance)})
 
-        return model_, details_, forecasts_
+        return model_, details_, predictions_, forecasts_

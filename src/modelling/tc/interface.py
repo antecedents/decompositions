@@ -50,22 +50,27 @@ class Interface:
         """
 
         institution: str = training['hospital_code'].values[0]
-        logging.info(institution)
+        logging.info('Starting trend component modelling phase: %s', institution)
 
         # Model, etc.
-        model, details, forecasts  = src.modelling.tc.algorithm.Algorithm(
+        model, details, predictions, forecasts  = src.modelling.tc.algorithm.Algorithm(
             training=training, arguments=self.__arguments).exc()
+        logging.info('End of trend component modelling phase: %s', institution)
 
-        # Persist
+        # Persist: Path
         path = os.path.join(self.__configurations.artefacts_, 'models', institution)
 
+        # ... architecture
         src.modelling.tc.page.Page(
             model=model, path=path).exc(label='algorithm')
 
-        message = self.__persist_inference_data(
-            data=details, name=os.path.join(path, 'tcf_details.nc'))
-        logging.info('%s: succeeded (%s)', message, institution)
+        # ... inference
+        for objects, name in zip([details, predictions], ['details', 'predictions']):
+            message = self.__persist_inference_data(
+                data=objects, name=os.path.join(path, f'tcf_{name}.nc'))
+            logging.info('%s: succeeded (%s)', message, institution)
 
+        # ... lean predictions
         message = src.functions.streams.Streams().write(
             blob=forecasts, path=os.path.join(path, 'tcf_forecasts.csv'))
         logging.info('%s (%s)', message, institution)
