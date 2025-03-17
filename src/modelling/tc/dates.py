@@ -57,4 +57,4 @@ class Dates:
         # Altogether
         timings = pd.concat([starting, ending], axis=0, ignore_index=True)
 
-        return timings.to_numpy()
+        return timings['week_ending_date'].values
