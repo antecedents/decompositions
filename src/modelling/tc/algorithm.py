@@ -10,6 +10,8 @@ import pymc
 import pymc.sampling.jax
 import pytensor
 
+import src.modelling.tc.dates
+
 
 class Algorithm:
     """
@@ -54,6 +56,7 @@ class Algorithm:
 
         # Indices for forecasting beyond training data
         abscissae = np.arange(self.__training.shape[0] + (2 * arguments.get('ahead')))[:, None]
+        dates = src.modelling.tc.dates.Dates().exc(training=self.__training, ahead=arguments.get('ahead'))
 
         with pymc.Model() as model_:
 
@@ -97,6 +100,6 @@ class Algorithm:
                 abscissae, point=arviz.extract(details_.get('posterior'), num_samples=1).squeeze(),
                 diag=True, pred_noise=False)
             forecasts_ = pd.DataFrame(
-                data={'abscissa': abscissae.squeeze(), 'mu': mu, 'std': np.sqrt(variance)})
+                data={'abscissa': abscissae.squeeze(), 'date': dates, 'mu': mu, 'std': np.sqrt(variance)})
 
         return model_, details_, forecasts_
