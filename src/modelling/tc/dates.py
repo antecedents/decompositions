@@ -1,8 +1,16 @@
-
+"""Module dates.py"""
 import numpy as np
 import pandas as pd
 
+
 class Dates:
+    """
+    <b>Notes</b><br>
+    ------<br>
+
+    Creates an array of dates vis-à-vis (a) the training data, (b) the testing data, and
+    (c) predictions beyond the testing data dates.<br>
+    """
 
     def __init__(self):
         pass
@@ -29,7 +37,7 @@ class Dates:
     def exc(self, training: pd.DataFrame, ahead: int) -> np.ndarray:
         """
 
-        :param training:
+        :param training: The training data of an institution
         :param ahead:
         :return:
         """
