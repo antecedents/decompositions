@@ -34,7 +34,7 @@ class Algorithm:
         self.__indices = np.expand_dims(np.arange(self.__training.shape[0]), axis=1)
 
     # noinspection PyTypeChecker
-    # pylint: disable-next=R0914
+    # pylint: disable-next=R0915,R0914
     def exc(self, arguments: dict) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, pd.DataFrame]:
         """
         Notes<br>
@@ -42,7 +42,7 @@ class Algorithm:
 
         Due to the number of variables that the Bayesian algorithm/model requires, rule R0914 does
         not apply to this method; R0194 -> Too many local variables (16/15) (too-many-locals).  The
-        pylint decoration disables the rule.<br>
+        pylint decoration disables the rule.  Similarly, statements: R0915.<br><br>
 
         For more about this method's covariance function options visit https://docs.pymc.io/api/gp/cov.html
 
