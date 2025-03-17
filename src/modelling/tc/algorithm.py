@@ -40,7 +40,7 @@ class Algorithm:
 
     # noinspection PyTypeChecker
     # pylint: disable-next=R0915,R0914
-    def exc(self, ) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, arviz.InferenceData, pd.DataFrame]:
+    def exc(self) -> typing.Tuple[pymc.model.Model, arviz.InferenceData, arviz.InferenceData, pd.DataFrame]:
         """
         Notes<br>
         ------<br>
