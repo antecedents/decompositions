@@ -54,7 +54,7 @@ class Interface:
 
         # Model, etc.
         model, details, forecasts  = src.modelling.tc.algorithm.Algorithm(
-            training=training).exc(arguments=self.__arguments)
+            training=training, arguments=self.__arguments).exc()
 
         # Persist
         path = os.path.join(self.__configurations.artefacts_, 'models', institution)
