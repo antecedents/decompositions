@@ -38,10 +38,10 @@ class Dates:
         """
 
         :param training: The training data of an institution
-        :param ahead: Forecasting steps ahead; the ahead value was used to
+        :param ahead: Forecasting steps ahead; the ahead value is used to
                       split the data into training and testing parts.  The project
                       forecasts $2 * ahead$ steps ahead; the true values of the last set of
-                      ahead will be known in future.
+                      ahead points will be known in future.
         :return:
         """
 
