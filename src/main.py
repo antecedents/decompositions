@@ -10,7 +10,8 @@ def main():
     """
 
     # Data
-    data = src.data.interface.Interface(s3_parameters=s3_parameters).exc()
+    data = src.data.interface.Interface(
+        s3_parameters=s3_parameters, arguments=arguments).exc()
 
     # Modelling
     src.modelling.interface.Interface(
