@@ -46,6 +46,22 @@ class Interface:
         if not all(directories):
             sys.exit('Missing Directories')
 
+    def __get_codes(self) -> list[ce.Codes]:
+        """
+        The unique set of health board & institution pairings.
+
+        :return:
+        """
+
+        doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+        if self.__arguments.get('excerpt') is None:
+            codes = doublets
+        else:
+            state = len(doublets) >= self.__arguments.get('excerpt')
+            codes = doublets[:self.__arguments.get('excerpt')] if state else doublets
+
+        return codes
+
     def exc(self):
         """
         Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
@@ -53,13 +69,7 @@ class Interface:
         :return: 
         """
 
-        # Codes: The unique set of health board & institution pairings.
-        doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
-        if self.__arguments.get('excerpt') is None:
-            codes = doublets
-        else:
-            state = len(doublets) >= self.__arguments.get('excerpt')
-            codes = doublets[:self.__arguments.get('excerpt')] if state else doublets
+        codes = self.__get_codes()
         logging.info('# of institutions in focus: %s', len(codes))
 
         # Directories: Each institution will have a directory within (a) a data directory, and (b) a models directory
@@ -71,4 +81,4 @@ class Interface:
 
         # Trend Component Modelling
         src.modelling.core.Core(
-            arguments=self.__arguments).exc(masters=masters)
+           arguments=self.__arguments).exc(masters=masters)

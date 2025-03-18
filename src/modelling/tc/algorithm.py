@@ -10,8 +10,6 @@ import pymc
 import pymc.sampling.jax
 import pytensor
 
-import src.modelling.tc.dates
-
 
 class Algorithm:
     """
@@ -22,7 +20,7 @@ class Algorithm:
 
     pytensor.config.blas__ldflags = '-llapack -lblas -lcblas'
 
-    def __init__(self, training: pd.DataFrame, arguments: dict) -> None:
+    def __init__(self, training: pd.DataFrame, dates: np.ndarray, arguments: dict) -> None:
         """
 
         :param training: An institution's training data
@@ -34,9 +32,8 @@ class Algorithm:
         self.__sequence = self.__training['trend'].to_numpy()
         self.__indices = np.expand_dims(np.arange(self.__training.shape[0]), axis=1)
 
+        self.__dates = dates
         self.__arguments = arguments
-        self.__dates = src.modelling.tc.dates.Dates().exc(
-            training=self.__training, ahead=self.__arguments.get('ahead'))
 
     # noinspection PyTypeChecker
     # pylint: disable-next=R0915,R0914
@@ -77,7 +74,7 @@ class Algorithm:
                 'variance_control',
                 beta=trend.get('covariance').get('variance_control').get('beta'))
 
-            cov = variance_control**2 * pymc.gp.cov.Matern52(input_dim=1, ls=spatial_scaling)
+            cov = variance_control**2 * pymc.gp.cov.ExpQuad(input_dim=1, ls=spatial_scaling)
 
             # Specify the Gaussian Process (GP); the default mean function is `Zero`.
             gp_ = pymc.gp.Marginal(cov_func=cov)

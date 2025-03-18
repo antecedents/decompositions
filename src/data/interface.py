@@ -1,4 +1,5 @@
 """Module interface.py"""
+import datetime
 
 import pandas as pd
 
@@ -16,14 +17,16 @@ class Interface:
     Reads-in the data in focus.
     """
 
-    def __init__(self, s3_parameters: s3p.S3Parameters):
+    def __init__(self, s3_parameters: s3p.S3Parameters, arguments: dict):
         """
 
         :param s3_parameters: The overarching S3 parameters settings of this project, e.g., region code
                               name, buckets, etc.
+        :param arguments:
         """
 
         self.__s3_parameters = s3_parameters
+        self.__arguments = arguments
 
         # Configurations
         self.__configurations = config.Config()
@@ -44,16 +47,19 @@ class Interface:
 
         return data[self.__configurations.fields]
 
-    @staticmethod
-    def __date_formatting(blob: pd.DataFrame) -> pd.DataFrame:
+    def __date_formatting(self, blob: pd.DataFrame) -> pd.DataFrame:
         """
 
         :param blob:
         :return:
         """
 
+        boundary = datetime.datetime.strptime(self.__arguments.get('boundary'), '%Y-%m-%d')
+
         blob['week_ending_date'] = pd.to_datetime(
             blob['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
+
+        blob = blob.copy().loc[blob['week_ending_date'] >= boundary, :]
 
         return blob
 

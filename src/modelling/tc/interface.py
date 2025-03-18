@@ -8,6 +8,7 @@ import pandas as pd
 import config
 import src.functions.streams
 import src.modelling.tc.algorithm
+import src.modelling.tc.dates
 import src.modelling.tc.page
 
 
@@ -26,9 +27,10 @@ class Interface:
 
         # Configurations
         self.__configurations = config.Config()
+        self.__dates = src.modelling.tc.dates.Dates()
 
     @staticmethod
-    def __persist_inference_data(data: arviz.InferenceData, name: str) -> str:
+    def __persist_inference_data(data: arviz.InferenceData, name: str) -> None:
         """
 
         :param data: The inference data, after the modelling step
@@ -38,7 +40,6 @@ class Interface:
 
         try:
             data.to_netcdf(filename=name)
-            return os.path.basename(name)
         except IOError as err:
             raise err from err
 
@@ -53,9 +54,10 @@ class Interface:
         logging.info('Starting trend component modelling phase: %s', institution)
 
         # Model, etc.
+        dates = self.__dates.exc(training=training, ahead=self.__arguments.get('ahead'))
         model, details, forecasts  = src.modelling.tc.algorithm.Algorithm(
-            training=training, arguments=self.__arguments).exc()
-        logging.info('End of trend component modelling phase: %s', institution)
+            training=training, dates=dates, arguments=self.__arguments).exc()
+        logging.info('Ending trend component modelling phase: %s', institution)
 
         # Persist: Path
         path = os.path.join(self.__configurations.artefacts_, 'models', institution)
@@ -65,13 +67,11 @@ class Interface:
             model=model, path=path).exc(label='algorithm')
 
         # ... inference
-        message = self.__persist_inference_data(
+        self.__persist_inference_data(
             data=details, name=os.path.join(path, 'tcf_details.nc'))
-        logging.info('%s: succeeded (%s)', message, institution)
 
         # ... lean predictions
-        message = src.functions.streams.Streams().write(
+        src.functions.streams.Streams().write(
             blob=forecasts, path=os.path.join(path, 'tcf_forecasts.csv'))
-        logging.info('%s (%s)', message, institution)
 
-        return f'Trend Component Modelling: Success -> {institution}'
+        return f'Trend Component Modelling: Success -> {institution} (tcf_details.nc, tcf_forecasts.csv, etc.)'
