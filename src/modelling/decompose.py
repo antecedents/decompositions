@@ -15,7 +15,7 @@ class Decompose:
     Notes<br>
     ------<br>
 
-    This class decomposes the <i>natural logarithm of the attendances series</i>, i.e., ln(# of attendances per week).
+    This class decomposes the <i># of attendances series</i>.
     """
 
     def __init__(self, arguments: dict):
@@ -38,7 +38,7 @@ class Decompose:
         """
 
         components: stsl.DecomposeResult = stsl.STL(
-            frame['ln'], period=self.__arguments.get('seasons'),
+            frame['n_attendances'], period=self.__arguments.get('seasons'),
             seasonal=self.__decompose.get('smoother_seasonal'),
             trend_deg=self.__decompose.get('degree_trend'),
             seasonal_deg=self.__decompose.get('degree_seasonal'),
@@ -59,9 +59,6 @@ class Decompose:
         """
 
         frame = master.training.copy()
-
-        # Natural Logarithm
-        # frame['ln'] = np.log(frame['n_attendances'])
 
         # Decomposition Components
         frame = self.__add_components(frame=frame.copy())
