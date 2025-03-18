@@ -38,11 +38,8 @@ class Interface:
         :return:
         """
 
-        code = os.path.basename(os.path.dirname(name))
-
         try:
             data.to_netcdf(filename=name)
-            logging.info('%s: %s succeeded', code, os.path.basename(name))
         except IOError as err:
             raise err from err
 
@@ -77,4 +74,4 @@ class Interface:
         src.functions.streams.Streams().write(
             blob=forecasts, path=os.path.join(path, 'tcf_forecasts.csv'))
 
-        return f'Trend Component Modelling: Success -> {institution}'
+        return f'Trend Component Modelling: Success -> {institution} (tcf_details.nc, tcf_forecasts.csv, etc.)'
