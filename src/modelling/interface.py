@@ -54,6 +54,7 @@ class Interface:
         """
 
         doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+        doublets = list(reversed(doublets))
         if self.__arguments.get('excerpt') is None:
             codes = doublets
         else:
