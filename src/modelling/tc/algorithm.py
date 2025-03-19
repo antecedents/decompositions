@@ -72,7 +72,7 @@ class Algorithm:
                 'variance_control',
                 beta=trend.get('covariance').get('variance_control').get('beta'))
 
-            cov = variance_control**2 * pymc.gp.cov.ExpQuad(input_dim=1, ls=spatial_scaling)
+            cov = variance_control**2 * pymc.gp.cov.Matern52(input_dim=1, ls=spatial_scaling)
 
             # Specify the Gaussian Process (GP); the default mean function is `Zero`.
             gp_ = pymc.gp.Marginal(cov_func=cov)
