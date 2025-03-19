@@ -55,7 +55,7 @@ class Interface:
 
         # Model, etc.
         dates = self.__dates.exc(training=training, ahead=self.__arguments.get('ahead'))
-        model, details, predictions, forecasts  = src.modelling.tc.algorithm.Algorithm(
+        model, details, forecasts  = src.modelling.tc.algorithm.Algorithm(
             training=training, dates=dates, arguments=self.__arguments).exc()
         logging.info('Ending trend component modelling phase: %s', institution)
 
@@ -69,12 +69,10 @@ class Interface:
         # ... inference
         self.__persist_inference_data(
             data=details, name=os.path.join(path, 'tcf_details.nc'))
-        self.__persist_inference_data(
-            data=predictions, name=os.path.join(path, 'tcf_predictions.nc'))
 
         # ... lean predictions
         src.functions.streams.Streams().write(
             blob=forecasts, path=os.path.join(path, 'tcf_forecasts.csv'))
 
         return (f'Trend Component Modelling: Success -> {institution} '
-                f'(tcf_details.nc, tcf_predictions.nc, tcf_forecasts.csv, etc.)')
+                f'(tcf_details.nc, tcf_forecasts.csv, etc.)')
