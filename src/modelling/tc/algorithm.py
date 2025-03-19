@@ -1,4 +1,5 @@
 """Module algorithm.py"""
+import logging
 import os
 import typing
 
@@ -45,8 +46,6 @@ class Algorithm:
         Due to the number of variables that the Bayesian algorithm/model requires, rule R0914 does
         not apply to this method; R0194 -> Too many local variables (16/15) (too-many-locals).  The
         pylint decoration disables the rule.  Similarly, statements: R0915.<br><br>
-
-        For more about this method's covariance function options visit https://docs.pymc.io/api/gp/cov.html
 
         :return:
         """
@@ -96,7 +95,8 @@ class Algorithm:
                     'postprocessing_backend': self.__arguments.get('device')}
             )
 
-            gp_.conditional('estimating', abscissae, pred_noise=False)
+            estimating = gp_.conditional('estimating', abscissae, pred_noise=False)
+            logging.info(estimating)
             predictions_ = pymc.sample_posterior_predictive(
                 details_, var_names=['estimating'])
 
