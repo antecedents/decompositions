@@ -49,12 +49,12 @@ class Interface:
     def __get_codes(self) -> list[ce.Codes]:
         """
         The unique set of health board & institution pairings.
+        doublets = list(reversed(doublets))
 
         :return:
         """
 
         doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
-        doublets = list(reversed(doublets))
         if self.__arguments.get('excerpt') is None:
             codes = doublets
         else:
