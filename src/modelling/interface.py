@@ -63,7 +63,7 @@ class Interface:
 
         return codes
 
-    def exc(self):
+    def exc(self) -> list[str]:
         """
         Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
         
@@ -81,5 +81,7 @@ class Interface:
             data=self.__data, codes=codes, arguments=self.__arguments).exc()
 
         # Trend Component Modelling
-        src.modelling.core.Core(
+        messages = src.modelling.core.Core(
            arguments=self.__arguments).exc(masters=masters)
+
+        return messages
