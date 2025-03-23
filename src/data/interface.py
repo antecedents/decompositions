@@ -59,7 +59,7 @@ class Interface:
         blob['week_ending_date'] = pd.to_datetime(
             blob['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y-%m-%d')
 
-        blob = blob.copy().loc[blob['week_ending_date'] >= boundary, :]
+        blob = blob.copy().loc[blob['week_ending_date'] > boundary, :]
 
         return blob
 
