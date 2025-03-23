@@ -29,7 +29,7 @@ class Algorithm:
 
         # Data
         self.__training = training
-        self.__sequence = self.__training['trend'].to_numpy()
+        self.__sequence = np.log(self.__training['trend'].to_numpy())
         self.__indices = np.expand_dims(np.arange(self.__training.shape[0]), axis=1)
 
         self.__dates = dates
@@ -97,7 +97,10 @@ class Algorithm:
             mu, variance = gp_.predict(
                 abscissae, point=arviz.extract(details_.get('posterior'), num_samples=1).squeeze(),
                 diag=True, pred_noise=False)
+
             forecasts_ = pd.DataFrame(
-                data={'abscissa': abscissae.squeeze(), 'date': self.__dates, 'mu': mu, 'std': np.sqrt(variance)})
+                data={'abscissa': abscissae.squeeze(), 'date': self.__dates,
+                      'mu': np.exp(mu),
+                      'std': np.exp(np.sqrt(variance))})
 
         return model_, details_, forecasts_
