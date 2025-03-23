@@ -41,7 +41,7 @@ class Config:
         Additionally, the path to the artefacts metadata.
         '''
         self.source = f'modelling/{self.stamp}.csv'
-        self.artefacts_metadata_ = 'artefacts/metadata'
+        self.a_metadata_ = 'artefacts/metadata'
 
 
         '''
@@ -59,7 +59,5 @@ class Config:
 
         '''
         Extra
-        The <boundary> is a possible data start-point cut-off, boundary.
         '''
         self.fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
-        self.boundary = '2020-06-01'
