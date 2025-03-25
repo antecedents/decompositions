@@ -41,7 +41,7 @@ class Interface:
         :return:
         """
 
-        key_name = 'artefacts' + '/' + 'architecture' + '/' + 'single' + '/' + 'futures' + '/' + 'arguments.json'
+        key_name = 'artefacts' + '/' + 'architecture' + '/' + 'arguments.json'
 
         return src.s3.configurations.Configurations(connector=connector).objects(key_name=key_name)
 
