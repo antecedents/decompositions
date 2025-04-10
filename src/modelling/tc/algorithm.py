@@ -96,7 +96,7 @@ class Algorithm:
 
             mu, variance = gp_.predict(
                 abscissae, point=arviz.extract(details_.get('posterior'), num_samples=1).squeeze(),
-                diag=True, pred_noise=False)
+                diag=True, pred_noise=True)
 
             forecasts_ = pd.DataFrame(
                 data={'abscissa': abscissae.squeeze(), 'date': self.__dates,
