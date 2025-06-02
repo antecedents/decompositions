@@ -25,7 +25,7 @@ class Codes:
     def exc(self, doublet: pd.DataFrame) -> list[ce.Codes]:
         """
 
-        :param doublet:
+        :param doublet: Distinct pairings of board & institution codes
         :return:
         """
 
