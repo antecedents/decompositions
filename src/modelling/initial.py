@@ -3,11 +3,8 @@ import dask
 import pandas as pd
 
 import src.elements.codes as ce
-import src.elements.master as mr
 import src.functions.directories
 import src.modelling.decompose
-import src.modelling.sc.interface
-import src.modelling.split
 
 
 class Initial:
@@ -41,7 +38,7 @@ class Initial:
 
         return frame
 
-    def exc(self) -> list[mr.Master]:
+    def exc(self) -> list[str]:
         """
 
         :return:
@@ -49,19 +46,15 @@ class Initial:
 
         # Additional delayed tasks
         decompose = dask.delayed(src.modelling.decompose.Decompose(arguments=self.__arguments).exc)
-        split = dask.delayed(src.modelling.split.Split(arguments=self.__arguments).exc)
-        sc = dask.delayed(src.modelling.sc.interface.Interface(arguments=self.__arguments).exc)
 
         computations = []
         for code in self.__codes:
 
             data: pd.DataFrame = self.__get_data(code=code)
-            master: mr.Master = split(data=data, code=code)
-            _master: mr.Master = decompose(master=master, code=code)
-            master_: mr.Master | None = sc(master=_master, code=code)
-            computations.append(master_)
+            message = decompose(data=data, code=code)
 
-        masters = dask.compute(computations, scheduler='threads')[0]
-        masters = [master for master in masters if master is not None]
+            computations.append(message)
 
-        return masters
+        messages = dask.compute(computations, scheduler='threads')[0]
+
+        return messages
