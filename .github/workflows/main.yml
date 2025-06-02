@@ -1,4 +1,4 @@
-name: 'Accident & Emergency: Bayesian & Naïve Forecasting via CPU'
+name: 'Accident & Emergency: Decompositions'
 
 on: [push]
 
