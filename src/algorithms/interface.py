@@ -2,10 +2,8 @@
 
 import pandas as pd
 
-import config
-import src.elements.codes as ce
-import src.functions.directories
 import src.algorithms.initial
+import src.elements.codes as ce
 
 
 class Interface:
@@ -22,10 +20,6 @@ class Interface:
 
         self.__data = data
         self.__arguments = arguments
-
-        # Instances
-        self.__configurations = config.Config()
-        self.__directories = src.functions.directories.Directories()
 
     def exc(self, codes: list[ce.Codes]) -> list[str]:
         """
