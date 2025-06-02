@@ -1,9 +1,8 @@
 """Module interface.py"""
-
 import pandas as pd
 
 import src.algorithms.initial
-import src.elements.codes as ce
+import src.elements.specifications as se
 
 
 class Interface:
@@ -21,7 +20,7 @@ class Interface:
         self.__data = data
         self.__arguments = arguments
 
-    def exc(self, codes: list[ce.Codes]) -> list[str]:
+    def exc(self, specifications_: list[se.Specifications]) -> list[str]:
         """
         Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
         
@@ -30,6 +29,6 @@ class Interface:
 
         # Seasonal Component Modelling
         messages = src.algorithms.initial.Initial(
-            data=self.__data, codes=codes, arguments=self.__arguments).exc()
+            data=self.__data, specifications_=specifications_, arguments=self.__arguments).exc()
 
         return messages
