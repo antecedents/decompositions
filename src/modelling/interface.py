@@ -6,7 +6,7 @@ import pandas as pd
 import config
 import src.elements.codes as ce
 import src.functions.directories
-import src.modelling.codes
+import src.data.codes
 import src.modelling.initial
 
 
@@ -37,7 +37,7 @@ class Interface:
         :return:
         """
 
-        doublets: list[ce.Codes] = src.modelling.codes.Codes().exc(data=self.__data)
+        doublets: list[ce.Codes] = src.data.codes.Codes().exc(data=self.__data)
         if self.__arguments.get('excerpt') is None:
             codes = doublets
         else:
