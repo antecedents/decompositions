@@ -46,15 +46,12 @@ class Interface:
 
         return codes
 
-    def exc(self) -> list[str]:
+    def exc(self, codes: list[ce.Codes]) -> list[str]:
         """
         Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
         
         :return: 
         """
-
-        codes = self.__get_codes()
-        logging.info('# of institutions in focus: %s', len(codes))
 
         # Seasonal Component Modelling
         messages = src.modelling.initial.Initial(
