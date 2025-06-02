@@ -45,6 +45,9 @@ jobs:
           echo "Issues in relation to logic (F7), syntax (Python E9, Flake F7), mathematical
           formulae symbols (F63), undefined variable names (F82):"
           
+          printf "\n src/algorithms "
+          flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/algorithms
+          
           printf "\n src/data "
           flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/data
           
@@ -53,15 +56,6 @@ jobs:
           
           printf "\n src/functions "
           flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/functions
-          
-          printf "\n src/modelling/sc "
-          flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/modelling/sc
-          
-          printf "\n src/modelling/tc "
-          flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/modelling/tc
-          
-          printf "\n src/modelling/*.py "
-          flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/modelling/*.py
           
           printf "\n src/preface "
           flake8 --count --select=E9,F63,F7,F82 --show-source --statistics src/preface
@@ -77,6 +71,9 @@ jobs:
           printf "\n\n"
           echo "Complexity issues:"
           
+          printf "\n src/algorithms "
+          flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/algorithms
+          
           printf "\n src/data "
           flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/data
           
@@ -85,16 +82,7 @@ jobs:
           
           printf "\n src/functions "
           flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/functions
-          
-          printf "\n src/modelling/sc "
-          flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/modelling/sc
-          
-          printf "\n src/modelling/tc "
-          flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/modelling/tc
-          
-          printf "\n src/modelling/*.py "
-          flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/modelling/*.py
-          
+           
           printf "\n src/preface "
           flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics src/preface
           
@@ -110,6 +98,9 @@ jobs:
           printf "\n"
           echo "============================= pylint session starts =============================="
           
+          printf "\n Package src/algorithms"
+          pylint --rcfile .pylintrc src/algorithms
+          
           printf "\n Package src/data"
           pylint --rcfile .pylintrc src/data
           
@@ -118,15 +109,6 @@ jobs:
           
           printf "\n Package src/functions"
           pylint --rcfile .pylintrc src/functions
-          
-          printf "\n Package src/modelling/sc"
-          pylint --rcfile .pylintrc src/modelling/sc
-          
-          printf "\n Package src/modelling/tc"
-          pylint --rcfile .pylintrc src/modelling/tc
-          
-          printf "\n Package src/modelling/*.py"
-          pylint --rcfile .pylintrc src/modelling/*.py
           
           printf "\n Package src/preface"
           pylint --rcfile .pylintrc src/preface
