@@ -10,6 +10,9 @@ import src.elements.codes as ce
 import src.elements.text_attributes as txa
 import src.functions.streams
 import src.data.codes
+import src.data.reference
+import src.data.menu
+import src.data.skip
 
 
 class Interface:
@@ -66,25 +69,6 @@ class Interface:
 
         return blob
 
-    @staticmethod
-    def __skip(data: pd.DataFrame):
-        """
-        
-        :param data: 
-        :return: 
-        """
-
-        # Counting n_attendances values <= 0 per institution
-        cases = data.copy()[['hospital_code', 'n_attendances']].groupby('hospital_code').agg(
-            missing=('n_attendances', lambda x: sum(x <= 0)))
-        cases.reset_index(drop=False, inplace=True)
-        cases: pd.DataFrame = cases.copy().loc[cases['missing'] > 0, :]
-
-        # Skip institutions that have zero or negative values
-        if not cases.empty:
-            data = data.copy().loc[~data['hospital_code'].isin(cases['hospital_code'].unique()), :]
-
-        return data
 
     def exc(self) -> typing.Tuple[pd.DataFrame, list[ce.Codes]]:
         """
@@ -94,14 +78,17 @@ class Interface:
 
         # The data
         data = self.__get_data()
-
-        # Format dates
         data = self.__date_formatting(blob=data.copy())
 
         # Skip institutions that have zero or negative n_attendances values
-        data = self.__skip(data=data.copy())
+        data = src.data.skip.Skip().exc(data=data.copy())
+        doublet = data[['health_board_code', 'hospital_code']].drop_duplicates()
 
-        # Codes
-        codes = src.data.codes.Codes().exc(data=data)
+        # Menu
+        reference = src.data.reference.Reference(s3_parameters=self.__s3_parameters).exc(identifiers=doublet['hospital_code'].to_list)
+        src.data.menu.Menu().exc(reference=reference)
+
+        # A collection of identification codes
+        codes = src.data.codes.Codes().exc(doublet=doublet)
 
         return data, codes
