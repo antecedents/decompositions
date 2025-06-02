@@ -4,7 +4,7 @@ import pandas as pd
 
 import src.elements.codes as ce
 import src.functions.directories
-import src.modelling.decompose
+import src.algorithms.decompose
 
 
 class Initial:
@@ -45,7 +45,7 @@ class Initial:
         """
 
         # Additional delayed tasks
-        decompose = dask.delayed(src.modelling.decompose.Decompose(arguments=self.__arguments).exc)
+        decompose = dask.delayed(src.algorithms.decompose.Decompose(arguments=self.__arguments).exc)
 
         computations = []
         for code in self.__codes:
