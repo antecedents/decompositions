@@ -13,12 +13,12 @@ def main():
     logger: logging.Logger = logging.getLogger(__name__)
 
     # Data
-    data = src.data.interface.Interface(
+    data, codes = src.data.interface.Interface(
         s3_parameters=s3_parameters, arguments=arguments).exc()
 
     # Modelling
     messages = src.modelling.interface.Interface(
-      data=data, arguments=arguments).exc()
+      data=data, arguments=arguments).exc(codes=codes)
     logger.info(messages)
 
     # Transfer
