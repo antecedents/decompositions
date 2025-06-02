@@ -27,7 +27,7 @@ class Decompose:
         self.__decompose: dict = self.__arguments.get('decompose')
 
         # The parent path of modelling data
-        self.__root = os.path.join(config.Config().artefacts_, 'data')
+        self.__root = os.path.join(config.Config().decompositions_, 'points')
 
     def __add_components(self, frame: pd.DataFrame) -> pd.DataFrame:
         """
