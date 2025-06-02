@@ -1,4 +1,5 @@
 """Module decompose.py"""
+import logging
 import os
 
 import pandas as pd
@@ -57,14 +58,13 @@ class Decompose:
         :return:
         """
 
-        frame = data.copy()
-
         # Decomposition Components
-        frame = self.__add_components(frame=frame.copy())
+        frame = self.__add_components(frame=data.copy())
+        logging.info(frame)
 
         # Save
         blob = frame.copy().reset_index(drop=False)
         message = src.functions.streams.Streams().write(
-            blob=blob, path=os.path.join(self.__root, code.hospital_code, 'features.csv' ))
+            blob=blob, path=os.path.join(self.__root, f'{code.hospital_code}.csv' ))
 
         return message
