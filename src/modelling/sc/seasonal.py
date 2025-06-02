@@ -7,7 +7,7 @@ import statsmodels.tsa.api as tap
 import statsmodels.tsa.forecasting.stl as tfc
 
 import src.elements.codes as ce
-import src.modelling.sc.control
+import src.modelling.control
 
 
 class Seasonal:
@@ -34,7 +34,7 @@ class Seasonal:
         self.__covariance = 'robust'
 
         # Controls
-        self.__control = src.modelling.sc.control.Control()
+        self.__control = src.modelling.control.Control()
 
     def __execute(self, architecture: tfc.STLForecast, method: str) \
             -> tfc.STLForecastResults | None:
