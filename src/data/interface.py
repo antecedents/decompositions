@@ -1,12 +1,15 @@
 """Module interface.py"""
+import typing
 import datetime
 
 import pandas as pd
 
 import config
 import src.elements.s3_parameters as s3p
+import src.elements.codes as ce
 import src.elements.text_attributes as txa
 import src.functions.streams
+import src.data.codes
 
 
 class Interface:
@@ -83,7 +86,7 @@ class Interface:
 
         return data
 
-    def exc(self) -> pd.DataFrame:
+    def exc(self) -> typing.Tuple[pd.DataFrame, list[ce.Codes]]:
         """
 
         :return:
@@ -98,4 +101,7 @@ class Interface:
         # Skip institutions that have zero or negative n_attendances values
         data = self.__skip(data=data.copy())
 
-        return data
+        # Codes
+        codes = src.data.codes.Codes().exc(data=data)
+
+        return data, codes
