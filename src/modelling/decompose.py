@@ -6,7 +6,6 @@ import statsmodels.tsa.seasonal as stsl
 
 import config
 import src.elements.codes as ce
-import src.elements.master as mr
 import src.functions.streams
 
 
@@ -50,25 +49,22 @@ class Decompose:
 
         return frame
 
-    def exc(self, master: mr.Master, code: ce.Codes) -> mr.Master:
+    def exc(self, data: pd.DataFrame, code: ce.Codes) -> str:
         """
 
-        :param master:
+        :param data:
         :param code:
         :return:
         """
 
-        frame = master.training.copy()
+        frame = data.copy()
 
         # Decomposition Components
         frame = self.__add_components(frame=frame.copy())
 
         # Save
         blob = frame.copy().reset_index(drop=False)
-        src.functions.streams.Streams().write(
+        message = src.functions.streams.Streams().write(
             blob=blob, path=os.path.join(self.__root, code.hospital_code, 'features.csv' ))
 
-        # Update/Replace
-        master = master._replace(training=frame)
-
-        return master
+        return message
