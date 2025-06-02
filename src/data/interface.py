@@ -85,7 +85,8 @@ class Interface:
         doublet = data[['health_board_code', 'hospital_code']].drop_duplicates()
 
         # Menu
-        reference = src.data.reference.Reference(s3_parameters=self.__s3_parameters).exc(identifiers=doublet['hospital_code'].to_list())
+        reference = src.data.reference.Reference(
+            s3_parameters=self.__s3_parameters).exc(identifiers=doublet['hospital_code'].to_list())
         src.data.menu.Menu().exc(reference=reference)
 
         # Structure for computations: ref. src.elements.specifications.py
