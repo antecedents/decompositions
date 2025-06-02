@@ -60,9 +60,11 @@ class Config:
         Local Paths
         '''
         self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
-        self.decompositions_ = os.path.join(self.warehouse, 'drift')
+        self.decompositions_ = os.path.join(self.warehouse, 'decompositions')
         self.points_ = os.path.join(self.decompositions_, 'points')
         self.menu_ = os.path.join(self.decompositions_, 'menu')
+
+        self.assets_ = os.path.join(self.warehouse, 'assets', 'autoregressive', self.stamp)
 
 
         '''
