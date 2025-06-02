@@ -1,12 +1,7 @@
 """Module decompose.py"""
-import logging
-import os
-
 import numpy as np
 import pandas as pd
 import statsmodels.tsa.seasonal as stsl
-
-import config
 
 
 class Decompose:
@@ -25,9 +20,6 @@ class Decompose:
 
         self.__arguments: dict = arguments
         self.__decompose: dict = self.__arguments.get('decompose')
-
-        # The parent path of modelling data
-        self.__root = os.path.join(config.Config().decompositions_, 'points')
 
     def __add_components(self, frame: pd.DataFrame) -> pd.DataFrame:
         """
@@ -72,8 +64,6 @@ class Decompose:
         :param data:
         :return:
         """
-
-        logging.info(data)
 
         # Decomposition Components
         frame = self.__add_components(frame=data.copy())
