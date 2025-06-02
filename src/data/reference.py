@@ -53,7 +53,7 @@ class Reference:
     def exc(self, identifiers: list[str]) -> pd.DataFrame:
         """
 
-        :param identifiers:
+        :param identifiers:  A list of hospital identification codes
         :return:
         """
 
