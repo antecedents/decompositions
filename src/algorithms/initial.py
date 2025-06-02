@@ -49,12 +49,9 @@ class Initial:
 
         computations = []
         for code in self.__codes:
-
             data: pd.DataFrame = self.__get_data(code=code)
             message = decompose(data=data, code=code)
-
             computations.append(message)
-
         messages = dask.compute(computations, scheduler='threads')[0]
 
         return messages
