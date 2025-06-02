@@ -17,7 +17,7 @@ def main():
         s3_parameters=s3_parameters, arguments=arguments).exc()
 
     # Modelling
-    messages = src.modelling.interface.Interface(
+    messages = src.algorithms.interface.Interface(
       data=data, arguments=arguments).exc(codes=codes)
     logger.info(messages)
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # Classes
     import src.data.interface
     import src.functions.cache
-    import src.modelling.interface
+    import src.algorithms.interface
     import src.preface.interface
     import src.transfer.interface
 
