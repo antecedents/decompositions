@@ -56,11 +56,6 @@ class Persist:
         nodes: dict = self.__get_nodes(blob=decompositions)
         nodes['attributes'] = specifications._asdict()
 
-        # nodes['health_board_code'] = specifications.health_board_code
-        # nodes['health_board_name'] = specifications.health_board_name
-        # nodes['hospital_code'] = specifications.hospital_code
-        # nodes['hospital_name'] = specifications.hospital_name
-
         message = self.__objects.write(
             nodes=nodes, path=os.path.join(self.__configurations.points_, f'{specifications.hospital_code}.json'))
 
