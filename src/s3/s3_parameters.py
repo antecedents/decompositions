@@ -68,10 +68,12 @@ class S3Parameters:
         # Parsing variables
         region_name = self.__secret.exc(secret_id='RegionCodeDefault')
         internal = self.__secret.exc(secret_id='AccidentEmergency', node='internal')
+        external = self.__secret.exc(secret_id='AccidentEmergency', node='external')
         configurations = self.__secret.exc(secret_id='AccidentEmergency', node='configurations')
 
         s3_parameters: s3p.S3Parameters = s3_parameters._replace(
-            location_constraint=region_name, region_name=region_name, internal=internal, configurations=configurations)
+            location_constraint=region_name, region_name=region_name, internal=internal,
+            external=external, configurations=configurations)
 
         return s3_parameters
 
