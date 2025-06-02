@@ -4,8 +4,8 @@ import pandas as pd
 import statsmodels.tsa.forecasting.stl as tfc
 
 import src.elements.codes as ce
-import src.modelling.sc.fundamental
-import src.modelling.sc.seasonal
+import src.modelling.fundamental
+import src.modelling.seasonal
 
 
 class Algorithm:
@@ -41,11 +41,11 @@ class Algorithm:
         training.index.freq = self.__arguments.get('frequency')
 
         # Modelling
-        system: tfc.STLForecastResults = src.modelling.sc.fundamental.Fundamental(
+        system: tfc.STLForecastResults = src.modelling.fundamental.Fundamental(
             training=training, arguments=self.__arguments, code=code).exc()
 
         if system is None:
-            system: tfc.STLForecastResults = src.modelling.sc.seasonal.Seasonal(
+            system: tfc.STLForecastResults = src.modelling.seasonal.Seasonal(
                 training=training, arguments=self.__arguments, code=code).exc()
 
         return system

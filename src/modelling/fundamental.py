@@ -7,7 +7,7 @@ import statsmodels.tsa.arima.model as tar
 import statsmodels.tsa.forecasting.stl
 
 import src.elements.codes as ce
-import src.modelling.sc.control
+import src.modelling.control
 
 
 class Fundamental:
@@ -35,7 +35,7 @@ class Fundamental:
         self.__covariance = 'robust'
 
         # Controls
-        self.__control = src.modelling.sc.control.Control()
+        self.__control = src.modelling.control.Control()
 
     def __execute(self, architecture: statsmodels.tsa.forecasting.stl.STLForecast, method: str)  \
             -> statsmodels.tsa.forecasting.stl.STLForecastResults | None:

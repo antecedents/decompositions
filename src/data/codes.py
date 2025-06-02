@@ -22,15 +22,13 @@ class Codes:
 
         return [ce.Codes(**value) for value in values]
 
-    def exc(self, data: pd.DataFrame) -> list[ce.Codes]:
+    def exc(self, doublet: pd.DataFrame) -> list[ce.Codes]:
         """
 
-        :param data:
+        :param doublet: Distinct pairings of board & institution codes
         :return:
         """
 
-        # Codes
-        frame = data[['health_board_code', 'hospital_code']].drop_duplicates()
-        values: list[dict] = frame.reset_index(drop=True).to_dict(orient='records')
+        values: list[dict] = doublet.copy().reset_index(drop=True).to_dict(orient='records')
 
         return self.__structure(values=values)

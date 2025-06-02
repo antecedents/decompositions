@@ -38,23 +38,33 @@ class Config:
         '''
         The prefix.ending.string & key.name of the modelling data; ref.
             s3:// {bucket} / {prefix.starting.string} / {prefix.ending.string} / {key.name}
-        Additionally, the path to the artefacts metadata.
         '''
         self.source = f'modelling/{self.stamp}.csv'
-        self.a_metadata_ = 'artefacts/metadata'
 
 
         '''
-        The key of the Amazon S3 (Simple Storage Service) parameters.
+        Keys
         '''
         self.s3_parameters_key = 's3_parameters.yaml'
+        self.arguments_key = 'decompositions/arguments.json'
+        self.metadata_ = 'decompositions/external'
+
+
+        '''
+        The prefix of the Amazon repository where the decompositions will be stored
+        '''
+        self.prefix = 'warehouse/decompositions'
 
 
         '''
         Local Paths
         '''
         self.warehouse: str = os.path.join(os.getcwd(), 'warehouse')
-        self.artefacts_: str = os.path.join(self.warehouse, 'artefacts', self.stamp)
+        self.decompositions_ = os.path.join(self.warehouse, 'decompositions')
+        self.points_ = os.path.join(self.decompositions_, 'points')
+        self.menu_ = os.path.join(self.decompositions_, 'menu')
+
+        self.assets_ = os.path.join(self.warehouse, 'assets', 'autoregressive', self.stamp)
 
 
         '''

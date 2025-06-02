@@ -28,8 +28,8 @@ class Page:
         self.__system = system
         self.__code = code
 
-        configurations = config.Config()
-        self.__root = os.path.join(configurations.artefacts_, 'models', code.hospital_code)
+        self.__configurations = config.Config()
+        self.__root = os.path.join(self.__configurations.assets_, code.health_board_code, code.hospital_code)
 
     def __latex(self):
         """

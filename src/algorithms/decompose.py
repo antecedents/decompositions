@@ -1,13 +1,7 @@
 """Module decompose.py"""
-import os
-
+import numpy as np
 import pandas as pd
 import statsmodels.tsa.seasonal as stsl
-
-import config
-import src.elements.codes as ce
-import src.elements.master as mr
-import src.functions.streams
 
 
 class Decompose:
@@ -26,9 +20,6 @@ class Decompose:
 
         self.__arguments: dict = arguments
         self.__decompose: dict = self.__arguments.get('decompose')
-
-        # The parent path of modelling data
-        self.__root = os.path.join(config.Config().artefacts_, 'data')
 
     def __add_components(self, frame: pd.DataFrame) -> pd.DataFrame:
         """
@@ -50,25 +41,32 @@ class Decompose:
 
         return frame
 
-    def exc(self, master: mr.Master, code: ce.Codes) -> mr.Master:
+    @staticmethod
+    def __epoch(frame: pd.DataFrame) -> pd.DataFrame:
         """
 
-        :param master:
-        :param code:
+        :param frame:
         :return:
         """
 
-        frame = master.training.copy()
+        instances = frame.copy()
+        instances.reset_index(drop=False, inplace=True)
+        instances['milliseconds']  = (
+                instances['week_ending_date'].to_numpy().astype(np.int64) / (10 ** 6)
+        ).astype(np.longlong)
+        instances.sort_values(by='week_ending_date', inplace=True)
+
+        return instances
+
+    def exc(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param data:
+        :return:
+        """
 
         # Decomposition Components
-        frame = self.__add_components(frame=frame.copy())
+        frame = self.__add_components(frame=data.copy())
+        frame = self.__epoch(frame=frame)
 
-        # Save
-        blob = frame.copy().reset_index(drop=False)
-        src.functions.streams.Streams().write(
-            blob=blob, path=os.path.join(self.__root, code.hospital_code, 'features.csv' ))
-
-        # Update/Replace
-        master = master._replace(training=frame)
-
-        return master
+        return frame
