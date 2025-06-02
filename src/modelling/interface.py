@@ -1,12 +1,11 @@
 """Module interface.py"""
-import logging
 
 import pandas as pd
 
 import config
 import src.elements.codes as ce
 import src.functions.directories
-import src.modelling.initial
+import src.algorithms.initial
 
 
 class Interface:
@@ -36,7 +35,7 @@ class Interface:
         """
 
         # Seasonal Component Modelling
-        messages = src.modelling.initial.Initial(
+        messages = src.algorithms.initial.Initial(
             data=self.__data, codes=codes, arguments=self.__arguments).exc()
 
         return messages
