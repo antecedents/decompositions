@@ -25,6 +25,10 @@ class Reference:
         self.__stream = src.functions.streams.Streams()
 
     def __get_boards(self):
+        """
+
+        :return:
+        """
 
         uri = self.__endpoint + 'boards.csv'
         usecols = ['health_board_code', 'health_board_name']
@@ -46,13 +50,13 @@ class Reference:
 
         return self.__stream.read(text=text)
 
-    def exc(self, codes: list[str]) -> pd.DataFrame:
+    def exc(self, identifiers: list[str]) -> pd.DataFrame:
         """
 
-        :param codes:
+        :param identifiers:
         :return:
         """
 
         reference = self.__get_institutions().merge(self.__get_boards(), how='left', on='health_board_code')
 
-        return reference.loc[reference['hospital_code'].isin(codes), :]
+        return reference.loc[reference['hospital_code'].isin(identifiers), :]
