@@ -2,12 +2,11 @@
 import logging
 import os
 
+import numpy as np
 import pandas as pd
 import statsmodels.tsa.seasonal as stsl
 
 import config
-import src.elements.codes as ce
-import src.functions.streams
 
 
 class Decompose:
@@ -50,21 +49,34 @@ class Decompose:
 
         return frame
 
-    def exc(self, data: pd.DataFrame, code: ce.Codes) -> str:
+    @staticmethod
+    def __epoch(frame: pd.DataFrame) -> pd.DataFrame:
         """
 
-        :param data:
-        :param code:
+        :param frame:
         :return:
         """
 
+        instances = frame.copy()
+        instances.reset_index(drop=False, inplace=True)
+        instances['milliseconds']  = (
+                instances['week_ending_date'].to_numpy().astype(np.int64) / (10 ** 6)
+        ).astype(np.longlong)
+        instances.sort_values(by='week_ending_date', inplace=True)
+
+        return instances
+
+    def exc(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param data:
+        :return:
+        """
+
+        logging.info(data)
+
         # Decomposition Components
         frame = self.__add_components(frame=data.copy())
-        logging.info(frame)
+        frame = self.__epoch(frame=frame)
 
-        # Save
-        blob = frame.copy().reset_index(drop=False)
-        message = src.functions.streams.Streams().write(
-            blob=blob, path=os.path.join(self.__root, f'{code.hospital_code}.csv' ))
-
-        return message
+        return frame
