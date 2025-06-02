@@ -1,18 +1,18 @@
 """Module interface.py"""
-import typing
 import datetime
+import typing
 
 import pandas as pd
 
 import config
+import src.data.menu
+import src.data.reference
+import src.data.skip
+import src.data.specifications
 import src.elements.s3_parameters as s3p
-import src.elements.codes as ce
+import src.elements.specifications as se
 import src.elements.text_attributes as txa
 import src.functions.streams
-import src.data.codes
-import src.data.reference
-import src.data.menu
-import src.data.skip
 
 
 class Interface:
@@ -70,7 +70,7 @@ class Interface:
         return blob
 
 
-    def exc(self) -> typing.Tuple[pd.DataFrame, list[ce.Codes]]:
+    def exc(self) -> typing.Tuple[pd.DataFrame, list[se.Specifications]]:
         """
 
         :return:
@@ -85,10 +85,11 @@ class Interface:
         doublet = data[['health_board_code', 'hospital_code']].drop_duplicates()
 
         # Menu
-        reference = src.data.reference.Reference(s3_parameters=self.__s3_parameters).exc(identifiers=doublet['hospital_code'].to_list)
+        reference = src.data.reference.Reference(s3_parameters=self.__s3_parameters).exc(identifiers=doublet['hospital_code'].to_list())
         src.data.menu.Menu().exc(reference=reference)
 
-        # A collection of identification codes
-        codes = src.data.codes.Codes().exc(doublet=doublet)
+        # Structure for computations: ref. src.elements.specifications.py
+        specifications_: list[se.Specifications] = src.data.specifications.Specifications().exc(
+            reference=reference)
 
-        return data, codes
+        return data, specifications_
