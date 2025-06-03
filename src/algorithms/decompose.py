@@ -9,7 +9,7 @@ class Decompose:
     Notes<br>
     ------<br>
 
-    This class decomposes the <i># of attendances series</i>.
+    This class decomposes an <i>attendances series</i>.
     """
 
     def __init__(self, arguments: dict):

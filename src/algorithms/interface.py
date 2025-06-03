@@ -22,7 +22,7 @@ class Interface:
 
     def exc(self, specifications_: list[se.Specifications]) -> list[str]:
         """
-        Each instance of codes consists of the health board & institution/hospital codes of an institution/hospital.
+        Each instance of codes consists of the board & institution codes of an institution/hospital.
         
         :return: 
         """

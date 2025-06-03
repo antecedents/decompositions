@@ -6,7 +6,7 @@ import src.elements.codes as ce
 
 class Codes:
     """
-    Determines the unique set of health board & institution pairings
+    Determines the unique set ofboard & institution code pairings
     """
 
     def __init__(self):
