@@ -49,7 +49,7 @@ class Persist:
 
         :param decompositions: The decompositions.
         :param specifications: health_board_code -> A board's unique identification code. | hospital_code -> An
-                               institution's unique identification code. | etc.
+                               institution's unique identification code. | etc.  Refer to src/elements/specifications.py
         :return:
         """
 
