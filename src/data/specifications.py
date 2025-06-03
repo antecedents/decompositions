@@ -6,7 +6,7 @@ import src.elements.specifications as se
 
 class Specifications:
     """
-    Creates an attributes collection per gauge
+    Creates an attributes collection per institution
     """
 
     def __init__(self):
