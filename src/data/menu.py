@@ -32,7 +32,7 @@ class Menu:
 
         # Nodes
         names = (excerpt['hospital_name'] + '/' + excerpt['health_board_name']).to_numpy()
-        frame = pd.DataFrame(data={'desc': excerpt['health_board_code'].to_numpy(),
+        frame = pd.DataFrame(data={'desc': excerpt['hospital_code'].to_numpy(),
                                    'name': names})
         nodes = frame.to_dict(orient='records')
         logging.info(nodes)
